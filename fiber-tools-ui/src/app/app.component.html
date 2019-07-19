@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-title>Saisir les données:</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <mat-form-field>
+                <input matInput type="text" formControlName="ref" placeholder="Reference chantier">
+            </mat-form-field>
+        
+            <input matInput type="file" accept="image/*" capture="environment">
+        
+            {{form.value | json}}
+        </form>
+    </mat-card-content>
+    </mat-card>
