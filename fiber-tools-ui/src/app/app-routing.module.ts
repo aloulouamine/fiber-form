@@ -1,22 +1,19 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home/home.component';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
-import { AuthGuard } from './auth/auth.guard';
-import { LoginGuard } from './auth/login.guard';
-
+import { HomeComponent } from './home/home/home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AngularFireAuthGuard]
   },
   {
     path: 'login',
-    component: LoginComponent,
-    canActivate: [LoginGuard]
+    component: LoginComponent
   }
 ];
 

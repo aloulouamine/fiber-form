@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { auth } from 'firebase';
+import { auth, User } from 'firebase';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  user;
+  user: User;
 
   constructor(private router: Router) { }
 
