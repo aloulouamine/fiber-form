@@ -1,0 +1,17 @@
+<mat-grid-list cols="4">
+  <mat-grid-tile *ngFor="let mission of missions; index as i">
+    <mat-card>
+      <mat-card-title>
+        {{mission.title}} {{i + 1}}
+      </mat-card-title>
+      <mat-card-content>
+        {{mission.content}}
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

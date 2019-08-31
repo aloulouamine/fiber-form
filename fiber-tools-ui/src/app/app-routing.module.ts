@@ -5,11 +5,16 @@ import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
-    canActivate: [AngularFireAuthGuard]
+    canActivate: [AngularFireAuthGuard],
+    children: [
+      {
+        path: 'mission',
+        loadChildren: () => import('./mission/mission.module').then(mod => mod.MissionModule)
+      }
+    ]
   },
   {
     path: 'login',

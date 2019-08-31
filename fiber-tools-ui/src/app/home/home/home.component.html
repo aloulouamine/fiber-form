@@ -1,2 +1,26 @@
-<p>Bonjour {{user?.email}}</p>
-<button (click)="signOut()">Sign Out</button>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    </button>
+    <span>Fibre form</span>
+    <span class="toolbar-spacer"></span>
+    <span>{{user?.email}}</span>
+    <button (click)="signOut()" mat-icon-button class="toolbar-icon" aria-label="Logout">
+      <mat-icon aria-hidden="false">logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a [routerLink]="'/mission'" mat-list-item>Missions</a>
+      <a [routerLink]="'/planning'" mat-list-item>Planning</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content">
+      <router-outlet> </router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
