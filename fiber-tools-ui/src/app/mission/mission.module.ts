@@ -7,17 +7,20 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { MissionFormComponent } from './mission-form/mission-form.component';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
-  declarations: [MissionListComponent],
+  declarations: [MissionListComponent, MissionFormComponent],
   imports: [
     CommonModule,
     MissionRoutingModule,
     MatCardModule,
     MatButtonModule,
     MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule
   ]
 })
 export class MissionModule { }
