@@ -15,7 +15,7 @@ export class AuthenticatorDirective {
       signInOptions: [
         auth.GoogleAuthProvider.PROVIDER_ID
       ],
-      signInSuccessUrl: '/home'
+      signInSuccessUrl: '/'
     });
   }
 
