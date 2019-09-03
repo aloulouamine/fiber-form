@@ -108,6 +108,8 @@ THE SOFTWARE.
 
 @angular/material/list
 
+@angular/material/progress-spinner
+
 @angular/material/sidenav
 
 @angular/material/toolbar

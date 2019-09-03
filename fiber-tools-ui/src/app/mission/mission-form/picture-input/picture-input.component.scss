@@ -2,15 +2,27 @@
   display: none;
 }
 
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+mat-divider {
+  align-self: flex-end;
+}
+
 .picture-bloc {
-  background: lightblue;
   position: relative;
+  text-align: center;
   img {
-  max-height: 200px;
+    max-height: 200px;
+    max-width: 200px;
   }
-  button {
+  a {
     position: absolute;
-    top: 80%;
-    left: 80%;
+    opacity: .8;
+    top: 70%;
+    left: 70%;
   }
 } 

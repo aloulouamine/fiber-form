@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop } from 'rxjs';
+import { noop, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-picture-input',
@@ -16,6 +16,7 @@ import { noop } from 'rxjs';
 })
 export class PictureInputComponent implements OnInit, ControlValueAccessor {
 
+  loading$ = new BehaviorSubject<boolean>(false);
   displayData;
   @Input() label;
   @Input() disabled = false;
@@ -54,11 +55,13 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
       this.reader.onload = () => {
         this.displayData = this.reader.result;
         this.writeValue(this.displayData);
+        this.loading$.next(false);
       }
     }
   }
 
   onFileChange(fileInput: HTMLInputElement) {
+    this.loading$.next(true);
     this.reader.readAsDataURL(fileInput.files[0]);
   }
 

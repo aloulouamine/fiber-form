@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PictureInputComponent } from './mission-form/picture-input/picture-input.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class MissionModule { }
