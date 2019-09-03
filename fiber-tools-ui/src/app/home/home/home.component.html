@@ -5,9 +5,8 @@
     </button>
     <span>Fibre form</span>
     <span class="toolbar-spacer"></span>
-    <span>{{user?.email}}</span>
-    <button (click)="signOut()" mat-icon-button class="toolbar-icon" aria-label="Logout">
-      <mat-icon aria-hidden="false">logout</mat-icon>
+    <button mat-icon-button class="toolbar-icon" [matMenuTriggerFor]="menu" aria-label="Account">
+      <mat-icon>account_circle</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -24,3 +23,14 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>build</mat-icon>
+    <span> {{user?.email}} </span>
+  </button>
+  <button (click)="signOut()" mat-menu-item aria-label="Logout">
+    <mat-icon aria-hidden="false">logout</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>
