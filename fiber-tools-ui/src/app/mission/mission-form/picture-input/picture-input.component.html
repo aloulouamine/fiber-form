@@ -1,0 +1,18 @@
+<mat-label>{{label}}</mat-label>
+<a [disabled]="disabled" (click)="!disabled && pictureFileInput.click()" mat-icon-button>
+  <mat-icon>add_a_photo</mat-icon>
+</a>
+<a [disabled]="disabled" (click)="!disabled && fileInput.click()" mat-icon-button>
+  <mat-icon>insert_photo</mat-icon>
+</a>
+{{ pictureFileInput.capture | json }}
+<input #pictureFileInput (change)="onFileChange(pictureFileInput)" class="hidden-file-input" type="file"
+  accept="image/*" capture="environment">
+<input #fileInput (change)="onFileChange(fileInput)" class="hidden-file-input" type="file" accept="image/*">
+<div *ngIf="displayData" class="picture-bloc">
+  <button mat-icon-button (click)="clearPicture()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <img [src]="displayData">
+</div>
+<mat-divider></mat-divider>

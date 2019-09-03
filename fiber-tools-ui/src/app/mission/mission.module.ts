@@ -9,10 +9,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MissionFormComponent } from './mission-form/mission-form.component';
 import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PictureInputComponent } from './mission-form/picture-input/picture-input.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
-  declarations: [MissionListComponent, MissionFormComponent],
+  declarations: [MissionListComponent, MissionFormComponent, PictureInputComponent],
   imports: [
     CommonModule,
     MissionRoutingModule,
@@ -20,7 +23,9 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatGridListModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDividerModule
   ]
 })
 export class MissionModule { }

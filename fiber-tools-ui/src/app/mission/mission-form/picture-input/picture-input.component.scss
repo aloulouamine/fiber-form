@@ -1,0 +1,16 @@
+.hidden-file-input {
+  display: none;
+}
+
+.picture-bloc {
+  background: lightblue;
+  position: relative;
+  img {
+  max-height: 200px;
+  }
+  button {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+  }
+} 

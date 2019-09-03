@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-mission-form',
@@ -7,9 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MissionFormComponent implements OnInit {
 
-  constructor() { }
+  form = this.fb.group({
+    pictures: this.fb.array([
+      [''],
+      [{ value: '', disabled: true }],
+      ['', Validators.required],
+    ]),
+    ref: ['123', Validators.required]
+  });
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
   }
 
+  getPicturesControls() {
+    const picturesFormArray = this.form.get('pictures') as FormArray;
+    return picturesFormArray.controls;
+
+  }
+
+  submit() {
+    console.log('done');
+  }
 }
