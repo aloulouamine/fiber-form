@@ -13,12 +13,22 @@ const routes: Routes = [
       {
         path: 'mission',
         loadChildren: () => import('./mission/mission.module').then(mod => mod.MissionModule)
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: '/mission'
       }
     ]
   },
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: ''
   }
 ];
 
