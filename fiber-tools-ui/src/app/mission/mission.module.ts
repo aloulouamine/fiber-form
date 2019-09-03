@@ -5,7 +5,6 @@ import { MissionRoutingModule } from './mission-routing.module';
 import { MissionListComponent } from './mission-list/mission-list.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MissionFormComponent } from './mission-form/mission-form.component';
 import { MatInputModule } from '@angular/material/input';
@@ -22,7 +21,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MissionRoutingModule,
     MatCardModule,
     MatButtonModule,
-    MatGridListModule,
     MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
