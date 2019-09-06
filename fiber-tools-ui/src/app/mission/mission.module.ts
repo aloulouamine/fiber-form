@@ -12,7 +12,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PictureInputComponent } from './mission-form/picture-input/picture-input.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { StoreModule } from '@ngrx/store';
+import * as fromMission from './reducers/mission.reducer'
+import { EffectsModule } from '@ngrx/effects';
+import { MissionEffects } from './effects/mission.effects';
 
 @NgModule({
   declarations: [MissionListComponent, MissionFormComponent, PictureInputComponent],
@@ -26,6 +29,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     MatDividerModule,
     MatProgressSpinnerModule,
+    StoreModule.forFeature(fromMission.missionFeatureKey, fromMission.reducer),
+    EffectsModule.forFeature([MissionEffects])
   ]
 })
 export class MissionModule { }

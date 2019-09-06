@@ -1,4 +1,4 @@
-<mat-card *ngFor="let mission of missions; index as i">
+<mat-card *ngFor="let mission of missions$ | async; index as i">
   <mat-card-title>
     {{mission.title}} {{i + 1}}
   </mat-card-title>
