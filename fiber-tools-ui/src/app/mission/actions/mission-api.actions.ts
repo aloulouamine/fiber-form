@@ -1,9 +1,12 @@
-import { Action, createAction, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 export enum MissionApiActionTypes {
   LoadMissions = '[MissionApi] Load Missions',
   LoadMissionsSuccess = '[MissionApi] Load Missions Success',
   LoadMissionsFailure = '[MissionApi] Load Missions Failure',
+  AddMission = '[MissionApi] Add Missions',
+  AddMissionSuccess = '[MissionApi] Add Missions Success',
+  AddMissionFailure = '[MissionApi] Load Missions Failure',
 }
 
 export const loadMissionApi = createAction(
@@ -17,6 +20,21 @@ export const loadMissionApiSuccess = createAction(
 
 export const loadMissionApiFailure = createAction(
   MissionApiActionTypes.LoadMissionsFailure,
+  props<{ errorMessage: string }>()
+)
+
+export const addMissionApi = createAction(
+  MissionApiActionTypes.AddMission,
+  props<{ mission: any }>()
+)
+
+export const addMissionSuccess = createAction(
+  MissionApiActionTypes.AddMissionSuccess,
+  props<{ missions: any[] }>()
+)
+
+export const addMissionApiFailure = createAction(
+  MissionApiActionTypes.AddMissionFailure,
   props<{ errorMessage: string }>()
 )
 
