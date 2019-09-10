@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MissionListComponent } from './mission-list/mission-list.component';
-import { MissionFormComponent } from './mission-form/mission-form.component';
+import { MissionListComponent } from './containers/mission-list/mission-list.component';
+import { MissionFormComponent } from './containers/mission-form/mission-form.component';
 
 
 const routes: Routes = [
