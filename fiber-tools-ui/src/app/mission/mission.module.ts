@@ -1,21 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { MissionRoutingModule } from './mission-routing.module';
-import { MissionListComponent } from './containers/mission-list/mission-list.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MissionFormComponent } from './containers/mission-form/mission-form.component';
-import { MatInputModule } from '@angular/material/input';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PictureInputComponent } from './components/picture-input/picture-input.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { StoreModule } from '@ngrx/store';
-import * as fromMission from './reducers/mission.reducer'
+import { MatSliderModule } from '@angular/material/slider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { PictureInputComponent } from './components/picture-input/picture-input.component';
+import { MissionFormComponent } from './containers/mission-form/mission-form.component';
+import { MissionListComponent } from './containers/mission-list/mission-list.component';
 import { MissionEffects } from './effects/mission.effects';
+import { MissionRoutingModule } from './mission-routing.module';
+import * as fromMission from './reducers/mission.reducer';
+
 
 @NgModule({
   declarations: [MissionListComponent, MissionFormComponent, PictureInputComponent],
@@ -30,7 +33,9 @@ import { MissionEffects } from './effects/mission.effects';
     MatDividerModule,
     MatProgressSpinnerModule,
     StoreModule.forFeature(fromMission.missionFeatureKey, fromMission.reducer),
-    EffectsModule.forFeature([MissionEffects])
+    EffectsModule.forFeature([MissionEffects]),
+    MatProgressBarModule,
+    MatSliderModule
   ]
 })
 export class MissionModule { }

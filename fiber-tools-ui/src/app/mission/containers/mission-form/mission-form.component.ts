@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
-
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { mergeMap } from 'rxjs/operators';
+import { loadMissionApi } from '../../actions/mission-api.actions';
+import { Mission } from '../../models/mission';
+import * as fromMissions from '../../reducers/mission.reducer';
 @Component({
   selector: 'app-mission-form',
   templateUrl: './mission-form.component.html',
@@ -8,24 +13,46 @@ import { FormBuilder, Validators, FormArray } from '@angular/forms';
 })
 export class MissionFormComponent implements OnInit {
 
+  mission: Mission;
+
   form = this.fb.group({
-    pictures: this.fb.array([
-      [''],
-      [{ value: '', disabled: true }],
-      ['', Validators.required],
-    ]),
-    ref: ['123', Validators.required]
+    pictures: this.fb.array([]),
+    ref: ['', Validators.required],
+    progress: ['']
   });
 
-  constructor(private fb: FormBuilder) { }
+  get formPictures(): FormArray {
+    return this.form.get('pictures') as FormArray;
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<fromMissions.AppState>,
+    private route: ActivatedRoute
+  ) {
+  }
 
   ngOnInit() {
+    this.store.dispatch(loadMissionApi())
+    this.route.params.pipe(
+      mergeMap(params => {
+        return this.store.pipe(
+          select(fromMissions.selectMissionAtIndex, { index: params.id })
+        )
+      }),
+    ).subscribe((mission: Mission) => {
+      this.mission = mission;
+      mission.boxes.map(() => this.formPictures
+        .push(this.fb.control('', Validators.required))
+      )
+      this.form.get('ref').setValue(mission.site)
+      this.form.get('progress').setValue(mission.progressDistance)
+      this.form.get('progress').setValidators(Validators.max(mission.totalDistance))
+    });
   }
 
   getPicturesControls() {
-    const picturesFormArray = this.form.get('pictures') as FormArray;
-    return picturesFormArray.controls;
-
+    return this.formPictures.controls;
   }
 
   submit() {

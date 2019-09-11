@@ -108,9 +108,13 @@ THE SOFTWARE.
 
 @angular/material/menu
 
+@angular/material/progress-bar
+
 @angular/material/progress-spinner
 
 @angular/material/sidenav
+
+@angular/material/slider
 
 @angular/material/toolbar
 
@@ -358,6 +362,15 @@ Apache-2.0
 
 @firebase/webchannel-wrapper
 Apache-2.0
+
+@ngrx/effects
+MIT
+
+@ngrx/store
+MIT
+
+@ngrx/store-devtools
+MIT
 
 core-js
 MIT
@@ -925,6 +938,9 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 
 END OF TERMS AND CONDITIONS
 
+
+web-animations-js
+Apache-2.0
 
 webpack
 MIT

@@ -11,7 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -24,6 +24,7 @@ import { AuthenticatorDirective } from './auth/authenticator.directive';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home/home.component';
 import { metaReducers, reducers } from './reducers';
+import { GestureConfig } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -34,9 +35,9 @@ import { metaReducers, reducers } from './reducers';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     MatInputModule,
     MatCardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -59,6 +60,7 @@ import { metaReducers, reducers } from './reducers';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [
+    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
   ],
   bootstrap: [AppComponent]
 })

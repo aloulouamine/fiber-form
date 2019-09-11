@@ -1,28 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Mission, MissionType, MissionProgressStatus, MissionSyncStatus } from 'src/app/mission/models/mission';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MissionService {
-  missions = [
-    { title: 'Mission', content: 'lorem ipsum dolor' },
-    { title: 'Mission', content: 'lorem ipsum dolor' },
-    { title: 'Mission', content: 'lorem ipsum dolor' },
-    { title: 'Mission', content: 'lorem ipsum dolor' },
-    { title: 'Mission', content: 'lorem ipsum dolor' },
+  missions: Mission[] = [
+    {
+      title: 'Tirage ',
+      site: 'R1234',
+      type: MissionType.TIRAGE,
+      boxes: [{ ref: 'B123' }, { ref: 'B456' }],
+      progress: MissionProgressStatus.PROGRESS,
+      sync: MissionSyncStatus.SYNC,
+      totalDistance: 450,
+      progressDistance: 200,
+      workingUser: "fahd@fibre.com",
+      creator: "foulen",
+      createDate: new Date(),
+      updateDate: new Date()
+    },
   ];
 
 
   constructor() { }
 
-
-  getMissions(): Observable<any> {
+  getMissions(): Observable<Mission[]> {
     return of(this.missions)
   }
 
-  addMission(mission: any): Observable<any> {
+  addMission(mission: Mission): Observable<any> {
     this.missions = [...this.missions, mission];
     return of(this.missions);
   }

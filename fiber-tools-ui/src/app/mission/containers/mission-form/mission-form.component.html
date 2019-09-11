@@ -8,11 +8,13 @@
         <mat-label>Reference</mat-label>
         <input readonly matInput formControlName="ref" type="text" />
       </mat-form-field>
+      <mat-label>Progression ({{ form.get('progress').value }}m)</mat-label>
+      <mat-slider formControlName="progress" [thumbLabel]="true" [min]="0" [step]="1" [max]="mission.totalDistance">
+      </mat-slider>
       <div formArrayName="pictures" *ngFor="let picture of getPicturesControls(); let i = index;">
-        <app-picture-input [label]="'image ' + i" [formControlName]="i"></app-picture-input>
+        <app-picture-input [label]="mission.boxes[i].ref" [formControlName]="i"></app-picture-input>
       </div>
     </mat-card-content>
-    {{form.value | json}}
     <mat-card-actions align="end">
       <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
     </mat-card-actions>

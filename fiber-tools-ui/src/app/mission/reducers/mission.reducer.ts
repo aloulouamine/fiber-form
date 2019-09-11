@@ -1,11 +1,12 @@
 import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { loadMissionApiSuccess, addMissionSuccess } from '../actions/mission-api.actions';
+import { Mission } from '../models/mission';
 
 
 export const missionFeatureKey = 'mission';
 
 export interface MissionState {
-  missions: any[];
+  missions: Mission[];
 }
 
 export interface AppState {
@@ -31,3 +32,8 @@ export const selectUserMissions = createSelector(
   selectMissions,
   (state: MissionState) => state.missions
 );
+
+export const selectMissionAtIndex = createSelector(
+  selectUserMissions,
+  (missions, props) => missions[props.index]
+)

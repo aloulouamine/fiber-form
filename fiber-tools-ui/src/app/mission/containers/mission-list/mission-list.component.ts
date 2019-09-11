@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { loadMissionApi } from '../../actions/mission-api.actions';
 import * as fromMissions from '../../reducers/mission.reducer';
+import { Mission } from '../../models/mission';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -11,7 +13,7 @@ import * as fromMissions from '../../reducers/mission.reducer';
 })
 export class MissionListComponent implements OnInit {
 
-  missions$;
+  missions$: Observable<Mission[]>;
 
   constructor(private store: Store<fromMissions.AppState>) {
     this.missions$ = store.pipe(
@@ -21,6 +23,10 @@ export class MissionListComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(loadMissionApi())
+  }
+
+  getMissionProgressValue(mission: Mission) {
+    return ((mission.progressDistance / mission.totalDistance) * 100).toFixed(0)
   }
 
 }
