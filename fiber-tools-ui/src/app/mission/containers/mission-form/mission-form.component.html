@@ -8,8 +8,14 @@
         <mat-label>Reference</mat-label>
         <input readonly matInput formControlName="ref" type="text" />
       </mat-form-field>
-      <mat-label>Progression ({{ form.get('progress').value }}m)</mat-label>
-      <mat-slider formControlName="progress" [thumbLabel]="true" [min]="0" [step]="1" [max]="mission.totalDistance">
+      <mat-form-field>
+        <mat-label>Progression ({{ form.get('progress').value }}m)</mat-label>
+        <input matInput #progressInput (change)="progressSlider.value = form.get('progress').value "
+          formControlName="progress" type="number" [max]="mission.totalDistance" [min]="0" /> 
+        <mat-hint align="end">{{form.get('progress').value}}/{{mission.totalDistance}} m </mat-hint>
+      </mat-form-field>
+      <mat-slider #progressSlider (change)="progressInput.value = form.get('progress').value" formControlName="progress"
+        [thumbLabel]="true" [min]="0" [step]="1" [max]="mission.totalDistance">
       </mat-slider>
       <div formArrayName="pictures" *ngFor="let picture of getPicturesControls(); let i = index;">
         <app-picture-input [label]="mission.boxes[i].ref" [formControlName]="i"></app-picture-input>
