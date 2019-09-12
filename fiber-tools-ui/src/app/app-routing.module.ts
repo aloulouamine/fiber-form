@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home/home.component';
+
+const redirectLoggedInToMission = redirectLoggedInTo([''])
+const redirectUnauthorizedToLogin = redirectUnauthorizedTo(['login'])
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AngularFireAuthGuard],
+    ...canActivate(redirectUnauthorizedToLogin),
     children: [
       {
         path: 'mission',
@@ -23,7 +26,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    ...canActivate(redirectLoggedInToMission)
   },
   {
     path: '',
@@ -33,7 +37,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    enableTracing: true
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
