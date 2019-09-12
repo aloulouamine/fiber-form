@@ -9,7 +9,7 @@ import { Mission, MissionType, MissionProgressStatus, MissionSyncStatus } from '
 export class MissionService {
   missions: Mission[] = [
     {
-      title: 'Tirage ',
+      title: 'Tirage',
       site: 'R1234',
       type: MissionType.TIRAGE,
       boxes: [{ ref: 'B123' }, { ref: 'B456' }],
@@ -17,6 +17,25 @@ export class MissionService {
       sync: MissionSyncStatus.SYNC,
       totalDistance: 450,
       progressDistance: 200,
+      workingUser: "fahd@fibre.com",
+      creator: "foulen",
+      createDate: new Date(),
+      updateDate: new Date()
+    },
+    {
+      title: 'Tirage',
+      site: 'R1234',
+      type: MissionType.TIRAGE,
+      boxes: [
+        { ref: 'B123' },
+        { ref: 'B456' },
+        { ref: 'B789' },
+        { ref: 'B012' },
+      ],
+      progress: MissionProgressStatus.PROGRESS,
+      sync: MissionSyncStatus.SYNC,
+      totalDistance: 500,
+      progressDistance: 0,
       workingUser: "fahd@fibre.com",
       creator: "foulen",
       createDate: new Date(),
