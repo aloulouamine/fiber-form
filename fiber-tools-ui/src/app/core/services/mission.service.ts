@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Mission, MissionType, MissionProgressStatus, MissionSyncStatus } from 'src/app/mission/models/mission';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {Mission, MissionProgressStatus, MissionSyncStatus, MissionType} from 'src/app/mission/models/mission';
 
 
 @Injectable({
@@ -10,15 +10,21 @@ export class MissionService {
   missions: Mission[] = [
     {
       title: 'Tirage',
-      site: 'R1234',
+      enrollerNumah: 'Touret-ABCXX-1',
+      site: 'ORCH_BRE1',
       type: MissionType.TIRAGE,
-      boxes: [{ ref: 'B123' }, { ref: 'B456' }],
+      cable: '5660178',
+      rooms: [
+        {ref: '64'},
+        {ref: '379'},
+        {ref: '384'}
+      ],
       progress: MissionProgressStatus.PROGRESS,
       sync: MissionSyncStatus.SYNC,
       totalDistance: 450,
       progressDistance: 200,
-      workingUser: "fahd@fibre.com",
-      creator: "foulen",
+      workingUser: 'fahd@fibre.com',
+      creator: 'foulen',
       createDate: new Date(),
       updateDate: new Date()
     },
@@ -36,18 +42,17 @@ export class MissionService {
       sync: MissionSyncStatus.SYNC,
       totalDistance: 500,
       progressDistance: 0,
-      workingUser: "fahd@fibre.com",
-      creator: "foulen",
       createDate: new Date(),
       updateDate: new Date()
     },
   ];
 
 
-  constructor() { }
+  constructor() {
+  }
 
   getMissions(): Observable<Mission[]> {
-    return of(this.missions)
+    return of(this.missions);
   }
 
   addMission(mission: Mission): Observable<any> {

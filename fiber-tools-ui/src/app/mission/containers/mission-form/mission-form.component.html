@@ -1,28 +1,36 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-card>
-    <mat-card-title>
-      Mission
-    </mat-card-title>
+    <!-- Chantier-->
+    <mat-card-title style="color: #4caf50">{{mission.site}}</mat-card-title>
+
+    <!-- Cable if there"s any-->
+    <mat-card-subtitle *ngIf="mission?.cable"> Cable {{mission.cable}}</mat-card-subtitle>
     <mat-card-content>
+
+      <!-- Touret -->
       <mat-form-field>
-        <mat-label>Reference</mat-label>
-        <input readonly matInput formControlName="ref" type="text" />
+        <mat-label>Touret</mat-label>
+        <input matInput formControlName="enrollerNumah" type="text"/>
       </mat-form-field>
-      <mat-form-field>
+
         <mat-label>Progression ({{ form.get('progress').value }}m)</mat-label>
-        <input matInput #progressInput (change)="progressSlider.value = form.get('progress').value "
-          formControlName="progress" type="number" [max]="mission.totalDistance" [min]="0" />
+
+      <!-- Distance -->
         <mat-hint align="end">{{form.get('progress').value}}/{{mission.totalDistance}} m </mat-hint>
       </mat-form-field>
       <mat-slider #progressSlider (change)="progressInput.value = form.get('progress').value" formControlName="progress"
         [thumbLabel]="true" [min]="0" [step]="1" [max]="mission.totalDistance">
       </mat-slider>
+
+      <!-- Photos des chambres-->
       <div formArrayName="pictures" *ngFor="let picture of getPicturesControls(); let i = index;">
-        <app-picture-input [label]="mission.boxes[i].ref" [formControlName]="i"></app-picture-input>
+        <app-picture-input [label]="mission.rooms[i].ref" [formControlName]="i"></app-picture-input>
       </div>
     </mat-card-content>
+
     <mat-card-actions align="end">
       <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
     </mat-card-actions>
+
   </mat-card>
 </form>
