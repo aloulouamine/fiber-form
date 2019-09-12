@@ -1,5 +1,5 @@
-import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 
@@ -23,3 +23,12 @@ export const dbInsertFunction = functions.https.onRequest((request, response) =>
             () => response.sendStatus(500)
         );
 });
+
+
+export const syncUser = functions.auth.user().onCreate(user => {
+    admin.firestore().collection("users").add(user)
+        .then(res => console.log('new user sync ', res.id))
+        .catch(err => console.log('failed user sync', err));
+});
+
+
