@@ -28,23 +28,23 @@ export class MissionService {
       createDate: new Date(),
       updateDate: new Date()
     },
-    {
-      title: 'Tirage',
-      site: 'R1234',
-      type: MissionType.TIRAGE,
-      boxes: [
-        { ref: 'B123' },
-        { ref: 'B456' },
-        { ref: 'B789' },
-        { ref: 'B012' },
-      ],
-      progress: MissionProgressStatus.PROGRESS,
-      sync: MissionSyncStatus.SYNC,
-      totalDistance: 500,
-      progressDistance: 0,
-      createDate: new Date(),
-      updateDate: new Date()
-    },
+    /*   {
+         title: 'Tirage',
+         site: 'R1234',
+         type: MissionType.TIRAGE,
+         boxes: [
+           { ref: 'B123' },
+           { ref: 'B456' },
+           { ref: 'B789' },
+           { ref: 'B012' },
+         ],
+         progress: MissionProgressStatus.PROGRESS,
+         sync: MissionSyncStatus.SYNC,
+         totalDistance: 500,
+         progressDistance: 0,
+         createDate: new Date(),
+         updateDate: new Date()
+       },*/
   ];
 
 
