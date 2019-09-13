@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { loadMissionApi } from '../../actions/mission-api.actions';
-import * as fromMissions from '../../reducers/mission.reducer';
-import { Mission } from '../../models/mission';
 import { Observable } from 'rxjs';
+import { loadMissionApi } from '../../actions/mission-api.actions';
+import { Mission } from '../../models/mission';
+import * as fromMissions from '../../reducers/mission.reducer';
 
 
 @Component({

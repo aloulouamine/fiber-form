@@ -25,6 +25,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home/home.component';
 import { metaReducers, reducers } from './reducers';
 import { GestureConfig } from '@angular/material/core';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { GestureConfig } from '@angular/material/core';
     MatInputModule,
     MatCardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     MatToolbarModule,
