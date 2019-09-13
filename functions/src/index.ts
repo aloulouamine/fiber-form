@@ -6,29 +6,33 @@ import * as functions from 'firebase-functions';
 
 admin.initializeApp();
 
-/**
- * Insert Raw Json into database or throw a 500 error
- */
-export const dbInsertFunction = functions.https.onRequest((request, response) => {
-    admin
-        .firestore()
-        .collection("inputs")
-        .add(
-            request.body
-        )
-        .then(
-            () => response.send(request.body + 'inserted')
-        )
-        .catch(
-            () => response.sendStatus(500)
-        );
-});
-
 
 export const syncUser = functions.auth.user().onCreate(user => {
-    admin.firestore().collection("users").add(user)
-        .then(res => console.log('new user sync ', res.id))
-        .catch(err => console.log('failed user sync', err));
+    return admin
+        .firestore()
+        .collection('users')
+        .doc(`${user.email}`)
+        .set({
+            uid: user.uid,
+            email: user.email,
+            emailVerified: user.emailVerified,
+            displayName: user.displayName,
+            phoneNumber: user.phoneNumber,
+            photoURL: user.photoURL,
+            disabled: user.disabled,
+            roles: [],
+        })
+        .then(() => console.log(`new user sync ${user.email}`))
+        .catch(err => console.error('failed user sync ', err));
 });
 
 
+export const deleteUser = functions.auth.user().onDelete(user => {
+    return admin
+        .firestore()
+        .collection('users')
+        .doc(`${user.email}`)
+        .delete()
+        .then(() => console.log(`user ${user.email} deleted.`))
+        .catch(err => console.error('error deleting user ', err))
+});
