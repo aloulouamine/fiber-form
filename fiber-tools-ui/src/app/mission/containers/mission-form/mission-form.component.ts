@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {mergeMap} from 'rxjs/operators';
 import {loadMissionApi} from '../../actions/mission-api.actions';
-import {Mission} from '../../models/mission';
+import {Mission, MissionProgressStatus} from '../../models/mission';
 import * as fromMissions from '../../reducers/mission.reducer';
 
 @Component({
@@ -21,7 +21,9 @@ export class MissionFormComponent implements OnInit {
     enrollerNumah: ['', Validators.required],
     pictures: this.fb.array([]),
     ref: ['', Validators.required],
-    progress: ['']
+    progress: [''],
+    missionProgressStatus: [''],
+    comment: ['']
   });
 
   get formPictures(): FormArray {
@@ -53,7 +55,10 @@ export class MissionFormComponent implements OnInit {
         this.form.get('cable').setValue(mission.cable)
         this.form.get('enrollerNumah').setValue(mission.enrollerNumah)
         this.form.get('progress').setValue(mission.progressDistance)
-        this.form.get('progress').setValidators(Validators.max(mission.totalDistance));
+        // this.form.get('progress').setValidators(Validators.max(mission.totalDistance));
+
+        this.form.get('missionProgressStatus').setValue(mission.progressDistance);
+        this.form.get('comment').setValue(mission.comment);
       }
     );
   }
@@ -64,5 +69,13 @@ export class MissionFormComponent implements OnInit {
 
   submit() {
     console.log('done');
+  }
+
+  saveMissionAsItIs(event: any) {
+    console.log('Saved for later');
+    this.form.get('missionProgressStatus').setValue(MissionProgressStatus.SUSPENDED);
+    // TODO save the thing as it is
+    // debug();
+    console.log(this.form.getRawValue());
   }
 }

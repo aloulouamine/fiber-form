@@ -26,7 +26,8 @@ export class MissionService {
       workingUser: 'fahd@fibre.com',
       creator: 'foulen',
       createDate: new Date(),
-      updateDate: new Date()
+      updateDate: new Date(),
+      comment: ''
     },
     /*   {
          title: 'Tirage',

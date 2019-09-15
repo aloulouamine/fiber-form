@@ -11,6 +11,7 @@ export interface Room {
 export enum MissionProgressStatus {
   NEW,
   PROGRESS,
+  SUSPENDED,
   FINISHED
 }
 
@@ -48,4 +49,5 @@ export interface Mission {
   creator?: string;
   createDate?: Date;
   updateDate?: Date;
+  comment: string;
 }

@@ -10,7 +10,7 @@
       <!-- Touret -->
       <mat-form-field>
         <mat-label>Touret</mat-label>
-        <input matInput formControlName="enrollerNumah" type="text"/>
+        <input matInput readonly formControlName="enrollerNumah" type="text"/>
       </mat-form-field>
 
       <mat-form-field>
@@ -24,6 +24,11 @@
                   [thumbLabel]="true" [min]="0" [step]="1" [max]="mission.totalDistance">
       </mat-slider>
 
+      <mat-form-field>
+        <mat-label>Commentaire</mat-label>
+        <input matInput  formControlName="comment" type="text"/>
+      </mat-form-field>
+
       <!-- Photos des chambres-->
       <div formArrayName="pictures" *ngFor="let picture of getPicturesControls(); let i = index;">
         <app-picture-input [label]="mission.rooms[i].ref" [formControlName]="i"></app-picture-input>
@@ -31,7 +36,8 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-      <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
+      <button type="submit" [disabled]="form.invalid" mat-button>Envoyer le formulaire</button>
+      <button (click)="saveMissionAsItIs($event)" mat-button>Enregistrer pour plus tard</button>
     </mat-card-actions>
 
   </mat-card>
