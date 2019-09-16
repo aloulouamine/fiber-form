@@ -64,6 +64,8 @@ MIT
 
 @angular/fire/auth-guard
 
+@angular/fire/firestore
+
 @angular/forms
 MIT
 
@@ -432,6 +434,8 @@ Apache-2.0
 firebase/app
 
 firebase/auth
+
+firebase/firestore
 
 firebaseui
 Apache-2.0

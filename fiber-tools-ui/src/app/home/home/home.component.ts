@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { auth, User } from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,10 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   user: User;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private afa: AngularFireAuth) { }
 
   ngOnInit() {
-    auth().onAuthStateChanged(user => {
+    this.afa.auth.onAuthStateChanged(user => {
       if (user) {
         this.user = user;
       }
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   signOut() {
-    auth().signOut();
+    this.afa.auth.signOut();
     this.router.navigate(['/login']);
   }
 

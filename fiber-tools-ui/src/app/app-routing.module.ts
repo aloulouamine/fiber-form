@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
-import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './core/auth/auth.guard';
+import { LoginGuard } from './core/auth/login.guard';
 import { HomeComponent } from './home/home/home.component';
 
-const redirectLoggedInToMission = redirectLoggedInTo([''])
-const redirectUnauthorizedToLogin = redirectUnauthorizedTo(['login'])
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'mission',
@@ -27,10 +26,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    ...canActivate(redirectLoggedInToMission)
+    canActivate: [LoginGuard]
   },
   {
-    path: '',
+    path: '**',
     pathMatch: 'full',
     redirectTo: ''
   }
