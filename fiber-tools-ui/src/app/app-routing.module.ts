@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('./mission/mission.module').then(mod => mod.MissionModule)
       },
       {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: '/mission'
