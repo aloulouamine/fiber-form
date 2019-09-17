@@ -26,6 +26,7 @@ import { HomeComponent } from './home/home/home.component';
 import { metaReducers, reducers } from './reducers';
 import { GestureConfig } from '@angular/material/core';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CoreModule,
     AppRoutingModule,
     ReactiveFormsModule,
     MatInputModule,

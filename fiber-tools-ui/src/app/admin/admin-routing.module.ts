@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { SiteComponent } from './containers/site/site.component';
+import { RouterModule, Routes } from '@angular/router';
+import { SiteListComponent } from './containers/site-list/site-list.component';
 
 
 const routes: Routes = [
   {
     path: 'site',
-    component: SiteComponent
+    component: SiteListComponent
   },
   {
     path: '**',
