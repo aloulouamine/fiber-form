@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { select, Store } from '@ngrx/store';
 import { noop, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Site } from 'src/app/core/models/Site';
+import { Site } from 'src/app/core/models/site';
 import { loadSitesApi } from '../../actions/site.actions';
 import * as fromAdmin from '../../reducers';
 import { Router } from '@angular/router';

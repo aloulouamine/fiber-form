@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Site } from 'src/app/core/models/Site';
+import { Site } from 'src/app/core/models/site';
 import { loadSitesApi, loadSitesApiError, loadSitesApiSuccess } from '../actions/site.actions';
 
 

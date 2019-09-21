@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Mission } from '../models/mission';
+import { Mission } from '../../core/models/mission';
 
 export enum MissionApiActionTypes {
   LoadMissions = '[MissionApi] Load Missions',

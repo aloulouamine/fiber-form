@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { User } from 'src/app/core/models/User';
+import { User } from 'src/app/core/models/user';
 import { loadSoudeursSuccess, loadTireursSuccess } from '../actions/users.actions';
 
 

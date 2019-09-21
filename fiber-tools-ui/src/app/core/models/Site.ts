@@ -1,4 +1,4 @@
-import { Mission } from 'src/app/mission/models/mission';
+import { Mission } from './mission';
 
 export class Site {
   ref: string;

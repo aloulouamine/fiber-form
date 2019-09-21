@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { loadMissionApiSuccess, addMissionSuccess } from '../actions/mission-api.actions';
-import { Mission } from '../models/mission';
+import { Mission } from '../../core/models/mission';
 
 
 export const missionFeatureKey = 'mission';

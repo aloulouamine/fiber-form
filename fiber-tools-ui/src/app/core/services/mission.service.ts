@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Mission, MissionProgressStatus, MissionSyncStatus, MissionType} from 'src/app/mission/models/mission';
+import {Mission, MissionProgressStatus, MissionSyncStatus, MissionType} from 'src/app/core/models/mission';
 
 
 @Injectable({

@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { CanActivate, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
-import { User } from '../models/User';
+import { User } from '../models/user';
 
 const adminRole = 'ADMIN'
 

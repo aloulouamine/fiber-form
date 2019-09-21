@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from 'src/app/core/models/User';
+import { User } from 'src/app/core/models/user';
 
 export enum UsersActionTypes {
   LoadTireurs = '[Users] Load Tireurs',

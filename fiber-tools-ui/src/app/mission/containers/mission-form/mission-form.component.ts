@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {mergeMap} from 'rxjs/operators';
 import {loadMissionApi} from '../../actions/mission-api.actions';
-import {Mission, MissionProgressStatus} from '../../models/mission';
+import {Mission, MissionProgressStatus} from '../../../core/models/mission';
 import * as fromMissions from '../../reducers/mission.reducer';
 
 @Component({

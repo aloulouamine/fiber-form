@@ -2,13 +2,13 @@ table {
   width: 100%
 }
 
-.action-bloc{
+.action-bloc {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
 
-.action-td{
+.action-td {
   text-align: right;
 }

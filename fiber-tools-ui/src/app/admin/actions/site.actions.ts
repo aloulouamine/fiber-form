@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Site } from 'src/app/core/models/Site';
+import { Site } from 'src/app/core/models/site';
 
 export enum SiteActionTypes {
   LoadSitesApi = '[Site] Load Sites',
