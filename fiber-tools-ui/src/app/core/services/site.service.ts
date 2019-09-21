@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { Site } from '../models/Site';
 
 @Injectable({
@@ -11,14 +11,18 @@ export class SiteService {
     {
       ref: '123',
       missions: []
+    },
+    {
+      ref: '345',
+      missions: []
     }
   ]
 
   constructor() { }
 
 
-  getSites() {
-    of(this.sites);
+  getSites(): Observable<Site[]> {
+    return of(this.sites);
   }
 
   addSite(site: Site) {
