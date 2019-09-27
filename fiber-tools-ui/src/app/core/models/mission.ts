@@ -1,11 +1,17 @@
 export interface Box {
   ref: string;
+  type: BoxType;
 }
 
-// Similar to Box, but they will be holding different information
-// Once we know more bout what to do
-export interface Room {
+export interface BoxLink {
   ref: string;
+  distance: number;
+  diameter: number;
+}
+
+export enum BoxType {
+  AERIAL,
+  UNDERGROUND
 }
 
 export enum MissionProgressStatus {
@@ -26,21 +32,22 @@ export enum MissionType {
   SOUDURE
 }
 
+export interface Comment {
+  message: string;
+  updateAt: Date;
+  createdAt: Date;
+  user: string;
+}
+
 export interface Mission {
   _id?: string;
   title?: string;
   site: string;
   enrollerNumah: string;
   type?: MissionType;
-  // ---------------------
-  // Will be associated to MissionType.SOUDURE
-  boxes?: Box[];
-  // -----------------------
-  // ---------------------
-  // Will be associated to MissionType.TIRAGE
-  rooms?: Room[];
+  boxes: Box[];
+  links: BoxLink[];
   cable?: string;
-  // -----------------------
   progress?: MissionProgressStatus;
   sync?: MissionSyncStatus;
   totalDistance?: number;
@@ -49,5 +56,5 @@ export interface Mission {
   creator?: string;
   createDate?: Date;
   updateDate?: Date;
-  comment: string;
+  comments: Comment[];
 }

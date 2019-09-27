@@ -1,6 +1,6 @@
 import { Mission } from './mission';
 
-export class Site {
+export interface Site {
   ref: string;
   missions: Mission[]
 }

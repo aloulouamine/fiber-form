@@ -48,7 +48,7 @@ export class MissionFormComponent implements OnInit {
     ).subscribe(
       (mission: Mission) => {
         this.mission = mission;
-        mission.rooms.map(() => this.formPictures
+        mission.boxes.map(() => this.formPictures
           .push(this.fb.control('', Validators.required))
         )
         this.form.get('ref').setValue(mission.site)
@@ -58,7 +58,7 @@ export class MissionFormComponent implements OnInit {
         // this.form.get('progress').setValidators(Validators.max(mission.totalDistance));
 
         this.form.get('missionProgressStatus').setValue(mission.progressDistance);
-        this.form.get('comment').setValue(mission.comment);
+        this.form.get('comment').setValue(mission.comments);
       }
     );
   }
