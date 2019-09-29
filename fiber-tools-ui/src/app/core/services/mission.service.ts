@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {Mission, MissionProgressStatus, MissionSyncStatus, MissionType} from 'src/app/core/models/mission';
+import {Mission, MissionProgressStatus, MissionSyncStatus, MissionType, BoxType} from 'src/app/core/models/mission';
 
 
 @Injectable({
@@ -8,17 +8,19 @@ import {Mission, MissionProgressStatus, MissionSyncStatus, MissionType} from 'sr
 })
 export class MissionService {
   missions: Mission[] = [
-    /* {
+     {
       title: 'Tirage',
       enrollerNumah: 'Touret-ABCXX-1',
       site: 'ORCH_BRE1',
       type: MissionType.TIRAGE,
       cable: '5660178',
       boxes: [
-        {ref: '64'},
-        {ref: '379'},
-        {ref: '384'}
+        {ref: '64', type: BoxType.AERIAL},
+        {ref: '64', type: BoxType.AERIAL},
+        {ref: '64', type: BoxType.AERIAL},
+        {ref: '64', type: BoxType.AERIAL},  
       ],
+      links:[],
       progress: MissionProgressStatus.PROGRESS,
       sync: MissionSyncStatus.SYNC,
       totalDistance: 450,
@@ -27,9 +29,30 @@ export class MissionService {
       creator: 'foulen',
       createDate: new Date(),
       updateDate: new Date(),
-      comment: ''
+      comments: []
     },
-     */
+     {
+      title: 'Tirage',
+      enrollerNumah: 'Touret-ABCXX-2',
+      site: 'ORCH_BRE1',
+      type: MissionType.TIRAGE,
+      cable: '5660178',
+      boxes: [
+        {ref: '64', type: BoxType.AERIAL},
+        {ref: '64', type: BoxType.AERIAL},
+        {ref: '64', type: BoxType.AERIAL},  
+      ],
+      links:[],
+      progress: MissionProgressStatus.PROGRESS,
+      sync: MissionSyncStatus.SYNC,
+      totalDistance: 450,
+      progressDistance: 200,
+      workingUser: 'fahd@fibre.com',
+      creator: 'foulen',
+      createDate: new Date(),
+      updateDate: new Date(),
+      comments: []
+    },
   ];
 
 

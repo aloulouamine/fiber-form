@@ -17,12 +17,14 @@ import { MissionListComponent } from './containers/mission-list/mission-list.com
 import { MissionEffects } from './effects/mission.effects';
 import { MissionRoutingModule } from './mission-routing.module';
 import * as fromMission from './reducers/mission.reducer';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [MissionListComponent, MissionFormComponent, PictureInputComponent],
   imports: [
     CommonModule,
+    SharedModule,
     MissionRoutingModule,
     MatCardModule,
     MatButtonModule,
