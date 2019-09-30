@@ -1,28 +1,15 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-card>
     <!-- Chantier-->
-    <mat-card-title style="color: #4caf50">{{mission.site}}</mat-card-title>
+    <mat-card-title>{{mission?.number}}</mat-card-title>
 
-    <!-- Cable if there"s any-->
-    <mat-card-subtitle *ngIf="mission?.cable"> Cable {{mission.cable}}</mat-card-subtitle>
     <mat-card-content>
 
       <!-- Touret -->
       <mat-form-field>
         <mat-label>Touret</mat-label>
-        <input matInput readonly formControlName="enrollerNumah" type="text" />
+        <input matInput readonly type="text" />
       </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Progression ({{ form.get('progress').value }}m)</mat-label>
-        <input matInput #progressInput (change)="progressSlider.value = form.get('progress').value "
-          formControlName="progress" type="number" [max]="mission.totalDistance" [min]="0" />
-        <mat-hint align="end">{{form.get('progress').value}}/{{mission.totalDistance}} m</mat-hint>
-      </mat-form-field>
-
-      <mat-slider #progressSlider (change)="progressInput.value = form.get('progress').value" formControlName="progress"
-        [thumbLabel]="true" [min]="0" [step]="1" [max]="mission.totalDistance">
-      </mat-slider>
 
       <mat-form-field>
         <mat-label>Commentaire</mat-label>
@@ -35,15 +22,15 @@
         <ng-template matStepperIcon="number" let-index="index">
           {{index + 1}}
         </ng-template>
-        <mat-step formArrayName="pictures" *ngFor="let picture of getPicturesControls(); let i = index;"
-          [stepControl]="picture">
-          <ng-template matStepLabel>Ref: {{mission.boxes[i].ref}}</ng-template>
-          <app-picture-input [label]="mission.boxes[i].ref" [formControlName]="i"></app-picture-input>
+        <mat-step formArrayName="checkPoints" *ngFor="let checkPoint of formCheckPointsControls; let i = index;"
+          [stepControl]="checkPoint">
+          <ng-template matStepLabel>Ref: {{mission.checkPoints[i].ref}}</ng-template>
+          <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i" >
+            <app-picture-input [label]="mission.checkPoints[i].ref"  [formControlName]="j"></app-picture-input>
+          </div>
         </mat-step>
       </mat-vertical-stepper>
     </mat-card-content>
-
-
     <mat-card-actions align="end">
       <button type="submit" [disabled]="form.invalid" mat-button>Envoyer le formulaire</button>
       <button (click)="saveMissionAsItIs($event)" mat-button>Enregistrer pour plus tard</button>

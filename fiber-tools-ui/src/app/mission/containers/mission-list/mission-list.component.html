@@ -3,11 +3,8 @@
     {{mission.title}} {{i + 1}}
   </mat-card-title>
   <mat-card-content>
-    <h3>Chantier :</h3>{{mission.site}}
-    <h3>Nombre de chambre :</h3>{{mission.boxes.length}}
-    <h3>Avancement:</h3>
-    <mat-progress-bar [value]="getMissionProgressValue(mission)" mode="determinate">
-    </mat-progress-bar>
+    <h3>Chantier :</h3>{{mission.number}}
+    <h3>Nombre de chambre :</h3>{{mission.checkPoints.length}}
   </mat-card-content>
   <mat-card-actions align="end">
     <button [routerLink]="'./' + i" mat-icon-button>

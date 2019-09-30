@@ -21,7 +21,7 @@ export class MissionEffects {
     ofType(MissionApiActionTypes.AddMission),
     mergeMap(({ mission }) =>
       this.missionService.addMission(mission).pipe(
-        map(missions => addMissionSuccess({ missions }))
+        map(() => addMissionSuccess())
       )
     )
   ));

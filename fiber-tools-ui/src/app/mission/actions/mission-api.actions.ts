@@ -26,12 +26,11 @@ export const loadMissionApiFailure = createAction(
 
 export const addMissionApi = createAction(
   MissionApiActionTypes.AddMission,
-  props<{ mission: any }>()
+  props<{ mission: Mission }>()
 )
 
 export const addMissionSuccess = createAction(
-  MissionApiActionTypes.AddMissionSuccess,
-  props<{ missions: any[] }>()
+  MissionApiActionTypes.AddMissionSuccess
 )
 
 export const addMissionApiFailure = createAction(

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {select, Store} from '@ngrx/store';
-import {mergeMap} from 'rxjs/operators';
-import {loadMissionApi} from '../../actions/mission-api.actions';
-import {Mission, MissionProgressStatus} from '../../../core/models/mission';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { mergeMap, take, filter, tap } from 'rxjs/operators';
+import { Mission, MissionProgressStatus } from '../../../core/models/mission';
+import { loadMissionApi } from '../../actions/mission-api.actions';
 import * as fromMissions from '../../reducers/mission.reducer';
 
 @Component({
@@ -15,19 +15,18 @@ import * as fromMissions from '../../reducers/mission.reducer';
 export class MissionFormComponent implements OnInit {
 
   mission: Mission;
-
   form = this.fb.group({
     cable: [''],
-    enrollerNumah: ['', Validators.required],
-    pictures: this.fb.array([]),
+    checkPoints: this.fb.array([]),
     ref: ['', Validators.required],
-    progress: [''],
-    missionProgressStatus: [''],
     comment: ['']
   });
 
-  get formPictures(): FormArray {
-    return this.form.get('pictures') as FormArray;
+  get formCheckPoints(): FormArray {
+    return this.form.get('checkPoints') as FormArray;
+  }
+  get formCheckPointsControls(): FormArray[] {
+    return this.formCheckPoints.controls as FormArray[];
   }
 
   constructor(
@@ -38,33 +37,35 @@ export class MissionFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(loadMissionApi())
     this.route.params.pipe(
       mergeMap(params => {
         return this.store.pipe(
-          select(fromMissions.selectMissionAtIndex, {index: params.id})
+          select(fromMissions.selectMissionAtIndex, { index: params.id })
         );
       }),
+      tap(mission => {
+        if (!mission) {
+          this.store.dispatch(loadMissionApi())
+        }
+      }),
+      filter(mission => !!mission),
+      take(1)
     ).subscribe(
       (mission: Mission) => {
         this.mission = mission;
-        mission.boxes.map(() => this.formPictures
-          .push(this.fb.control('', Validators.required))
-        )
-        this.form.get('ref').setValue(mission.site)
+        mission.checkPoints.map((cp) => {
+          const picturesFormGroup = this.fb.array([]);
+          this.formCheckPoints.push(picturesFormGroup);
+          Array.from({ length: cp.properties.nbPhotos })
+            .forEach(() =>
+              picturesFormGroup.push(this.fb.control('', Validators.required))
+            )
+        });
+        this.form.get('ref').setValue(mission.number)
         this.form.get('cable').setValue(mission.cable)
-        this.form.get('enrollerNumah').setValue(mission.enrollerNumah)
-        this.form.get('progress').setValue(mission.progressDistance)
-        // this.form.get('progress').setValidators(Validators.max(mission.totalDistance));
-
-        this.form.get('missionProgressStatus').setValue(mission.progressDistance);
         this.form.get('comment').setValue(mission.comments);
       }
     );
-  }
-
-  getPicturesControls() {
-    return this.formPictures.controls;
   }
 
   submit() {

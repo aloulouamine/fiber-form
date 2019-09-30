@@ -1,17 +1,20 @@
-export interface Box {
+export interface CheckPoint {
   ref: string;
-  type: BoxType;
+  properties: Properties;
 }
 
-export interface BoxLink {
+export interface CheckPointLink {
   ref: string;
   distance: number;
   diameter: number;
 }
 
-export enum BoxType {
-  AERIAL,
-  UNDERGROUND
+export interface Properties {
+  checkpointType: string;
+  colorCode: string;
+  meaning: string;
+  nbPhotos: number;
+  requiredPhotos?: any;
 }
 
 export enum MissionProgressStatus {
@@ -42,16 +45,12 @@ export interface Comment {
 export interface Mission {
   _id?: string;
   title?: string;
-  site: string;
-  enrollerNumah: string;
-  type?: MissionType;
-  boxes: Box[];
-  links: BoxLink[];
+  number: string;
+  checkPoints: CheckPoint[];
+  checkPointLinks: CheckPointLink[];
   cable?: string;
   progress?: MissionProgressStatus;
   sync?: MissionSyncStatus;
-  totalDistance?: number;
-  progressDistance?: number;
   workingUser?: string;
   creator?: string;
   createDate?: Date;

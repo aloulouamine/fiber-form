@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
-import { loadMissionApiSuccess, addMissionSuccess } from '../actions/mission-api.actions';
 import { Mission } from '../../core/models/mission';
+import { loadMissionApiSuccess } from '../actions/mission-api.actions';
 
 
 export const missionFeatureKey = 'mission';
@@ -19,7 +19,6 @@ export const initialState: MissionState = {
 
 const missionsReducer = createReducer(initialState,
   on(loadMissionApiSuccess, (state, { missions }) => ({ ...state, missions })),
-  on(addMissionSuccess, (state, { missions }) => ({ ...state, missions }))
 );
 
 export function reducer(state = initialState, action: Action): MissionState {

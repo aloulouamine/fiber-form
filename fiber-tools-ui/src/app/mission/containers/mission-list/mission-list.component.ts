@@ -24,9 +24,4 @@ export class MissionListComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(loadMissionApi())
   }
-
-  getMissionProgressValue(mission: Mission) {
-    return ((mission.progressDistance / mission.totalDistance) * 100).toFixed(0)
-  }
-
 }
