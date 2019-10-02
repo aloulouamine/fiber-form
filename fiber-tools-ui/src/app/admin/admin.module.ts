@@ -20,9 +20,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { SiteCreateComponent } from './containers/site-create/site-create.component';
 import { SiteEditComponent } from './containers/site-edit/site-edit.component';
 import { SiteFormComponent } from './components/site-form/site-form.component';
+import { SiteConfirmDeleteComponent } from './components/site-confirm-delete/site-confirm-delete.component';
+import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     AdminRoutingModule,
     StoreModule.forFeature('admin', adminReducer.reducer),
     EffectsModule.forFeature([SiteEffects, UserEffects]),
@@ -41,6 +44,8 @@ import { SiteFormComponent } from './components/site-form/site-form.component';
     SiteCreateComponent,
     SiteEditComponent,
     SiteFormComponent,
-  ]
+    SiteConfirmDeleteComponent,
+  ],
+  entryComponents: [SiteConfirmDeleteComponent]
 })
 export class AdminModule { }

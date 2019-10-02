@@ -4,11 +4,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { select, Store } from '@ngrx/store';
 import { noop, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { Site } from 'src/app/core/models/site';
-import { query } from '../../actions/site.actions';
+import { map, tap, filter } from 'rxjs/operators';
+import { Site, Planner } from 'src/app/core/models/site';
+import { query, add, remove } from '../../actions/site.actions';
 import * as fromAdmin from '../../reducers';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { SiteConfirmDeleteComponent } from '../../components/site-confirm-delete/site-confirm-delete.component';
 
 @Component({
   selector: 'app-site-list',
@@ -25,7 +27,9 @@ export class SiteListComponent implements OnInit {
 
   constructor(
     private store: Store<fromAdmin.State>,
-    public router: Router) {
+    public router: Router,
+    private dialog: MatDialog
+  ) {
     this.sitesDataSource$ = this.store.pipe(
       select(fromAdmin.sitesSelectors.selectAll),
       map(values => new MatTableDataSource(values)),
@@ -46,10 +50,31 @@ export class SiteListComponent implements OnInit {
   }
 
   createSite() {
-    this.router.navigate(['admin', 'site', 'create']);
+    this.store.dispatch(add({
+      payload: {
+        planner: Planner.AXIONE,
+        ref: '123'
+      }
+    }));
+    //this.router.navigate(['admin', 'site', 'create']);
   }
 
   editSite(site: Site) {
     this.router.navigate(['admin', 'site', site.ref])
+  }
+
+  removeSite(site: Site) {
+    const dialogRef = this.dialog.open(SiteConfirmDeleteComponent, {
+      data: site
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(r => r))
+      .subscribe(
+        () => this.store.dispatch(remove({
+          payload: site
+        }))
+      );
+
   }
 }

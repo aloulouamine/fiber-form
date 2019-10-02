@@ -1,4 +1,3 @@
-import { Mission } from './mission';
 
 export enum Planner {
   AXIONE = 'AXIONE',
@@ -6,8 +5,7 @@ export enum Planner {
 }
 
 export interface Site {
-  id: string;
+  id?: string;
   ref: string;
-  missions: Mission[];
   planner: Planner;
 }

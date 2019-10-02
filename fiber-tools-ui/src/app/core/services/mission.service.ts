@@ -14,10 +14,18 @@ export class MissionService {
   }
 
   getMissions(): Observable<Mission[]> {
-    return this.afs.collection<Mission>(missionsCollection).valueChanges({ idField: '_id' })
+    return this.afs.collection<Mission>(missionsCollection).valueChanges({ idField: '_id' });
   }
 
   addMission(mission: Mission): Observable<DocumentReference> {
     return from(this.afs.collection(missionsCollection).add(mission));
+  }
+
+  getSiteMissions(siteId: string) {
+    return this.afs.collection<Mission>(`sites/${siteId}/missions`).valueChanges();
+  }
+
+  getAllMissions() {
+    return this.afs.collectionGroup('missions').stateChanges()
   }
 }

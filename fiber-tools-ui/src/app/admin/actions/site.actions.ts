@@ -8,6 +8,8 @@ export enum SiteActionTypes {
   REMOVED = '[Site] removed',
   SUCCESS = '[Site] success',
   UPDATE = '[Site] update',
+  ADD = '[Site] add',
+  REMOVE = '[Site] remove',
   ERROR = '[Site] error'
 }
 
@@ -32,7 +34,7 @@ export const removed = createAction(
 
 export const update = createAction(
   SiteActionTypes.REMOVED,
-  props<{ id:string , changes: Partial<Site> }>()
+  props<{ id: string, changes: Partial<Site> }>()
 );
 
 export const success = createAction(
@@ -43,4 +45,14 @@ export const success = createAction(
 export const loadSitesApiError = createAction(
   SiteActionTypes.ERROR,
   props<{ errorMessage: string }>()
+)
+
+export const add = createAction(
+  SiteActionTypes.ADD,
+  props<{ payload: Site }>()
+)
+
+export const remove = createAction(
+  SiteActionTypes.REMOVE,
+  props<{ payload: Site }>()
 )
