@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { noop, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Site } from 'src/app/core/models/site';
-import { loadSitesApi } from '../../actions/site.actions';
+import { query } from '../../actions/site.actions';
 import * as fromAdmin from '../../reducers';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ export class SiteListComponent implements OnInit {
     private store: Store<fromAdmin.State>,
     public router: Router) {
     this.sitesDataSource$ = this.store.pipe(
-      select(fromAdmin.getSitesList),
+      select(fromAdmin.sitesSelectors.selectAll),
       map(values => new MatTableDataSource(values)),
       tap(dataSource => dataSource.paginator = this.paginator),
       tap(dataSource => dataSource.sort = this.sort)
@@ -35,7 +35,7 @@ export class SiteListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(loadSitesApi());
+    this.store.dispatch(query());
   }
 
   applyFilter(filterValue: string) {

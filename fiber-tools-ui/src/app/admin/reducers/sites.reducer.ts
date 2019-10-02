@@ -1,29 +1,20 @@
-import { createReducer, on } from '@ngrx/store';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { Site } from 'src/app/core/models/site';
-import { loadSitesApi, loadSitesApiError, loadSitesApiSuccess } from '../actions/site.actions';
+import { added, modified, removed } from '../actions/site.actions';
 
 
 export const sitesFeatureKey = 'sites';
 
-export interface State {
-  loading: boolean;
-  values: Site[];
-  loaded: boolean;
-  error: boolean,
-  errorMessage: string;
-}
+export interface State extends EntityState<Site> { }
 
-export const initialState: State = {
-  values: [],
-  loaded: false,
-  loading: false,
-  error: false,
-  errorMessage: null
-};
+export const siteAdapter = createEntityAdapter<Site>();
+
+export const initialState: State = siteAdapter.getInitialState()
 
 export const sitesReducer = createReducer(
   initialState,
-  on(loadSitesApi, state => ({ ...state, loading: true })),
-  on(loadSitesApiSuccess, (state, { values }) => ({ ...state, values, loading: false, loaded: true })),
-  on(loadSitesApiError, (state, { errorMessage }) => ({ ...state, loading: false, loaded: false, error: true, errorMessage }))
+  on(added, (state, action) => siteAdapter.addOne(action.payload, state)),
+  on(modified, (state, action) => siteAdapter.updateOne({ id: action.payload.id, changes: action.payload }, state)),
+  on(removed, (state, action) => siteAdapter.removeOne(action.payload.id, state))
 );

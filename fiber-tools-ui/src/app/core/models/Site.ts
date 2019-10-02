@@ -6,6 +6,7 @@ export enum Planner {
 }
 
 export interface Site {
+  id: string;
   ref: string;
   missions: Mission[];
   planner: Planner;

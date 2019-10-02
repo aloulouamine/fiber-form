@@ -1,34 +1,21 @@
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
-import { Site, Planner } from '../models/site';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Site } from '../models/site';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SiteService {
 
-  sites: Site[] = [
-    {
-      ref: '123',
-      missions: [],
-      planner: Planner.AXIONE
-    },
-    {
-      ref: '345',
-      missions: [],
-      planner: Planner.AXIONE
-    }
-  ]
-
-  constructor() { }
+  constructor(private afs: AngularFirestore) { }
 
 
-  getSites(): Observable<Site[]> {
-    return of(this.sites);
+  getSites(): Observable<DocumentChangeAction<Site>[]> {
+    return this.afs.collection<Site>('sites').stateChanges()
   }
 
   addSite(site: Site) {
-    this.sites = [...this.sites, site];
-    return this.getSites();
+
   }
 }

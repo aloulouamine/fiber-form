@@ -2,25 +2,45 @@ import { createAction, props } from '@ngrx/store';
 import { Site } from 'src/app/core/models/site';
 
 export enum SiteActionTypes {
-  LoadSitesApi = '[Site] Load Sites',
-  LoadSitesApiSuccess = '[Site] Load Sites API success',
-  LoadSitesApiError = '[Site] Load Sites API error'
+  QUERY = '[Site] query',
+  ADDED = '[Site] added',
+  MODIFIED = '[Site] modified',
+  REMOVED = '[Site] removed',
+  SUCCESS = '[Site] success',
+  UPDATE = '[Site] update',
+  ERROR = '[Site] error'
 }
 
-export const loadSitesApi = createAction(
-  SiteActionTypes.LoadSitesApi
+export const query = createAction(
+  SiteActionTypes.QUERY
 );
 
+export const added = createAction(
+  SiteActionTypes.ADDED,
+  props<{ payload: Site }>()
+);
 
-export const loadSitesApiSuccess = createAction(
-  SiteActionTypes.LoadSitesApiSuccess,
+export const modified = createAction(
+  SiteActionTypes.MODIFIED,
+  props<{ payload: Site }>()
+);
+
+export const removed = createAction(
+  SiteActionTypes.REMOVED,
+  props<{ payload: Site }>()
+);
+
+export const update = createAction(
+  SiteActionTypes.REMOVED,
+  props<{ id:string , changes: Partial<Site> }>()
+);
+
+export const success = createAction(
+  SiteActionTypes.SUCCESS,
   props<{ values: Site[] }>()
 );
 
-
 export const loadSitesApiError = createAction(
-  SiteActionTypes.LoadSitesApiError,
+  SiteActionTypes.ERROR,
   props<{ errorMessage: string }>()
 )
-
-

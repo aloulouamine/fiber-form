@@ -26,7 +26,7 @@
       </ng-container>
       <ng-container matColumnDef="missions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de missions </th>
-        <td mat-cell *matCellDef="let element"> {{element.missions.length}} </td>
+        <td mat-cell *matCellDef="let element"> {{element?.missions?.length}} </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>

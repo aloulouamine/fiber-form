@@ -28,7 +28,5 @@ export const getSites = createSelector(
   state => state[fromSites.sitesFeatureKey]
 );
 
-export const getSitesList = createSelector(
-  getSites,
-  state => state.values
-)
+export const sitesSelectors = fromSites.siteAdapter.getSelectors(getSites)
+
