@@ -11,7 +11,7 @@ export class MissionEffects {
 
   load$ = createEffect(() => this.actions$.pipe(
     ofType(MissionApiActionTypes.LoadMissions),
-    switchMap(() => this.missionService.getMissions().pipe(
+    switchMap(() => this.missionService.getAllMissions().pipe(
       map(missions => loadMissionApiSuccess({ missions })),
       catchError(() => of(loadMissionApiFailure({ errorMessage: 'Loading missions failure' })))
     ))

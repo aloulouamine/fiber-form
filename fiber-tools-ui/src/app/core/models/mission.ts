@@ -5,14 +5,13 @@ export interface CheckPoint {
 
 export interface CheckPointLink {
   ref: string;
-  distance: number;
-  diameter: number;
+  value: number;
+  section: number;
 }
 
 export interface Properties {
   checkpointType: string;
   colorCode: string;
-  meaning: string;
   nbPhotos: number;
   requiredPhotos?: any;
 }
@@ -47,7 +46,7 @@ export interface Mission {
   title?: string;
   number: string;
   checkPoints: CheckPoint[];
-  checkPointLinks: CheckPointLink[];
+  links: CheckPointLink[];
   cable?: string;
   progress?: MissionProgressStatus;
   sync?: MissionSyncStatus;

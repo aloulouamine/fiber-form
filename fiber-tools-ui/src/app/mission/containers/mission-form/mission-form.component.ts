@@ -56,7 +56,7 @@ export class MissionFormComponent implements OnInit {
         mission.checkPoints.map((cp) => {
           const picturesFormGroup = this.fb.array([]);
           this.formCheckPoints.push(picturesFormGroup);
-          Array.from({ length: cp.properties.nbPhotos })
+          Array.from({ length: (cp.properties && cp.properties.requiredPhotos) ? cp.properties.requiredPhotos.length : 0 })
             .forEach(() =>
               picturesFormGroup.push(this.fb.control('', Validators.required))
             )

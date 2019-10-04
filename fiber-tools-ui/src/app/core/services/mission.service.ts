@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { Mission } from 'src/app/core/models/mission';
+import { map, tap } from 'rxjs/operators';
 
 const missionsCollection = 'missions';
 @Injectable({
@@ -25,7 +26,18 @@ export class MissionService {
     return this.afs.collection<Mission>(`sites/${siteId}/missions`).valueChanges();
   }
 
-  getAllMissions() {
-    return this.afs.collectionGroup('missions').stateChanges()
+  getAllMissions(): Observable<Mission[]> {
+    return this.afs.collectionGroup<Mission>('missions').valueChanges()
+    .pipe(
+      tap(missions => {
+        missions.forEach(mission => {
+          mission.checkPoints.forEach(cp => {
+            if (cp && cp.properties && cp.properties.colorCode) {
+              cp.properties.colorCode = `#${cp.properties.colorCode.substr(2, cp.properties.colorCode.length)}`;
+            }
+          });
+        })
+      })
+    );
   }
 }

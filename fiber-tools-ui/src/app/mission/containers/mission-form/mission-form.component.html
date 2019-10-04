@@ -20,14 +20,37 @@
       <mat-vertical-stepper>
         <!-- Custom icon with a context variable. -->
         <ng-template matStepperIcon="number" let-index="index">
-          {{index + 1}}
+          <div class="index">
+            {{index + 1}}
+          </div>
         </ng-template>
         <mat-step formArrayName="checkPoints" *ngFor="let checkPoint of formCheckPointsControls; let i = index;"
           [stepControl]="checkPoint">
-          <ng-template matStepLabel>Ref: {{mission.checkPoints[i].ref}}</ng-template>
-          <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i" >
-            <app-picture-input [label]="mission.checkPoints[i].ref"  [formControlName]="j"></app-picture-input>
+          <ng-template matStepLabel>
+            <div>
+              <!-- TODO Enum types and icons -->
+              <mat-icon *ngIf="mission.checkPoints[i]?.properties?.checkpointType === 'FACADE'"
+                [style.color]="mission.checkPoints[i]?.properties?.colorCode">home</mat-icon>
+              <mat-icon *ngIf="mission.checkPoints[i]?.properties?.checkpointType !== 'FACADE'"
+                [style.color]="mission.checkPoints[i]?.properties?.colorCode">settings_input_hdmi</mat-icon>
+              {{mission.checkPoints[i].ref}}
+            </div>
+          </ng-template>
+          <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i">
+            <app-picture-input [label]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.label" [formControlName]="j">
+            </app-picture-input>
           </div>
+          <br>
+          <mat-divider></mat-divider>
+          <br>
+          <mat-chip-list *ngIf="mission.links[i]">
+            <mat-chip>
+              <p> <b>Distance: </b> {{mission.links[i].value}} m</p>
+            </mat-chip>
+            <mat-chip>
+              <p> <b>Section: </b>{{mission.links[i].section}}</p>
+            </mat-chip>
+          </mat-chip-list>
         </mat-step>
       </mat-vertical-stepper>
     </mat-card-content>

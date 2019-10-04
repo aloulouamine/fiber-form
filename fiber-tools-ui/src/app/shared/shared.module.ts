@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 @NgModule({
@@ -9,11 +11,15 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     MatStepperModule,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule,
+    MatBadgeModule
   ],
   exports: [
     MatStepperModule,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule,
+    MatBadgeModule
   ]
 })
 export class SharedModule { }
