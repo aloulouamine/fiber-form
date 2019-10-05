@@ -22,7 +22,7 @@ export class SiteListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   sitesDataSource$: Observable<MatTableDataSource<Site>>;
-  displayedColumns = ['ref', 'missions', 'actions'];
+  displayedColumns = ['id', 'siteFromFilename', 'creationDate', 'actions'];
 
 
   constructor(
@@ -50,17 +50,11 @@ export class SiteListComponent implements OnInit {
   }
 
   createSite() {
-    this.store.dispatch(add({
-      payload: {
-        planner: Planner.AXIONE,
-        ref: '123'
-      }
-    }));
-    //this.router.navigate(['admin', 'site', 'create']);
+    this.router.navigate(['admin', 'site', 'create']);
   }
 
   editSite(site: Site) {
-    this.router.navigate(['admin', 'site', site.ref])
+    this.router.navigate(['admin', 'site', site.id])
   }
 
   removeSite(site: Site) {

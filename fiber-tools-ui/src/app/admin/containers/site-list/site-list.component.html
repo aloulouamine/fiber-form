@@ -20,13 +20,17 @@
     </div>
 
     <table mat-table [dataSource]="sitesDataSource$ | async" matSort>
-      <ng-container matColumnDef="ref">
+      <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Référence </th>
-        <td mat-cell *matCellDef="let element"> {{element.ref}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
-      <ng-container matColumnDef="missions">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
-        <td mat-cell *matCellDef="let element"> {{element.planner}} </td>
+      <ng-container matColumnDef="siteFromFilename">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom fichier </th>
+        <td mat-cell *matCellDef="let element"> {{element.siteFromFilename}} </td>
+      </ng-container>
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de creation </th>
+        <td mat-cell *matCellDef="let element"> {{element.creationDate.toDate() | date : 'medium'}} </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
