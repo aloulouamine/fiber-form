@@ -1,14 +1,45 @@
-<mat-card *ngFor="let mission of missions$ | async; index as i">
-  <mat-card-title>
-    {{mission.title}} {{i + 1}}
-  </mat-card-title>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Missions
+    </mat-card-title>
+  </mat-card-header>
   <mat-card-content>
-    <h3>Chantier :</h3>{{mission.number}}
-    <h3>Nombre de chambre :</h3>{{mission.checkPoints.length}}
+    <div class="action-bloc">
+      <mat-form-field appearance="outline">
+        <mat-label>Recherche</mat-label>
+        <input matInput (keyup)="applyFilter($event.target.value)" type="text" />
+        <mat-icon matSuffix>search</mat-icon>
+        <mat-hint>
+          Chercher une mission
+        </mat-hint>
+      </mat-form-field>
+    </div>
+    <table mat-table [dataSource]="missionsDataSource$ | async" matSort>
+      <ng-container matColumnDef="_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Réf.</th>
+        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+      </ng-container>
+      <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>N°</th>
+        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+      </ng-container>
+      <ng-container matColumnDef="checkPoints">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr rac.</th>
+        <td mat-cell *matCellDef="let element"> {{element.checkPoints.length}} </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="action-td" mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="editMission(element)" color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumn;"></tr>
+    </table>
+    <mat-paginator></mat-paginator>
+
   </mat-card-content>
-  <mat-card-actions align="end">
-    <button [routerLink]="'./' + i" mat-icon-button>
-      <mat-icon>edit</mat-icon>
-    </button>
-  </mat-card-actions>
 </mat-card>

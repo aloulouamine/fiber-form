@@ -32,7 +32,11 @@ export const selectUserMissions = createSelector(
   (state: MissionState) => state.missions
 );
 
-export const selectMissionAtIndex = createSelector(
+export const selectMissionById = createSelector(
   selectUserMissions,
-  (missions, props) => missions[props.index]
+  (missions: Mission[], props) => {
+    let index = missions.findIndex(mission => mission._id === props.id)
+    // todo generate id
+    return index >= 0 ? missions[index] : missions[0];
+  }
 )

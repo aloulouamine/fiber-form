@@ -28,16 +28,13 @@
           [stepControl]="checkPoint">
           <ng-template matStepLabel>
             <div>
-              <!-- TODO Enum types and icons -->
-              <mat-icon *ngIf="mission.checkPoints[i]?.properties?.checkpointType === 'FACADE'"
-                [style.color]="mission.checkPoints[i]?.properties?.colorCode">home</mat-icon>
-              <mat-icon *ngIf="mission.checkPoints[i]?.properties?.checkpointType !== 'FACADE'"
-                [style.color]="mission.checkPoints[i]?.properties?.colorCode">settings_input_hdmi</mat-icon>
+              <app-check-point-icon [checkPoint]="mission.checkPoints[i]"></app-check-point-icon>
               {{mission.checkPoints[i].ref}}
             </div>
           </ng-template>
           <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i">
-            <app-picture-input [label]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.label" [formControlName]="j">
+            <app-picture-input [label]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
+              [formControlName]="j">
             </app-picture-input>
           </div>
           <br>

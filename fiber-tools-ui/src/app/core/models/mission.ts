@@ -1,3 +1,5 @@
+import { CHECK_POINT_TYPE } from '../enum/check-point-type';
+
 export interface CheckPoint {
   ref: string;
   properties: Properties;
@@ -10,7 +12,7 @@ export interface CheckPointLink {
 }
 
 export interface Properties {
-  checkpointType: string;
+  checkpointType: CHECK_POINT_TYPE;
   colorCode: string;
   nbPhotos: number;
   requiredPhotos?: any;

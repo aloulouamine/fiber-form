@@ -40,7 +40,7 @@ export class MissionFormComponent implements OnInit {
     this.route.params.pipe(
       mergeMap(params => {
         return this.store.pipe(
-          select(fromMissions.selectMissionAtIndex, { index: params.id })
+          select(fromMissions.selectMissionById, { id: params.id })
         );
       }),
       tap(mission => {

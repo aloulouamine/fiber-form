@@ -28,15 +28,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     AdminRoutingModule,
     StoreModule.forFeature('admin', adminReducer.reducer),
-    EffectsModule.forFeature([SiteEffects, UserEffects]),
-    MatCardModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule
+    EffectsModule.forFeature([SiteEffects, UserEffects])
   ],
   declarations: [
     SiteComponent,

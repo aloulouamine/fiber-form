@@ -28,16 +28,18 @@ export class MissionService {
 
   getAllMissions(): Observable<Mission[]> {
     return this.afs.collectionGroup<Mission>('missions').valueChanges()
-    .pipe(
-      tap(missions => {
-        missions.forEach(mission => {
-          mission.checkPoints.forEach(cp => {
-            if (cp && cp.properties && cp.properties.colorCode) {
-              cp.properties.colorCode = `#${cp.properties.colorCode.substr(2, cp.properties.colorCode.length)}`;
-            }
-          });
+      .pipe(
+        tap(missions => {
+          missions.forEach((mission, index) => {
+            // todo temporary id 
+            mission._id = `${index}`;
+            mission.checkPoints.forEach(cp => {
+              if (cp && cp.properties && cp.properties.colorCode) {
+                cp.properties.colorCode = `#${cp.properties.colorCode}`;
+              }
+            });
+          })
         })
-      })
-    );
+      );
   }
 }

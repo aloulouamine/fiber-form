@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { select, Store } from '@ngrx/store';
-import { noop, Observable } from 'rxjs';
-import { map, tap, filter } from 'rxjs/operators';
-import { Site, Planner } from 'src/app/core/models/site';
-import { query, add, remove } from '../../actions/site.actions';
-import * as fromAdmin from '../../reducers';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+import { Planner, Site } from 'src/app/core/models/site';
+import { add, query, remove } from '../../actions/site.actions';
 import { SiteConfirmDeleteComponent } from '../../components/site-confirm-delete/site-confirm-delete.component';
+import * as fromAdmin from '../../reducers';
 
 @Component({
   selector: 'app-site-list',
@@ -45,7 +45,7 @@ export class SiteListComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.sitesDataSource$ = this.sitesDataSource$.pipe(
       tap(ds => ds.filter = filterValue.trim().toLowerCase()),
-      tap(ds => ds.paginator ? ds.paginator.firstPage() : noop)
+      tap(ds => ds.paginator && ds.paginator.firstPage())
     )
   }
 
