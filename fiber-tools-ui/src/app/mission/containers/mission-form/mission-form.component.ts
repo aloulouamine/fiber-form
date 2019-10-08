@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { mergeMap, take, filter, tap } from 'rxjs/operators';
-import { Mission, MissionProgressStatus } from '../../../core/models/mission';
-import { loadMissionApi } from '../../actions/mission-api.actions';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {select, Store} from '@ngrx/store';
+import {filter, mergeMap, take, tap} from 'rxjs/operators';
+import {Mission} from '../../../core/models/mission';
+import {loadMissionApi} from '../../actions/mission-api.actions';
 import * as fromMissions from '../../reducers/mission.reducer';
 
 @Component({
@@ -25,6 +25,7 @@ export class MissionFormComponent implements OnInit {
   get formCheckPoints(): FormArray {
     return this.form.get('checkPoints') as FormArray;
   }
+
   get formCheckPointsControls(): FormArray[] {
     return this.formCheckPoints.controls as FormArray[];
   }
@@ -40,12 +41,12 @@ export class MissionFormComponent implements OnInit {
     this.route.params.pipe(
       mergeMap(params => {
         return this.store.pipe(
-          select(fromMissions.selectMissionById, { id: params.id })
+          select(fromMissions.selectMissionById, {id: params.id})
         );
       }),
       tap(mission => {
         if (!mission) {
-          this.store.dispatch(loadMissionApi())
+          this.store.dispatch(loadMissionApi({workingUser: 'fahdfprime@gmail.com'}));
         }
       }),
       filter(mission => !!mission),
@@ -56,10 +57,12 @@ export class MissionFormComponent implements OnInit {
         mission.checkPoints.map((cp) => {
           const picturesFormGroup = this.fb.array([]);
           this.formCheckPoints.push(picturesFormGroup);
-          Array.from({ length: (cp.properties && cp.properties.requiredPhotos) ? cp.properties.requiredPhotos.length : 0 })
+          Array.from({
+            length: (cp.properties && cp.properties.requiredPhotos) ? cp.properties.requiredPhotos.length : 0
+          })
             .forEach(() =>
               picturesFormGroup.push(this.fb.control('', Validators.required))
-            )
+            );
         });
         this.form.get('ref').setValue(mission.number)
         this.form.get('cable').setValue(mission.cable)
@@ -72,11 +75,4 @@ export class MissionFormComponent implements OnInit {
     console.log('done');
   }
 
-  saveMissionAsItIs(event: any) {
-    console.log('Saved for later');
-    this.form.get('missionProgressStatus').setValue(MissionProgressStatus.SUSPENDED);
-    // TODO save the thing as it is
-    // debug();
-    console.log(this.form.getRawValue());
-  }
 }

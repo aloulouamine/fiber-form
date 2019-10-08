@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { Mission } from '../../../core/models/mission';
-import { loadMissionApi } from '../../actions/mission-api.actions';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {Router} from '@angular/router';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
+import {Mission} from '../../../core/models/mission';
+import {loadMissionApi} from '../../actions/mission-api.actions';
 import * as fromMissions from '../../reducers/mission.reducer';
 
 
@@ -20,8 +20,8 @@ export class MissionListComponent implements OnInit {
 
   missionsDataSource$: Observable<MatTableDataSource<Mission>>;
   displayedColumn = ['_id', 'number', 'checkPoints', 'actions'];
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private store: Store<fromMissions.AppState>,
@@ -35,7 +35,7 @@ export class MissionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(loadMissionApi())
+    this.store.dispatch(loadMissionApi({workingUser: 'fahdfprime@gmail.com'}));
   }
 
   applyFilter(filterValue: string) {

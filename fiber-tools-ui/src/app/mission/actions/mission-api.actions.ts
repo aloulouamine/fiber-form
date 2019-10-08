@@ -1,5 +1,5 @@
-import { createAction, props } from '@ngrx/store';
-import { Mission } from '../../core/models/mission';
+import {createAction, props} from '@ngrx/store';
+import {Mission} from '../../core/models/mission';
 
 export enum MissionApiActionTypes {
   LoadMissions = '[MissionApi] Load Missions',
@@ -11,7 +11,8 @@ export enum MissionApiActionTypes {
 }
 
 export const loadMissionApi = createAction(
-  MissionApiActionTypes.LoadMissions
+  MissionApiActionTypes.LoadMissions,
+  props<{ workingUser: string }>()
 )
 
 export const loadMissionApiSuccess = createAction(

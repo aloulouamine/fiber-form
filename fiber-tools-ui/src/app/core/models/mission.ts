@@ -1,4 +1,4 @@
-import { CHECK_POINT_TYPE } from '../enum/check-point-type';
+import {CHECK_POINT_TYPE} from '../enum/check-point-type';
 
 export interface CheckPoint {
   ref: string;
@@ -16,6 +16,7 @@ export interface Properties {
   colorCode: string;
   nbPhotos: number;
   requiredPhotos?: any;
+  nbOptionalPhotos: number;
 }
 
 export enum MissionProgressStatus {
@@ -52,7 +53,7 @@ export interface Mission {
   cable?: string;
   progress?: MissionProgressStatus;
   sync?: MissionSyncStatus;
-  workingUser?: string;
+  workingUsers?: string[];
   creator?: string;
   createDate?: Date;
   updateDate?: Date;
