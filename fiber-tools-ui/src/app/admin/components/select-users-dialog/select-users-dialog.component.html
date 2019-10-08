@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Affecter la mission à</h2>
+{{emails | json}}
+
+<mat-form-field class="email-chip-list">
+    <mat-chip-list #chipList aria-label="email selection">
+      <mat-chip
+        *ngFor="let email of emails"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(email)">
+        {{email}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Nouvel email"
+        #emailInput
+        [formControl]="emailCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="true"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let email of filteredEmails$ | async" [value]="email">
+        {{email}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true">Valider</button>
+</mat-dialog-actions>

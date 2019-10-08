@@ -15,6 +15,7 @@ import { AdminMissionEffects } from './effects/admin-mission.effects';
 import { SiteEffects } from './effects/site.effects';
 import { UserEffects } from './effects/user.effects';
 import * as adminReducer from './reducers';
+import { SelectUsersDialogComponent } from './components/select-users-dialog/select-users-dialog.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import * as adminReducer from './reducers';
     SiteFormComponent,
     SiteConfirmDeleteComponent,
     SiteMissionsComponent,
+    SelectUsersDialogComponent,
   ],
-  entryComponents: [SiteConfirmDeleteComponent]
+  entryComponents: [SiteConfirmDeleteComponent, SelectUsersDialogComponent]
 })
 export class AdminModule { }

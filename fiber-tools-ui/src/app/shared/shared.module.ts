@@ -17,10 +17,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CheckPointIconComponent } from './components/check-point-icon/check-point-icon.component';
 import { MissionsTableComponent } from './components/missions-table/missions-table.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [CheckPointIconComponent, MissionsTableComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    // material
+    MatAutocompleteModule,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
@@ -40,7 +45,9 @@ import { MissionsTableComponent } from './components/missions-table/missions-tab
     MatToolbarModule,
   ],
   exports: [
+    ReactiveFormsModule,
     //material
+    MatAutocompleteModule,
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,

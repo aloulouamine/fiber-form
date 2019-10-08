@@ -36,7 +36,14 @@ export const getMissions = createSelector(
   state => state[fromMissions.missionsFeatureKey]
 )
 
+export const getUsers = createSelector(
+  getAdminState,
+  state => state[fromUsers.usersFeatureKey]
+)
+
 export const sitesSelectors = fromSites.siteAdapter.getSelectors(getSites)
 
 export const missionsSelectors = fromMissions.missionAdapter.getSelectors(getMissions);
+
+export const userSelectors = fromUsers.userAdapter.getSelectors(getUsers);
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, switchMap, map, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { SiteService } from 'src/app/core/services/site.service';
-import { SiteActionTypes, added, modified, removed, query } from '../actions/site.actions';
+import { added, modified, query, removed, SiteActionTypes } from '../actions/site.actions';
 
 
 
