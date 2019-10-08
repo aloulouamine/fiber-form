@@ -28,7 +28,8 @@ export class MissionService {
   }
 
   getAllMissionsForWorkingUser(workingUser: string): Observable<Mission[]> {
-    return this.afs.collectionGroup<Mission>('missions', ref => ref.where('workingUsers', 'array-contains', [workingUser]))
+
+    return this.afs.collectionGroup<Mission>('missions', ref => ref.where('workingUsers', 'array-contains', workingUser))
       .valueChanges()
       .pipe(
         tap(missions => {

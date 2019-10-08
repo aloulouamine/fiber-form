@@ -11,15 +11,16 @@ export class MissionEffects {
 
   load$ = createEffect(() => this.actions$.pipe(
     ofType(MissionApiActionTypes.LoadMissions),
-    switchMap((action: any) => this.missionService.getAllMissionsForWorkingUser(action.workingUser).pipe(
-      map(missions => loadMissionApiSuccess({ missions })),
-      catchError(err => of(loadMissionApiFailure({ errorMessage: 'Loading missions failure' })))
-    ))
+    switchMap((action: any) => this.missionService.getAllMissionsForWorkingUser(action.workingUser)
+      .pipe(
+        map(missions => loadMissionApiSuccess({missions})),
+        catchError(err => of(loadMissionApiFailure({errorMessage: 'Loading missions failure'})))
+      ))
   ));
 
   add$ = createEffect(() => this.actions$.pipe(
     ofType(MissionApiActionTypes.AddMission),
-    mergeMap(({ mission }) =>
+    mergeMap(({mission}) =>
       this.missionService.addMission(mission).pipe(
         map(() => addMissionSuccess())
       )
@@ -27,5 +28,6 @@ export class MissionEffects {
   ));
 
 
-  constructor(private actions$: Actions, private missionService: MissionService) { }
+  constructor(private actions$: Actions, private missionService: MissionService) {
+  }
 }
