@@ -1,7 +1,7 @@
 {
   "name": "TRCO",
   "short_name": "TRCO",
-  "theme_color": "#1976d2",
+  "theme_color": "#3F51B5",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
