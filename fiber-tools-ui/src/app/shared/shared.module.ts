@@ -16,8 +16,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CheckPointIconComponent } from './components/check-point-icon/check-point-icon.component';
+import { MissionsTableComponent } from './components/missions-table/missions-table.component';
 @NgModule({
-  declarations: [CheckPointIconComponent],
+  declarations: [CheckPointIconComponent, MissionsTableComponent],
   imports: [
     CommonModule,
     MatBadgeModule,
@@ -58,7 +59,8 @@ import { CheckPointIconComponent } from './components/check-point-icon/check-poi
     MatTableModule,
     MatToolbarModule,
     //components
-    CheckPointIconComponent
+    CheckPointIconComponent,
+    MissionsTableComponent
   ]
 })
 export class SharedModule { }

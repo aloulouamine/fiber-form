@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { Site } from 'src/app/core/models/site';
 import { added, modified, removed } from '../actions/site.actions';
 

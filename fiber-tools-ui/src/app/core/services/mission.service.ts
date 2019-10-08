@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
-import {AngularFirestore, DocumentReference} from '@angular/fire/firestore';
-import {from, Observable} from 'rxjs';
-import {Mission} from 'src/app/core/models/mission';
-import {tap} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { AngularFirestore, DocumentReference, DocumentChangeAction } from '@angular/fire/firestore';
+import { from, Observable } from 'rxjs';
+import { Mission } from 'src/app/core/models/mission';
+import { tap } from 'rxjs/operators';
+import { Site } from '../models/site';
 
 const missionsCollection = 'missions';
 
@@ -16,15 +17,15 @@ export class MissionService {
   }
 
   getMissions(): Observable<Mission[]> {
-    return this.afs.collection<Mission>(missionsCollection).valueChanges({idField: '_id'});
+    return this.afs.collection<Mission>(missionsCollection).valueChanges({ idField: 'id' });
   }
 
   addMission(mission: Mission): Observable<DocumentReference> {
     return from(this.afs.collection(missionsCollection).add(mission));
   }
 
-  getSiteMissions(siteId: string) {
-    return this.afs.collection<Mission>(`sites/${siteId}/missions`).valueChanges();
+  getSiteMissions(siteId: string): Observable<DocumentChangeAction<Mission>[]> {
+    return this.afs.collection<Mission>(`sites/${siteId}/missions`).stateChanges();
   }
 
   getAllMissionsForWorkingUser(workingUser: string): Observable<Mission[]> {
@@ -35,7 +36,7 @@ export class MissionService {
         tap(missions => {
           missions.forEach((mission, index) => {
             // todo temporary id
-            mission._id = `${index}`;
+            mission.id = `${index}`;
             mission.checkPoints.forEach(cp => {
               if (cp && cp.properties && cp.properties.colorCode) {
                 cp.properties.colorCode = `#${cp.properties.colorCode}`;
@@ -44,5 +45,13 @@ export class MissionService {
           });
         })
       );
+  }
+
+  updateMission(missionId: string, mission: Partial<Mission>): Observable<void> {
+    return from(this.afs.doc<Mission>(missionId).update(mission))
+  }
+
+  removeMission(site: Site, mission: Mission) {
+
   }
 }

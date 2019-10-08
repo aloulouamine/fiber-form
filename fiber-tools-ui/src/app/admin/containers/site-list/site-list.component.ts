@@ -54,7 +54,7 @@ export class SiteListComponent implements OnInit {
   }
 
   editSite(site: Site) {
-    this.router.navigate(['admin', 'site', site.id])
+    this.router.navigate(['admin', 'site', site.id, 'mission'])
   }
 
   removeSite(site: Site) {

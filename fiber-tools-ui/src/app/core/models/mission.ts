@@ -45,7 +45,7 @@ export interface Comment {
 }
 
 export interface Mission {
-  _id?: string;
+  id?: string;
   title?: string;
   number: string;
   checkPoints: CheckPoint[];

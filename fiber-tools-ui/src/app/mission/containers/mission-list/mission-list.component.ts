@@ -18,19 +18,14 @@ import * as fromMissions from '../../reducers/mission.reducer';
 })
 export class MissionListComponent implements OnInit {
 
-  missionsDataSource$: Observable<MatTableDataSource<Mission>>;
-  displayedColumn = ['_id', 'number', 'checkPoints', 'actions'];
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  missions$: Observable<Mission[]>;
+  displayedColumns = ['id', 'number', 'checkPoints', 'actions'];
+  
   constructor(
     private store: Store<fromMissions.AppState>,
     private router: Router) {
-    this.missionsDataSource$ = store.pipe(
+    this.missions$ = store.pipe(
       select(fromMissions.selectUserMissions),
-      map(missions => new MatTableDataSource(missions)),
-      tap(ds => ds.paginator = this.paginator),
-      tap(ds => ds.sort = this.sort)
     )
   }
 
@@ -38,12 +33,6 @@ export class MissionListComponent implements OnInit {
     this.store.dispatch(loadMissionApi({workingUser: 'fahdfprime@gmail.com'}));
   }
 
-  applyFilter(filterValue: string) {
-    this.missionsDataSource$ = this.missionsDataSource$.pipe(
-      tap(ds => ds.filter = filterValue.trim().toLowerCase()),
-      tap(ds => ds.paginator && ds.paginator.firstPage())
-    );
-  }
 
   editMission(mission) {
     this.router.navigate(['mission', mission._id])

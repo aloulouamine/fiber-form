@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SiteListComponent } from './containers/site-list/site-list.component';
 import { SiteCreateComponent } from './containers/site-create/site-create.component';
 import { SiteEditComponent } from './containers/site-edit/site-edit.component';
+import { SiteMissionsComponent } from './containers/site-missions/site-missions.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'site/:id',
     component: SiteEditComponent
+  },
+  {
+    path: 'site/:id/mission',
+    component: SiteMissionsComponent
   },
   {
     path: '**',

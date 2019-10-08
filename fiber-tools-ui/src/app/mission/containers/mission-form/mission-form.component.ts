@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {select, Store} from '@ngrx/store';
-import {filter, mergeMap, take, tap} from 'rxjs/operators';
-import {Mission} from '../../../core/models/mission';
-import {loadMissionApi} from '../../actions/mission-api.actions';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { filter, mergeMap, take, tap } from 'rxjs/operators';
+import { Mission } from '../../../core/models/mission';
+import { loadMissionApi } from '../../actions/mission-api.actions';
 import * as fromMissions from '../../reducers/mission.reducer';
 
 @Component({

@@ -1,34 +1,28 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AdminRoutingModule } from './admin-routing.module';
-import { SiteComponent } from './components/site/site.component';
-import { SiteListComponent } from './containers/site-list/site-list.component';
-import { StoreModule } from '@ngrx/store';
-import * as adminReducer from './reducers'
+import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { SiteEffects } from './effects/site.effects';
-import { UserEffects } from './effects/user.effects';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSortModule } from '@angular/material/sort';
+import { StoreModule } from '@ngrx/store';
+import { SharedModule } from '../shared/shared.module';
+import { AdminRoutingModule } from './admin-routing.module';
+import { SiteConfirmDeleteComponent } from './components/site-confirm-delete/site-confirm-delete.component';
+import { SiteFormComponent } from './components/site-form/site-form.component';
+import { SiteComponent } from './components/site/site.component';
 import { SiteCreateComponent } from './containers/site-create/site-create.component';
 import { SiteEditComponent } from './containers/site-edit/site-edit.component';
-import { SiteFormComponent } from './components/site-form/site-form.component';
-import { SiteConfirmDeleteComponent } from './components/site-confirm-delete/site-confirm-delete.component';
-import { SharedModule } from '../shared/shared.module';
+import { SiteListComponent } from './containers/site-list/site-list.component';
+import { SiteMissionsComponent } from './containers/site-missions/site-missions.component';
+import { AdminMissionEffects } from './effects/admin-mission.effects';
+import { SiteEffects } from './effects/site.effects';
+import { UserEffects } from './effects/user.effects';
+import * as adminReducer from './reducers';
+
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     AdminRoutingModule,
     StoreModule.forFeature('admin', adminReducer.reducer),
-    EffectsModule.forFeature([SiteEffects, UserEffects])
+    EffectsModule.forFeature([SiteEffects, UserEffects, AdminMissionEffects])
   ],
   declarations: [
     SiteComponent,
@@ -37,6 +31,7 @@ import { SharedModule } from '../shared/shared.module';
     SiteEditComponent,
     SiteFormComponent,
     SiteConfirmDeleteComponent,
+    SiteMissionsComponent,
   ],
   entryComponents: [SiteConfirmDeleteComponent]
 })
