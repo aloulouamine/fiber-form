@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { filter, mergeMap, take, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
 import { loadMissionApi } from '../../actions/mission-api.actions';
 import * as fromMissions from '../../reducers/mission.reducer';
@@ -12,7 +14,9 @@ import * as fromMissions from '../../reducers/mission.reducer';
   templateUrl: './mission-form.component.html',
   styleUrls: ['./mission-form.component.scss']
 })
-export class MissionFormComponent implements OnInit {
+export class MissionFormComponent implements OnInit, OnDestroy {
+
+  unsubscribe$ = new Subject<void>();
 
   mission: Mission;
   form = this.fb.group({
@@ -33,24 +37,26 @@ export class MissionFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store<fromMissions.AppState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {
   }
 
   ngOnInit() {
     this.route.params.pipe(
-      mergeMap(params => {
-        return this.store.pipe(
-          select(fromMissions.selectMissionById, {id: params.id})
-        );
-      }),
+      mergeMap(params => this.store.pipe(
+        select(fromMissions.selectMissionById, { id: params.id })
+      )),
       tap(mission => {
         if (!mission) {
-          this.store.dispatch(loadMissionApi({workingUser: 'fahdfprime@gmail.com'}));
+          this.userService
+            .getCurrentUserEmail()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(workingUser => this.store.dispatch(loadMissionApi({ workingUser })))
         }
       }),
       filter(mission => !!mission),
-      take(1)
+      takeUntil(this.unsubscribe$)
     ).subscribe(
       (mission: Mission) => {
         this.mission = mission;
@@ -69,6 +75,11 @@ export class MissionFormComponent implements OnInit {
         this.form.get('comment').setValue(mission.comments);
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   submit() {

@@ -1,6 +1,4 @@
 <h2 mat-dialog-title>Affecter la mission à</h2>
-{{emails | json}}
-
 <mat-form-field class="email-chip-list">
     <mat-chip-list #chipList aria-label="email selection">
       <mat-chip
@@ -28,5 +26,5 @@
     </mat-autocomplete>
   </mat-form-field>
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="true">Valider</button>
+  <button mat-button [mat-dialog-close]="emails">Valider</button>
 </mat-dialog-actions>

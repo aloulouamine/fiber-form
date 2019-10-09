@@ -5,7 +5,10 @@ import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, mergeMap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import * as fromAdmin from '../../reducers';
+import { query } from '../../actions/user.actions';
 
 @Component({
   selector: 'app-select-users-dialog',
@@ -19,15 +22,22 @@ export class SelectUsersDialogComponent implements OnInit {
 
   emailCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  allEmails: string[] = ['toto', 'titi']
+  allEmails$: Observable<string[]>;
   filteredEmails$: Observable<string[]>
 
-  constructor(@Inject(MAT_DIALOG_DATA) public emails: string[]) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public emails: string[], private stroe: Store<fromAdmin.State>) { }
 
   ngOnInit() {
+    this.allEmails$ = this.stroe.pipe(
+      select(fromAdmin.userSelectors.selectAll),
+      map(users => users.map(user => user.email))
+    )
+
+    this.stroe.dispatch(query());
+
     this.filteredEmails$ = this.emailCtrl.valueChanges.pipe(
       startWith(null),
-      map((email: string | null) => email ? this._filter(email) : this.allEmails.slice()));
+      mergeMap((email: string | null) => email ? this._filter(email) : this.allEmails$));
   }
 
   add(event: MatChipInputEvent): void {
@@ -52,7 +62,9 @@ export class SelectUsersDialogComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.emails.push(event.option.viewValue);
+    if (this.emails.indexOf(event.option.viewValue) < 0) {
+      this.emails.push(event.option.viewValue);
+    }
     this.emailInput.nativeElement.value = '';
     this.emailCtrl.setValue(null);
   }
@@ -64,10 +76,9 @@ export class SelectUsersDialogComponent implements OnInit {
     }
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Observable<string[]> {
     const filterValue = value.toLowerCase();
-
-    return this.allEmails.filter(email => email.toLowerCase().indexOf(filterValue) === 0);
+    return this.allEmails$.pipe(map(emails => emails.filter(email => email.toLowerCase().indexOf(filterValue) === 0)));
   }
 
 

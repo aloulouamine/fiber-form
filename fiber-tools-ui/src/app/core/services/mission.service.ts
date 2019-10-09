@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { Mission } from 'src/app/core/models/mission';
 import { tap } from 'rxjs/operators';
+import { Mission } from 'src/app/core/models/mission';
 import { Site } from '../models/site';
 
 const missionsCollection = 'missions';
@@ -47,8 +47,8 @@ export class MissionService {
       );
   }
 
-  updateMission(missionId: string, mission: Partial<Mission>): Observable<void> {
-    return from(this.afs.doc<Mission>(missionId).update(mission))
+  updateMission(siteId: string, missionId: string, mission: Partial<Mission>) {
+    return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
   }
 
   removeMission(site: Site, mission: Mission) {

@@ -2,6 +2,7 @@ import { Action, combineReducers, createFeatureSelector, createSelector } from '
 import * as fromSites from './sites.reducer';
 import * as fromUsers from './users.reducer';
 import * as fromMissions from './missions.reducer';
+import { User } from 'src/app/core/models/user';
 
 export const adminFeatureKey = 'admin';
 
@@ -46,4 +47,8 @@ export const sitesSelectors = fromSites.siteAdapter.getSelectors(getSites)
 export const missionsSelectors = fromMissions.missionAdapter.getSelectors(getMissions);
 
 export const userSelectors = fromUsers.userAdapter.getSelectors(getUsers);
+
+export const searchUserSelector = createSelector(
+  userSelectors.selectAll,
+  (users, { query }) => users.filter((user: User) => user.email.toLowerCase().includes(query.toLowerCase())))
 

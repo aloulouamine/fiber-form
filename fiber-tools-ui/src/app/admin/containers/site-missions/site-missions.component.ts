@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
-import { query } from '../../actions/mission.actions';
+import { query, update } from '../../actions/mission.actions';
 import { SelectUsersDialogComponent } from '../../components/select-users-dialog/select-users-dialog.component';
 import * as fromAdmin from '../../reducers';
 
@@ -44,7 +44,12 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
 
   onEdit(mission: Mission) {
     this.dialog.open(SelectUsersDialogComponent, {
-      data: mission.workingUsers ? [...mission.workingUsers] : []
+      data: mission.workingUsers ? [...mission.workingUsers] : [],
+      width: '90%'
+    }).afterClosed().subscribe((emails: string[]) => {
+      this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
+        this.store.dispatch(update({ siteId, missionId: mission.id, changes: { workingUsers: emails } }))
+      })
     });
   }
 }

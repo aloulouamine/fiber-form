@@ -34,8 +34,8 @@ export const removed = createAction(
 );
 
 export const update = createAction(
-  MissionActionTypes.REMOVED,
-  props<{ id: string, changes: Partial<Mission> }>()
+  MissionActionTypes.UPDATE,
+  props<{ siteId: string, missionId: string, changes: Partial<Mission> }>()
 );
 
 export const success = createAction(
