@@ -28,6 +28,7 @@ import { GestureConfig } from '@angular/material/core';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { CoreModule } from './core/core.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatInputModule,
     MatCardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     MatToolbarModule,

@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
-import { loadMissionApi } from '../../actions/mission-api.actions';
-import * as fromMissions from '../../reducers/mission.reducer';
+import { query } from '../../actions/mission-api.actions';
+import * as fromTechMissions from '../../reducers';
 
 @Component({
   selector: 'app-mission-form',
@@ -36,7 +36,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<fromMissions.AppState>,
+    private store: Store<fromTechMissions.State>,
     private route: ActivatedRoute,
     private userService: UserService
   ) {
@@ -45,14 +45,14 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.pipe(
       mergeMap(params => this.store.pipe(
-        select(fromMissions.selectMissionById, { id: params.id })
+        select(fromTechMissions.selectMissionById, { id: params.id })
       )),
       tap(mission => {
         if (!mission) {
           this.userService
             .getCurrentUserEmail()
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(workingUser => this.store.dispatch(loadMissionApi({ workingUser })))
+            .subscribe(workingUser => this.store.dispatch(query({ workingUser })))
         }
       }),
       filter(mission => !!mission),

@@ -28,23 +28,9 @@ export class MissionService {
     return this.afs.collection<Mission>(`sites/${siteId}/missions`).stateChanges();
   }
 
-  getAllMissionsForWorkingUser(workingUser: string): Observable<Mission[]> {
-
+  getAllMissionsForWorkingUser(workingUser: string): Observable<DocumentChangeAction<Mission>[]> {
     return this.afs.collectionGroup<Mission>('missions', ref => ref.where('workingUsers', 'array-contains', workingUser))
-      .valueChanges()
-      .pipe(
-        tap(missions => {
-          missions.forEach((mission, index) => {
-            // todo temporary id
-            mission.id = `${index}`;
-            mission.checkPoints.forEach(cp => {
-              if (cp && cp.properties && cp.properties.colorCode) {
-                cp.properties.colorCode = `#${cp.properties.colorCode}`;
-              }
-            });
-          });
-        })
-      );
+      .stateChanges();
   }
 
   updateMission(siteId: string, missionId: string, mission: Partial<Mission>) {

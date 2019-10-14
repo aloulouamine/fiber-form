@@ -1,41 +1,33 @@
-import {createAction, props} from '@ngrx/store';
-import {Mission} from '../../core/models/mission';
+import { createAction, props } from '@ngrx/store';
+import { Mission } from '../../core/models/mission';
 
 export enum MissionApiActionTypes {
-  LoadMissions = '[MissionApi] Load Missions',
-  LoadMissionsSuccess = '[MissionApi] Load Missions Success',
-  LoadMissionsFailure = '[MissionApi] Load Missions Failure',
-  AddMission = '[MissionApi] Add Missions',
-  AddMissionSuccess = '[MissionApi] Add Missions Success',
-  AddMissionFailure = '[MissionApi] Load Missions Failure',
+  QUERY = '[Mission] query',
+  ADDED = '[Mission] added',
+  MODIFIED = '[Mission] modified',
+  REMOVED = '[Mission] removed',
+  SUCCESS = '[Mission] success',
+  UPDATE = '[Mission] update',
 }
 
-export const loadMissionApi = createAction(
-  MissionApiActionTypes.LoadMissions,
+export const query = createAction(
+  MissionApiActionTypes.QUERY,
   props<{ workingUser: string }>()
 )
 
-export const loadMissionApiSuccess = createAction(
-  MissionApiActionTypes.LoadMissionsSuccess,
-  props<{ missions: Mission[] }>()
+export const added = createAction(
+  MissionApiActionTypes.ADDED,
+  props<{ payload: Mission }>()
 )
 
-export const loadMissionApiFailure = createAction(
-  MissionApiActionTypes.LoadMissionsFailure,
-  props<{ errorMessage: string }>()
+
+export const modified = createAction(
+  MissionApiActionTypes.MODIFIED,
+  props<{ payload: Mission }>()
 )
 
-export const addMissionApi = createAction(
-  MissionApiActionTypes.AddMission,
-  props<{ mission: Mission }>()
-)
 
-export const addMissionSuccess = createAction(
-  MissionApiActionTypes.AddMissionSuccess
+export const removed = createAction(
+  MissionApiActionTypes.REMOVED,
+  props<{ payload: Mission }>()
 )
-
-export const addMissionApiFailure = createAction(
-  MissionApiActionTypes.AddMissionFailure,
-  props<{ errorMessage: string }>()
-)
-

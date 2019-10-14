@@ -9,7 +9,7 @@ import { MissionFormComponent } from './containers/mission-form/mission-form.com
 import { MissionListComponent } from './containers/mission-list/mission-list.component';
 import { MissionEffects } from './effects/mission.effects';
 import { MissionRoutingModule } from './mission-routing.module';
-import * as fromMission from './reducers/mission.reducer';
+import * as fromTechMission from './reducers';
 
 
 
@@ -20,7 +20,7 @@ import * as fromMission from './reducers/mission.reducer';
     SharedModule,
     MissionRoutingModule,
     ReactiveFormsModule,
-    StoreModule.forFeature(fromMission.missionFeatureKey, fromMission.reducer),
+    StoreModule.forFeature(fromTechMission.TechMissionFeatureKey, fromTechMission.reducer),
     EffectsModule.forFeature([MissionEffects]),
   ]
 })

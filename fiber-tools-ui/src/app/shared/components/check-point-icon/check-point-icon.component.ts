@@ -36,7 +36,7 @@ export class CheckPointIconComponent implements OnInit {
   }
 
   invertBackground(color): boolean {
-    if (color === '#FFFFFF') {
+    if (color === 'FFFFFF') {
       return true;
     }
     return false;

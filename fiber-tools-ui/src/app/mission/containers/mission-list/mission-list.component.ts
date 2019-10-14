@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
-import { loadMissionApi } from '../../actions/mission-api.actions';
-import * as fromMissions from '../../reducers/mission.reducer';
-import { takeUntil } from 'rxjs/operators';
+import { query } from '../../actions/mission-api.actions';
+import * as fromTechMissions from '../../reducers';
 
 
 @Component({
@@ -21,12 +21,12 @@ export class MissionListComponent implements OnInit, OnDestroy {
   displayedColumns = ['id', 'number', 'checkPoints', 'actions'];
 
   constructor(
-    private store: Store<fromMissions.AppState>,
+    private store: Store<fromTechMissions.State>,
     private router: Router,
     private userService: UserService
   ) {
     this.missions$ = store.pipe(
-      select(fromMissions.selectUserMissions),
+      select(fromTechMissions.missionsSelectors.selectAll)
     )
   }
 
@@ -34,7 +34,7 @@ export class MissionListComponent implements OnInit, OnDestroy {
     this.userService.getCurrentUserEmail().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(
-      workingUser => this.store.dispatch(loadMissionApi({ workingUser }))
+      workingUser => this.store.dispatch(query({ workingUser }))
     );
   }
 
