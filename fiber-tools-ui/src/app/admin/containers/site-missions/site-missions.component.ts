@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
 import { query, update } from '../../actions/mission.actions';
 import { SelectUsersDialogComponent } from '../../components/select-users-dialog/select-users-dialog.component';
@@ -28,13 +28,10 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.missions$ = this.store.pipe(
-      select(fromAdmin.missionsSelectors.selectAll)
-    )
-    this.siteId$.pipe(
+    this.missions$ = this.siteId$.pipe(
       tap(siteId => this.store.dispatch(query({ siteId }))),
-      takeUntil(this.unsubscribe$)
-    ).subscribe()
+      mergeMap(siteId => this.store.pipe(select(fromAdmin.getSiteMissions, { siteId })))
+    )
   }
 
   ngOnDestroy() {

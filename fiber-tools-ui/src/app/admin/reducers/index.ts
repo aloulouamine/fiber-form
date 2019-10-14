@@ -46,6 +46,11 @@ export const sitesSelectors = fromSites.siteAdapter.getSelectors(getSites)
 
 export const missionsSelectors = fromMissions.missionAdapter.getSelectors(getMissions);
 
+export const getSiteMissions = createSelector(
+  missionsSelectors.selectAll,
+  (missions, { siteId }) => missions.filter(m => m.siteId === siteId)
+)
+
 export const userSelectors = fromUsers.userAdapter.getSelectors(getUsers);
 
 export const searchUserSelector = createSelector(
