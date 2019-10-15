@@ -1,6 +1,6 @@
-import { Component, HostBinding, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, noop } from 'rxjs';
 
 @Component({
   selector: 'app-picture-input',
@@ -20,6 +20,7 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   displayData;
   @Input() label;
   @Input() disabled = false;
+  @Input() url: string;
   @HostBinding('style.opacity')
   get opacity() {
     return this.disabled ? 0.25 : 1;
@@ -29,11 +30,9 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   onTouched = noop;
 
   private reader = new FileReader();
-  constructor() {
+  constructor() { }
 
-  }
-
-  writeValue(data: string) {
+  writeValue(data: File) {
     this.displayData = data;
     this.onChange(this.displayData);
   }
@@ -54,7 +53,6 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
     if (!this.disabled) {
       this.reader.onload = () => {
         this.displayData = this.reader.result;
-        this.writeValue(this.displayData);
         this.loading$.next(false);
       }
     }
@@ -63,11 +61,16 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   onFileChange(fileInput: HTMLInputElement) {
     this.loading$.next(true);
     this.reader.readAsDataURL(fileInput.files[0]);
+    this.writeValue(fileInput.files[0]);
   }
 
   clearPicture() {
     delete this.displayData;
-    this.writeValue(undefined);
+    this.writeValue(null);
+  }
+
+  removePicture() {
+    this.writeValue(null)
   }
 
 }

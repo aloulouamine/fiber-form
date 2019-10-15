@@ -17,5 +17,13 @@
   </a>
   <img [src]="displayData">
 </div>
+<div *ngIf="url && !displayData && !(loading$ | async)" class="picture-bloc">
+  <a *ngIf="!disabled" mat-fab color="warn" (click)="removePicture()">
+    <mat-icon>delete_forever</mat-icon>
+  </a>
+  <img [src]="url">
+</div>
+
+
 
 <mat-spinner *ngIf="loading$ | async"></mat-spinner>

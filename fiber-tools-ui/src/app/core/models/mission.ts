@@ -15,8 +15,14 @@ export interface Properties {
   checkpointType: CHECK_POINT_TYPE;
   colorCode: string;
   nbPhotos: number;
-  requiredPhotos?: any;
+  requiredPhotos: Photo[];
   nbOptionalPhotos: number;
+}
+
+
+export interface Photo {
+  label: string,
+  url: string
 }
 
 export enum MissionProgressStatus {

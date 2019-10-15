@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
-import { Site } from '../models/site';
 
 const missionsCollection = 'missions';
 
@@ -37,7 +35,4 @@ export class MissionService {
     return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
   }
 
-  removeMission(site: Site, mission: Mission) {
-
-  }
 }

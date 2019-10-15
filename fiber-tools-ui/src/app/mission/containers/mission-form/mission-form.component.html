@@ -7,7 +7,7 @@
       <!-- Touret -->
       <mat-form-field>
         <mat-label>Touret</mat-label>
-        <input matInput readonly type="text"/>
+        <input matInput readonly type="text" />
       </mat-form-field>
 
       <mat-form-field>
@@ -24,34 +24,46 @@
           </div>
         </ng-template>
         <mat-step formArrayName="checkPoints" *ngFor="let checkPoint of formCheckPointsControls; let i = index;"
-                  [stepControl]="checkPoint">
+          [stepControl]="checkPoint">
           <ng-template matStepLabel>
             <div>
-              <app-check-point-icon [checkPoint]="mission.checkPoints[i]"></app-check-point-icon>
-              {{mission.checkPoints[i].ref}}
+              <app-check-point-icon *ngIf="mission?.checkPoints[i]" [checkPoint]="mission?.checkPoints[i]"></app-check-point-icon>
+              {{mission?.checkPoints[i]?.ref}}
             </div>
           </ng-template>
+          <br>
+          <mat-chip-list *ngIf="i!==0">
+            <mat-chip>
+              <p><b>Distance: </b> {{mission?.links[i-1]?.value}} m</p>
+            </mat-chip>
+            <mat-chip>
+              <p><b>Section: </b>{{mission?.links[i-1]?.section}}</p>
+            </mat-chip>
+          </mat-chip-list>
+          <br>
+          <mat-divider></mat-divider>
+          <br>
           <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i">
-
-            <app-picture-input [label]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.label" [formControlName]="j"></app-picture-input>
-
+            <app-picture-input [label]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
+              [url]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.url" [formControlName]="j">
+            </app-picture-input>
           </div>
           <br>
           <mat-divider></mat-divider>
           <br>
-          <mat-chip-list *ngIf="mission.links[i]">
+          <mat-chip-list *ngIf="mission?.links[i]">
             <mat-chip>
-              <p><b>Distance: </b> {{mission.links[i].value}} m</p>
+              <p><b>Distance: </b> {{mission?.links[i]?.value}} m</p>
             </mat-chip>
             <mat-chip>
-              <p><b>Section: </b>{{mission.links[i].section}}</p>
+              <p><b>Section: </b>{{mission?.links[i]?.section}}</p>
             </mat-chip>
           </mat-chip-list>
         </mat-step>
       </mat-vertical-stepper>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button type="submit" [disabled]="form.invalid" mat-button>Envoyer le formulaire</button>
+      <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
     </mat-card-actions>
   </mat-card>
 </form>

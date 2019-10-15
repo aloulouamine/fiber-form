@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
-import { query } from '../../actions/mission-api.actions';
+import { query, updateCpPicture } from '../../actions/mission-api.actions';
 import * as fromTechMissions from '../../reducers';
 
 @Component({
@@ -60,21 +60,30 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     ).subscribe(
       (mission: Mission) => {
         this.mission = mission;
-        mission.checkPoints.map((cp) => {
+        this.formCheckPoints.clear();
+        mission.checkPoints.map((cp, cpIndex) => {
           const picturesFormGroup = this.fb.array([]);
           this.formCheckPoints.push(picturesFormGroup);
           Array.from({
             length: (cp.properties && cp.properties.requiredPhotos) ? cp.properties.requiredPhotos.length : 0
-          })
-            .forEach(() =>
-              picturesFormGroup.push(this.fb.control('', Validators.required))
-            );
+          }).forEach((_, pictureIndex) => {
+            const pictureControl = this.fb.control('', Validators.required);
+            pictureControl.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(file => {
+              this._onPictureChange(file, mission, cpIndex, pictureIndex);
+            })
+            picturesFormGroup.push(pictureControl)
+          }
+          );
         });
         this.form.get('ref').setValue(mission.number)
         this.form.get('cable').setValue(mission.cable)
         this.form.get('comment').setValue(mission.comments);
       }
     );
+  }
+
+  private _onPictureChange(file: File, mission: Mission, cpIndex: number, pictureIndex: number) {
+    this.store.dispatch(updateCpPicture({ file, mission, cpIndex, pictureIndex }));
   }
 
   ngOnDestroy() {
