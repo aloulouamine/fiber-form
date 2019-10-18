@@ -1,7 +1,7 @@
 <div class="action-bloc">
   <mat-form-field appearance="outline">
     <mat-label>Recherche</mat-label>
-    <input matInput (keyup)="applyFilter($event.target.value)" type="text" />
+    <input matInput (keyup)="applyFilter($event.target.value)" type="text"/>
     <mat-icon matSuffix>search</mat-icon>
     <mat-hint>
       Chercher une mission
@@ -9,14 +9,32 @@
   </mat-form-field>
 </div>
 <table mat-table [dataSource]="missionsDataSource" matSort>
+
+  <!--   Show in dev mod only-->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Réf.</th>
     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
   </ng-container>
+  <!--   -->
+
   <ng-container matColumnDef="number">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>N°</th>
     <td mat-cell *matCellDef="let element"> {{element.number}} </td>
   </ng-container>
+
+  <ng-container matColumnDef="nro">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>NRO</th>
+    <td mat-cell *matCellDef="let element"> {{element.nro}} </td>
+  </ng-container>
+  <ng-container matColumnDef="capacity">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Capacité</th>
+    <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+  </ng-container>
+  <ng-container matColumnDef="pm">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Point mutualisation</th>
+    <td mat-cell *matCellDef="let element"> {{element.pm}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="checkPoints">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr rac.</th>
     <td mat-cell *matCellDef="let element"> {{element.checkPoints.length}} </td>

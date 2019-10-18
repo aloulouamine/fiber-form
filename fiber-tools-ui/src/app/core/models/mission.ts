@@ -1,4 +1,4 @@
-import { CHECK_POINT_TYPE } from '../enum/check-point-type';
+import {CHECK_POINT_TYPE} from '../enum/check-point-type';
 
 export interface CheckPoint {
   ref: string;
@@ -65,4 +65,8 @@ export interface Mission {
   updateDate?: Date;
   comments: Comment[];
   siteId: string;
+  nro: string;
+  pm: string;
+  capacity: string;
+
 }
