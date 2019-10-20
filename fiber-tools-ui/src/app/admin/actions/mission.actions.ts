@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Mission } from 'src/app/core/models/Mission';
+import { Mission } from 'src/app/core/models/mission';
 
 export enum MissionActionTypes {
   QUERY = '[Mission admin] query site missions',
