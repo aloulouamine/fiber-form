@@ -1,16 +1,17 @@
 <div class="commentaire">
   <mat-card class="comment-card">
     <mat-card-header>
-      <img mat-card-avatar src="https://avatarsed1.serversdev.getgo.com/2205256774854474505_medium.jpg">
-      <mat-card-title class="title-comm">{{comment.user}}</mat-card-title>
+      <img mat-card-avatar *ngIf="!user?.photoURL" src="assets/pictures/profile.jpg">
+      <img mat-card-avatar *ngIf="user?.photoURL" [src]="user.photoURL">
+      <mat-card-title class="title-comm">{{user?.displayName ? user?.displayName : user?.email}}</mat-card-title>
       <mat-card-subtitle class="subtitle-comm">{{date | date : 'dd/MM/yyyy à HH:mm'}}</mat-card-subtitle>
     </mat-card-header>
-
     <mat-card-content class="content-comm">
       <p>
         {{comment.message}}
       </p>
       <img *ngFor="let pic of comment.photos" [src]="pic.url">
     </mat-card-content>
+
   </mat-card>
 </div>

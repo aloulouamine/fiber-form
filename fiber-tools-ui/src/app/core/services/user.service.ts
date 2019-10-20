@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { User } from '../models/user';
 import { map } from 'rxjs/operators';
+import { User } from '../models/user';
+
 const usersCollection = 'users';
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class UserService {
 
   public getUserByEmail(email: string) {
     return this.afs.collection(usersCollection)
-      .doc(email)
+      .doc<User>(email)
       .valueChanges()
   }
 
