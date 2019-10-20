@@ -7,7 +7,7 @@ export enum MissionApiActionTypes {
   MODIFIED = '[Mission] modified',
   REMOVED = '[Mission] removed',
   SUCCESS = '[Mission] success',
-  UPDATE_CP_PICTURE = '[Mission] update picture',
+  COMMENT_ADDED = '[Mission] comment added'
 }
 
 export const query = createAction(
@@ -32,7 +32,6 @@ export const removed = createAction(
   props<{ payload: Mission }>()
 )
 
-export const updateCpPicture = createAction(
-  MissionApiActionTypes.UPDATE_CP_PICTURE,
-  props<{ file: File, mission : Mission, cpIndex: number, pictureIndex: number}>()
+export const commentAdded = createAction(
+  MissionApiActionTypes.COMMENT_ADDED
 )

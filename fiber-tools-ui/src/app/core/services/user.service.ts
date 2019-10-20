@@ -13,6 +13,11 @@ export class UserService {
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth
   ) { }
+
+  public getCurrentUser() {
+    return this.afAuth.user;
+  }
+
   public getTireurs() {
     return this.afs.collection(
       usersCollection,

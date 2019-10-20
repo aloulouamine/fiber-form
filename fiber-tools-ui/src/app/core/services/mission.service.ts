@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { Mission } from 'src/app/core/models/mission';
+import { map, mergeMap } from 'rxjs/operators';
+import { Comment, Mission } from 'src/app/core/models/mission';
+import uuidv4 from 'uuidv4';
+import { UserService } from './user.service';
 
 const missionsCollection = 'missions';
 
@@ -10,9 +13,7 @@ const missionsCollection = 'missions';
 })
 export class MissionService {
 
-  constructor(private afs: AngularFirestore) {
-
-  }
+  constructor(private afs: AngularFirestore, private userService: UserService) { }
 
   getMissions(): Observable<Mission[]> {
     return this.afs.collection<Mission>(missionsCollection).valueChanges({ idField: 'id' });
@@ -35,4 +36,25 @@ export class MissionService {
     return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
   }
 
+  addComment(mission: Mission, message: string): Observable<void> {
+    const now = new Date();
+    const id = uuidv4();
+    return this.userService.getCurrentUser().pipe(
+      map(user => <Comment>({
+        id,
+        message,
+        createdAt: now,
+        updateAt: now,
+        photos: [],
+        user: user.email
+      })),
+      mergeMap(comment => {
+        const comments = mission.comments ? [...mission.comments] : [];
+        comments.push(comment);
+        return this.updateMission(mission.siteId, mission.id, {
+          comments
+        });
+      })
+    );
+  }
 }

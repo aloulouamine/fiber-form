@@ -1,20 +1,14 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <mat-card>
-    <!-- Chantier-->
-    <mat-card-title>{{mission?.number}}</mat-card-title>
+<mat-card>
+  <!-- Chantier-->
+  <mat-card-title>{{(mission$ |  async )?.number}}</mat-card-title>
 
-    <mat-card-content>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
       <!-- Touret -->
       <mat-form-field>
         <mat-label>Touret</mat-label>
         <input matInput readonly type="text" />
       </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Commentaire</mat-label>
-        <textarea matInput rows="5" formControlName="comment" type="text"></textarea>
-      </mat-form-field>
-
       <!-- Photos des chambres-->
       <mat-vertical-stepper>
         <!-- Custom icon with a context variable. -->
@@ -27,43 +21,57 @@
           [stepControl]="checkPoint">
           <ng-template matStepLabel>
             <div>
-              <app-check-point-icon *ngIf="mission?.checkPoints[i]" [checkPoint]="mission?.checkPoints[i]"></app-check-point-icon>
-              {{mission?.checkPoints[i]?.ref}}
+              <app-check-point-icon *ngIf="(mission$ | async)?.checkPoints[i]"
+                [checkPoint]="(mission$ | async)?.checkPoints[i]">
+              </app-check-point-icon>
+              {{(mission$ | async)?.checkPoints[i]?.ref}}
             </div>
           </ng-template>
           <br>
           <mat-chip-list *ngIf="i!==0">
             <mat-chip>
-              <p><b>Distance: </b> {{mission?.links[i-1]?.value}} m</p>
+              <p><b>Distance: </b> {{(mission$ | async)?.links[i-1]?.value}} m</p>
             </mat-chip>
             <mat-chip>
-              <p><b>Section: </b>{{mission?.links[i-1]?.section}}</p>
+              <p><b>Section: </b>{{(mission$ | async)?.links[i-1]?.section}}</p>
             </mat-chip>
           </mat-chip-list>
           <br>
           <mat-divider></mat-divider>
           <br>
           <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i">
-            <app-picture-input [label]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
-              [url]="mission.checkPoints[i]?.properties?.requiredPhotos[j]?.url" [formControlName]="j">
+            <app-picture-input [label]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
+              [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url" [formControlName]="j">
             </app-picture-input>
           </div>
           <br>
           <mat-divider></mat-divider>
           <br>
-          <mat-chip-list *ngIf="mission?.links[i]">
+          <mat-chip-list *ngIf="(mission$ | async)?.links[i]">
             <mat-chip>
-              <p><b>Distance: </b> {{mission?.links[i]?.value}} m</p>
+              <p><b>Distance: </b> {{(mission$ | async)?.links[i]?.value}} m</p>
             </mat-chip>
             <mat-chip>
-              <p><b>Section: </b>{{mission?.links[i]?.section}}</p>
+              <p><b>Section: </b>{{(mission$ | async)?.links[i]?.section}}</p>
             </mat-chip>
           </mat-chip-list>
         </mat-step>
       </mat-vertical-stepper>
-    </mat-card-content>
-    <mat-card-actions align="end">
-      <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+    </form>
+    <ng-container *ngIf="(mission$|async)?.comments">
+      <ng-container *ngFor="let comment of (mission$ | async)?.comments">
+        <app-comment-display [comment]="comment">
+        </app-comment-display>
+      </ng-container>
+    </ng-container>
+    <mat-form-field>
+      <mat-label>Commentaire</mat-label>
+      <textarea [disabled]="writingComment$ | async" #commentText matInput rows="5" type="text"></textarea>
+    </mat-form-field>
+    <button mat-button [disabled]="(writingComment$| async) || !commentText.value.length"
+      (click)="addComment(commentText.value)">Commenter</button>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <!-- <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button> -->
+  </mat-card-actions>
+</mat-card>

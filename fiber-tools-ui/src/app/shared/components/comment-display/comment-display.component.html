@@ -1,0 +1,14 @@
+<div>
+  <mat-chip>
+    <div>
+      <div>
+        <span class="commenter">
+          {{comment.user}}
+        </span>
+        (le {{date | date : 'medium'}})
+      </div>
+      <div>{{comment.message}}</div>
+    </div>
+  </mat-chip>
+</div>
+<mat-divider></mat-divider>

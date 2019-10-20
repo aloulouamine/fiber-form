@@ -6,7 +6,8 @@ import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
 import { MissionService } from 'src/app/core/services/mission.service';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { added, MissionApiActionTypes, modified, removed } from '../actions/mission-api.actions';
+import { added, MissionApiActionTypes, modified, removed, commentAdded } from '../actions/mission-api.actions';
+import { MissionFormActionTypes } from '../actions/mission-form.actions';
 
 
 @Injectable()
@@ -29,7 +30,7 @@ export class MissionEffects {
 
 
   update$ = createEffect(() => this.actions$.pipe(
-    ofType(MissionApiActionTypes.UPDATE_CP_PICTURE),
+    ofType(MissionFormActionTypes.UPDATE_CP_PICTURE),
     switchMap((action: { file: File, mission: Mission, cpIndex: number, pictureIndex: number }) => {
       if (action.file) {
         return this.storageService.putPicture(action.file, action.mission, action.cpIndex, action.pictureIndex)
@@ -75,6 +76,7 @@ export class MissionEffects {
         };
         return of(this.missionService.updateMission(mission.siteId, mission.id, mission).pipe(
           map(() => mission),
+          // TODO keep picture history
           tap(() => this.storageService.removePicture(action.mission.checkPoints[action.cpIndex].properties.requiredPhotos[action.pictureIndex].url).then())
         ));
       }
@@ -82,6 +84,15 @@ export class MissionEffects {
     mergeMap(mission => mission),
     map((mission: Mission) => modified({ payload: mission }))
   ));
+
+
+  addComment$ = createEffect(() => this.actions$.pipe(
+    ofType(MissionFormActionTypes.ADD_COMMENT),
+    switchMap(({ mission, comment }) => {
+      return this.missionService.addComment(mission, comment);
+    }),
+    map(() => commentAdded())
+  ))
 
   constructor(private actions$: Actions, private missionService: MissionService, private storageService: StorageService) {
   }

@@ -1,18 +1,19 @@
+import { registerLocaleData } from '@angular/common';
+import localeFrExtra from '@angular/common/locales/extra/fr';
+import localeFr from '@angular/common/locales/fr';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { GestureConfig } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -22,13 +23,12 @@ import { AppComponent } from './app.component';
 import { AppEffects } from './app.effects';
 import { AuthenticatorDirective } from './auth/authenticator.directive';
 import { LoginComponent } from './auth/login/login.component';
+import { CoreModule } from './core/core.module';
 import { HomeComponent } from './home/home/home.component';
 import { metaReducers, reducers } from './reducers';
-import { GestureConfig } from '@angular/material/core';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { CoreModule } from './core/core.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+import { SharedModule } from './shared/shared.module';
+
+registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 
 @NgModule({
   declarations: [
@@ -41,6 +41,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
+    SharedModule,
     AppRoutingModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -50,12 +51,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatMenuModule,
+
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

@@ -35,3 +35,8 @@ export const selectMissionById = createSelector(
   }
 )
 
+export const isWritingComment = createSelector(
+  getMissions,
+  state => state.writingComment
+);
+

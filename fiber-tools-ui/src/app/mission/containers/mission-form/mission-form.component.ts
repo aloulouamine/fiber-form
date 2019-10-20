@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { filter, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
-import { query, updateCpPicture } from '../../actions/mission-api.actions';
+import { query } from '../../actions/mission-api.actions';
+import { addComment, updateCpPicture } from '../../actions/mission-form.actions';
 import * as fromTechMissions from '../../reducers';
 
 @Component({
@@ -16,14 +17,20 @@ import * as fromTechMissions from '../../reducers';
 })
 export class MissionFormComponent implements OnInit, OnDestroy {
 
+  @ViewChild('commentText', { static: true }) commentText: ElementRef;
+
   unsubscribe$ = new Subject<void>();
 
-  mission: Mission;
+  mission$: Observable<Mission>;
+
+  writingComment$: Observable<boolean> = this.store.pipe(
+    select(fromTechMissions.isWritingComment)
+  );
+
   form = this.fb.group({
     cable: [''],
     checkPoints: this.fb.array([]),
-    ref: ['', Validators.required],
-    comment: ['']
+    ref: ['', Validators.required]
   });
 
   get formCheckPoints(): FormArray {
@@ -43,7 +50,12 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.params.pipe(
+    this.writingComment$
+      .pipe(filter(v => !v),
+        takeUntil(this.unsubscribe$))
+      .subscribe(() => this.commentText.nativeElement.value = '');
+
+    this.mission$ = this.route.params.pipe(
       mergeMap(params => this.store.pipe(
         select(fromTechMissions.selectMissionById, { id: params.id })
       )),
@@ -55,11 +67,11 @@ export class MissionFormComponent implements OnInit, OnDestroy {
             .subscribe(workingUser => this.store.dispatch(query({ workingUser })))
         }
       }),
-      filter(mission => !!mission),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(
+      filter(mission => !!mission)
+    );
+
+    this.mission$.pipe(takeUntil(this.unsubscribe$)).subscribe(
       (mission: Mission) => {
-        this.mission = mission;
         this.formCheckPoints.clear();
         mission.checkPoints.map((cp, cpIndex) => {
           const picturesFormGroup = this.fb.array([]);
@@ -77,7 +89,6 @@ export class MissionFormComponent implements OnInit, OnDestroy {
         });
         this.form.get('ref').setValue(mission.number)
         this.form.get('cable').setValue(mission.cable)
-        this.form.get('comment').setValue(mission.comments);
       }
     );
   }
@@ -93,6 +104,10 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   submit() {
     console.log('done');
+  }
+
+  addComment(comment: string) {
+    this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, mission })))
   }
 
 }

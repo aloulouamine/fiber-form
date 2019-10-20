@@ -19,55 +19,50 @@ import { CheckPointIconComponent } from './components/check-point-icon/check-poi
 import { MissionsTableComponent } from './components/missions-table/missions-table.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommentDisplayComponent } from './components/comment-display/comment-display.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+
+const MATERIAL_MODULES = [
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatButtonModule,
+  MatCardModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatPaginatorModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSidenavModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTableModule,
+  MatToolbarModule,
+]
 @NgModule({
-  declarations: [CheckPointIconComponent, MissionsTableComponent],
+  declarations: [CheckPointIconComponent, MissionsTableComponent, CommentDisplayComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     // material
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatStepperModule,
-    MatTableModule,
-    MatTableModule,
-    MatToolbarModule,
+    ... MATERIAL_MODULES
   ],
   exports: [
     ReactiveFormsModule,
     //material
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatStepperModule,
-    MatTableModule,
-    MatTableModule,
-    MatToolbarModule,
+    ... MATERIAL_MODULES,
     //components
     CheckPointIconComponent,
-    MissionsTableComponent
+    MissionsTableComponent,
+    CommentDisplayComponent
   ]
 })
 export class SharedModule { }

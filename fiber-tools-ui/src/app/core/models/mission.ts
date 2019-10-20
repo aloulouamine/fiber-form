@@ -1,3 +1,4 @@
+import { Timestamp } from '@firebase/firestore-types';
 import { CHECK_POINT_TYPE } from '../enum/check-point-type';
 
 export interface CheckPoint {
@@ -44,10 +45,12 @@ export enum MissionType {
 }
 
 export interface Comment {
+  id: string;
   message: string;
-  updateAt: Date;
-  createdAt: Date;
+  updateAt: Timestamp | Date;
+  createdAt: Timestamp | Date;
   user: string;
+  photos: Photo[]
 }
 
 export interface Mission {

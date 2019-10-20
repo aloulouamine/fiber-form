@@ -1,32 +1,27 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { Mission } from '../../core/models/mission';
-import { added, modified, removed } from '../actions/mission-api.actions';
+import { added, modified, removed, commentAdded } from '../actions/mission-api.actions';
+import { addComment } from '../actions/mission-form.actions';
 
 
 export const missionFeatureKey = 'mission';
 
-export interface State extends EntityState<Mission> { }
+export interface State extends EntityState<Mission> {
+  writingComment: boolean
+}
 
 export const missionAdapter = createEntityAdapter<Mission>();
 
-export const initialState: State = missionAdapter.getInitialState();
+export const initialState: State = missionAdapter.getInitialState({
+  writingComment: false
+});
 
 export const missionsReducer = createReducer(
   initialState,
   on(added, (state, action) => missionAdapter.addOne(action.payload, state)),
   on(modified, (state, action) => missionAdapter.updateOne({ id: action.payload.id, changes: action.payload }, state)),
-  on(removed, (state, action) => missionAdapter.removeOne(action.payload.id, state))
+  on(removed, (state, action) => missionAdapter.removeOne(action.payload.id, state)),
+  on(addComment, state => ({ ...state, writingComment: true })),
+  on(commentAdded, state => ({ ...state, writingComment: false }))
 );
-
-
-
-/* export const missionsSelectors = missionAdapter.getSelectors(selectMissions);
-
-export const selectMissionById = createSelector(
-  missionsSelectors.selectAll,
-  (missions: Mission[], props) => {
-    let index = missions.findIndex(mission => mission.id === props.id)
-    return index >= 0 ? missions[index] : missions[0];
-  }
-) */
