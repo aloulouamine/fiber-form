@@ -1,4 +1,16 @@
-.commenter {
-  font-weight: bold;
-  color: blue;
+.commentaire {
+  margin: 20px 10px;
+}
+
+.titleComm, .contentComm{
+  font-size: 15px;
+}
+
+.subtitleComm {
+  font-size: 11px;
+}
+
+.commentCard {
+  max-width: 100%;
+  background-color: #F8F8F8;
 }
