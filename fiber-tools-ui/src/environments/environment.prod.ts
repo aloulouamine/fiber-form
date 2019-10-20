@@ -7,6 +7,7 @@ export const environment = {
     projectId: "fiber-tools",
     storageBucket: "fiber-tools.appspot.com",
     messagingSenderId: "798697043052",
-    appId: "1:798697043052:web:0ee0099fdf97fb09"
+    appId: "1:798697043052:web:0ee0099fdf97fb09",
+    measurementId: "G-TPRPKSX51M"
   }
 };
