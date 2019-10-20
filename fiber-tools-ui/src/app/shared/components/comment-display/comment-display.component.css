@@ -2,15 +2,20 @@
   margin: 20px 10px;
 }
 
-.titleComm, .contentComm{
+.title-comm, .content-comm{
   font-size: 15px;
 }
 
-.subtitleComm {
+.subtitle-comm {
   font-size: 11px;
 }
 
-.commentCard {
+.comment-card {
   max-width: 100%;
   background-color: #F8F8F8;
+}
+
+img {
+  max-height: 200px;
+  max-width: 200px;
 }
