@@ -1,14 +1,15 @@
-<div>
-  <mat-chip>
-    <div>
-      <div>
-        <span class="commenter">
-          {{comment.user}}
-        </span>
-        (le {{date | date : 'medium'}})
-      </div>
-      <div>{{comment.message}}</div>
-    </div>
-  </mat-chip>
+<div class="commentaire">
+  <mat-card class="commentCard">
+    <mat-card-header>
+      <img mat-card-avatar src="https://avatarsed1.serversdev.getgo.com/2205256774854474505_medium.jpg">
+      <mat-card-title class="titleComm">{{comment.user}}</mat-card-title>
+      <mat-card-subtitle class="subtitleComm">{{date | date : 'dd/MM/yyyy à HH:mm'}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="contentComm">
+      <p>
+        {{comment.message}}
+      </p>
+    </mat-card-content>
+  </mat-card>
 </div>
-<mat-divider></mat-divider>
