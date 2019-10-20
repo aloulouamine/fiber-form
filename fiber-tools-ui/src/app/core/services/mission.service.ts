@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { Comment, Mission } from 'src/app/core/models/mission';
+import { map } from 'rxjs/operators';
+import { Comment, Mission, Photo } from 'src/app/core/models/mission';
 import uuidv4 from 'uuidv4';
 import { UserService } from './user.service';
 
@@ -36,25 +36,25 @@ export class MissionService {
     return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
   }
 
-  addComment(mission: Mission, message: string): Observable<void> {
+  addComment(mission: Mission, comment: Comment): Observable<Comment> {
+    const comments = mission.comments ? [...mission.comments] : [];
+    comments.push(comment);
+    return this.updateMission(mission.siteId, mission.id, {
+      comments
+    }).pipe(map(() => comment));
+  }
+
+  createNewComment(message: string, photos: Photo[]): Observable<Comment> {
     const now = new Date();
-    const id = uuidv4();
     return this.userService.getCurrentUser().pipe(
       map(user => <Comment>({
-        id,
+        id: uuidv4(),
         message,
         createdAt: now,
         updateAt: now,
-        photos: [],
+        photos,
         user: user.email
-      })),
-      mergeMap(comment => {
-        const comments = mission.comments ? [...mission.comments] : [];
-        comments.push(comment);
-        return this.updateMission(mission.siteId, mission.id, {
-          comments
-        });
-      })
+      }))
     );
   }
 }

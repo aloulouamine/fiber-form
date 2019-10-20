@@ -59,17 +59,11 @@
       </mat-vertical-stepper>
     </form>
     <ng-container *ngIf="(mission$|async)?.comments">
-      <ng-container *ngFor="let comment of (mission$ | async)?.comments">
-        <app-comment-display [comment]="comment">
-        </app-comment-display>
-      </ng-container>
+      <app-comment-display *ngFor="let comment of (mission$ | async)?.comments" [comment]="comment">
+      </app-comment-display>
     </ng-container>
-    <mat-form-field>
-      <mat-label>Commentaire</mat-label>
-      <textarea [disabled]="writingComment$ | async" #commentText matInput rows="5" type="text"></textarea>
-    </mat-form-field>
-    <button mat-button [disabled]="(writingComment$| async) || !commentText.value.length"
-      (click)="addComment(commentText.value)">Commenter</button>
+    <mat-spinner [diameter]="25" *ngIf="writingComment$ | async"></mat-spinner>
+    <app-comment-edit [disabled]="writingComment$ | async" (send)="addComment($event)"></app-comment-edit>
   </mat-card-content>
   <mat-card-actions align="end">
     <!-- <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button> -->

@@ -3,12 +3,11 @@ import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { Mission } from 'src/app/core/models/mission';
+import { Comment, Mission } from 'src/app/core/models/mission';
 import { MissionService } from 'src/app/core/services/mission.service';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { added, MissionApiActionTypes, modified, removed, commentAdded } from '../actions/mission-api.actions';
+import { added, commentAdded, MissionApiActionTypes, modified, removed } from '../actions/mission-api.actions';
 import { MissionFormActionTypes } from '../actions/mission-form.actions';
-
 
 @Injectable()
 export class MissionEffects {
@@ -33,7 +32,7 @@ export class MissionEffects {
     ofType(MissionFormActionTypes.UPDATE_CP_PICTURE),
     switchMap((action: { file: File, mission: Mission, cpIndex: number, pictureIndex: number }) => {
       if (action.file) {
-        return this.storageService.putPicture(action.file, action.mission, action.cpIndex, action.pictureIndex)
+        return this.storageService.putCheckpointPicture(action.file, action.mission, action.cpIndex, action.pictureIndex)
           .then((up: UploadTaskSnapshot) => {
             return up.ref.getDownloadURL().then(url => {
               const mission = {
@@ -88,11 +87,28 @@ export class MissionEffects {
 
   addComment$ = createEffect(() => this.actions$.pipe(
     ofType(MissionFormActionTypes.ADD_COMMENT),
-    switchMap(({ mission, comment }) => {
-      return this.missionService.addComment(mission, comment);
+    switchMap(({ mission, comment, file }) => {
+      if (file) {
+        return this.missionService.createNewComment(comment, []).pipe(
+          mergeMap((c: Comment) => this.storageService.putCommentPicture(mission, file, c).pipe(
+            mergeMap((up: UploadTaskSnapshot) => {
+              return up.ref.getDownloadURL().then(url => {
+                c.photos = [{
+                  label: '',
+                  url
+                }];
+                return c;
+              });
+            })
+          )),
+          mergeMap(c => this.missionService.addComment(mission, c))
+        );
+      }
+      return this.missionService.createNewComment(comment, [])
+        .pipe(mergeMap(c => this.missionService.addComment(mission, c)))
     }),
     map(() => commentAdded())
-  ))
+  ));
 
   constructor(private actions$: Actions, private missionService: MissionService, private storageService: StorageService) {
   }

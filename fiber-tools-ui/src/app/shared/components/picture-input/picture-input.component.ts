@@ -1,4 +1,4 @@
-import { Component, forwardRef, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BehaviorSubject, noop } from 'rxjs';
 
@@ -21,6 +21,7 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   @Input() label;
   @Input() disabled = false;
   @Input() url: string;
+  @Output() select = new EventEmitter<File>();
   @HostBinding('style.opacity')
   get opacity() {
     return this.disabled ? 0.25 : 1;
@@ -62,11 +63,13 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
     this.loading$.next(true);
     this.reader.readAsDataURL(fileInput.files[0]);
     this.writeValue(fileInput.files[0]);
+    this.select.next(fileInput.files[0]);
   }
 
   clearPicture() {
     delete this.displayData;
     this.writeValue(null);
+    this.select.next();
   }
 
   removePicture() {

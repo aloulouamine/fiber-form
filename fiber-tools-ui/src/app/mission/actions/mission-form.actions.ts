@@ -13,5 +13,5 @@ export const updateCpPicture = createAction(
 
 export const addComment = createAction(
   MissionFormActionTypes.ADD_COMMENT,
-  props<{ mission: Mission, comment: string }>()
+  props<{ mission: Mission, file: File, comment: string }>()
 );

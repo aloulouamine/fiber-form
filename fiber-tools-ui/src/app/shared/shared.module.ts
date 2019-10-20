@@ -23,6 +23,8 @@ import { CommentDisplayComponent } from './components/comment-display/comment-di
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { CommentEditComponent } from './components/comment-edit/comment-edit.component';
+import { PictureInputComponent } from './components/picture-input/picture-input.component';
 
 const MATERIAL_MODULES = [
   MatAutocompleteModule,
@@ -47,22 +49,28 @@ const MATERIAL_MODULES = [
   MatTableModule,
   MatToolbarModule,
 ]
+
+const DECLARATIONS = [
+  CheckPointIconComponent,
+  MissionsTableComponent,
+  CommentDisplayComponent,
+  CommentEditComponent,
+  PictureInputComponent
+];
 @NgModule({
-  declarations: [CheckPointIconComponent, MissionsTableComponent, CommentDisplayComponent],
+  declarations: DECLARATIONS,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     // material
-    ... MATERIAL_MODULES
+    ...MATERIAL_MODULES
   ],
   exports: [
     ReactiveFormsModule,
     //material
-    ... MATERIAL_MODULES,
+    ...MATERIAL_MODULES,
     //components
-    CheckPointIconComponent,
-    MissionsTableComponent,
-    CommentDisplayComponent
+    ...DECLARATIONS
   ]
 })
 export class SharedModule { }

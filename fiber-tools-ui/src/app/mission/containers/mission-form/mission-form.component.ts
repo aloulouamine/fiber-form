@@ -17,8 +17,6 @@ import * as fromTechMissions from '../../reducers';
 })
 export class MissionFormComponent implements OnInit, OnDestroy {
 
-  @ViewChild('commentText', { static: true }) commentText: ElementRef;
-
   unsubscribe$ = new Subject<void>();
 
   mission$: Observable<Mission>;
@@ -50,10 +48,6 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.writingComment$
-      .pipe(filter(v => !v),
-        takeUntil(this.unsubscribe$))
-      .subscribe(() => this.commentText.nativeElement.value = '');
 
     this.mission$ = this.route.params.pipe(
       mergeMap(params => this.store.pipe(
@@ -106,8 +100,8 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     console.log('done');
   }
 
-  addComment(comment: string) {
-    this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, mission })))
+  addComment({ comment, file }) {
+    this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })))
   }
 
 }

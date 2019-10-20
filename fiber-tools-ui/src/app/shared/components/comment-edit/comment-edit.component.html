@@ -1,0 +1,8 @@
+<mat-form-field appearance="outline">
+  <mat-label>Ecrire un commentaire ...</mat-label>
+  <textarea [disabled]="disabled" #commentText matInput rows="5" type="text"></textarea>
+</mat-form-field>
+<app-picture-input #pictureInput (select)="addFile($event)"></app-picture-input>
+<button mat-icon-button [disabled]="disabled || !commentText.value.length" (click)="addComment(commentText.value)">
+  <mat-icon>send</mat-icon>
+</button>
