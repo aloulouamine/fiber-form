@@ -51,7 +51,6 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
-
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

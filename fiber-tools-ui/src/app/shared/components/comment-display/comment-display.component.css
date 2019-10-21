@@ -6,6 +6,10 @@
   font-size: 15px;
 }
 
+.content-comm p {
+  word-break: break-word;
+}
+
 .subtitle-comm {
   font-size: 11px;
 }
