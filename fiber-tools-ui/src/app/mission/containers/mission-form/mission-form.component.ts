@@ -71,10 +71,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
           const picturesFormGroup = this.fb.array([]);
           this.formCheckPoints.push(picturesFormGroup);
           // TODO check not requiring photos
-          if (cp.notRequiringPhotos) { 
-            debugger;
-            return;
-           }
+          if (cp.notRequiringPhotos) { return; }
           Array.from({
             length: (cp.properties && cp.properties.requiredPhotos) ? cp.properties.requiredPhotos.length : 0
           }).forEach((_, pictureIndex) => {

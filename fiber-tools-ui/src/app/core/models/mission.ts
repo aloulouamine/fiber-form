@@ -62,6 +62,7 @@ export interface Mission {
   checkPoints: CheckPoint[];
   links: CheckPointLink[];
   cable?: string;
+  sectionPreffixFromFirst: string;
   progress?: MissionProgressStatus;
   sync?: MissionSyncStatus;
   workingUsers?: string[];

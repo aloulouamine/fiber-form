@@ -33,7 +33,7 @@
               <p><b>Distance: </b> {{(mission$ | async)?.links[i-1]?.value}} m</p>
             </mat-chip>
             <mat-chip>
-              <p><b>Section: </b>{{(mission$ | async)?.links[i-1]?.section}}</p>
+              <p>{{(mission$ | async).sectionPreffixFromFirst}}-{{(mission$ | async)?.links[i-1]?.section}}</p>
             </mat-chip>
           </mat-chip-list>
           <br>
@@ -52,7 +52,7 @@
               <p><b>Distance: </b> {{(mission$ | async)?.links[i]?.value}} m</p>
             </mat-chip>
             <mat-chip>
-              <p><b>Section: </b>{{(mission$ | async)?.links[i]?.section}}</p>
+              <p>{{(mission$ | async).sectionPreffixFromFirst}}-{{(mission$ | async)?.links[i]?.section}}</p>
             </mat-chip>
           </mat-chip-list>
         </mat-step>
