@@ -58,7 +58,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
           this.userService
             .getCurrentUserEmail()
             .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(workingUser => this.store.dispatch(query({ workingUser })))
+            .subscribe(workingUser => this.store.dispatch(query({ workingUser })));
         }
       }),
       filter(mission => !!mission)
@@ -76,13 +76,13 @@ export class MissionFormComponent implements OnInit, OnDestroy {
             const pictureControl = this.fb.control('', Validators.required);
             pictureControl.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(file => {
               this._onPictureChange(file, mission, cpIndex, pictureIndex);
-            })
-            picturesFormGroup.push(pictureControl)
+            });
+            picturesFormGroup.push(pictureControl);
           }
           );
         });
-        this.form.get('ref').setValue(mission.number)
-        this.form.get('cable').setValue(mission.cable)
+        this.form.get('ref').setValue(mission.number);
+        this.form.get('cable').setValue(mission.cable);
       }
     );
   }
@@ -101,7 +101,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   }
 
   addComment({ comment, file }) {
-    this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })))
+    this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })));
   }
 
 }

@@ -27,7 +27,7 @@ export class MissionListComponent implements OnInit, OnDestroy {
   ) {
     this.missions$ = store.pipe(
       select(fromTechMissions.missionsSelectors.selectAll)
-    )
+    );
   }
 
   ngOnInit() {
@@ -44,6 +44,6 @@ export class MissionListComponent implements OnInit, OnDestroy {
   }
 
   editMission(mission: Mission) {
-    this.router.navigate(['mission', mission.id])
+    this.router.navigate(['mission', mission.id]);
   }
 }

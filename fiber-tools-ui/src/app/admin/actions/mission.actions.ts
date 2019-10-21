@@ -46,14 +46,14 @@ export const success = createAction(
 export const loadMissionsApiError = createAction(
   MissionActionTypes.ERROR,
   props<{ errorMessage: string }>()
-)
+);
 
 export const add = createAction(
   MissionActionTypes.ADD,
   props<{ payload: Mission }>()
-)
+);
 
 export const remove = createAction(
   MissionActionTypes.REMOVE,
   props<{ payload: Mission }>()
-)
+);

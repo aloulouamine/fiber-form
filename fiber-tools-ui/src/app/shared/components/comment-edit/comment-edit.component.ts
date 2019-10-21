@@ -23,7 +23,7 @@ export class CommentEditComponent implements OnInit {
   }
 
   addComment(comment) {
-    this.send.next({ comment, file: this.file })
+    this.send.next({ comment, file: this.file });
     this.commentText.nativeElement.value = '';
     this.pictureInput.clearPicture();
   }

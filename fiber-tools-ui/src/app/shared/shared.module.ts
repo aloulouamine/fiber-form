@@ -48,7 +48,7 @@ const MATERIAL_MODULES = [
   MatTableModule,
   MatTableModule,
   MatToolbarModule,
-]
+];
 
 const DECLARATIONS = [
   CheckPointIconComponent,
@@ -67,9 +67,9 @@ const DECLARATIONS = [
   ],
   exports: [
     ReactiveFormsModule,
-    //material
+    // material
     ...MATERIAL_MODULES,
-    //components
+    // components
     ...DECLARATIONS
   ]
 })

@@ -10,7 +10,7 @@ export interface State extends EntityState<Site> { }
 
 export const siteAdapter = createEntityAdapter<Site>();
 
-export const initialState: State = siteAdapter.getInitialState()
+export const initialState: State = siteAdapter.getInitialState();
 
 export const sitesReducer = createReducer(
   initialState,

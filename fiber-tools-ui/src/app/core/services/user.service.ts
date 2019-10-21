@@ -24,13 +24,13 @@ export class UserService {
       usersCollection,
       ref => ref.where('roles', 'array-contains', 'TIREUR'
       ))
-      .valueChanges()
+      .valueChanges();
   }
 
   public getUserByEmail(email: string) {
     return this.afs.collection(usersCollection)
       .doc<User>(email)
-      .valueChanges()
+      .valueChanges();
   }
 
   public getUsers(): Observable<DocumentChangeAction<User>[]> {
@@ -38,6 +38,6 @@ export class UserService {
   }
 
   public getCurrentUserEmail(): Observable<string> {
-    return this.afAuth.user.pipe(map(user => user.email))
+    return this.afAuth.user.pipe(map(user => user.email));
   }
 }

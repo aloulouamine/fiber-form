@@ -28,7 +28,7 @@ export class AdminMissionEffects {
     switchMap((action: any) => this.missionsService.updateMission(action.siteId, action.missionId, action.changes).pipe(
       map(() => query({ siteId: action.siteId }))
     )),
-  ))
+  ));
 
   constructor(private actions$: Actions, private missionsService: MissionService) { }
 }

@@ -28,7 +28,7 @@ export class CommentDisplayComponent implements OnInit, OnDestroy {
 
   get user$(): Observable<User> {
     if (this.comment && this.comment.user) {
-      return this.userService.getUserByEmail(this.comment.user).pipe(take(1))
+      return this.userService.getUserByEmail(this.comment.user).pipe(take(1));
     }
   }
 
@@ -37,7 +37,7 @@ export class CommentDisplayComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$.pipe(takeUntil(this.unsubscribe$)).subscribe(data => {
       this.user = data;
-    })
+    });
   }
 
   ngOnDestroy() {

@@ -22,7 +22,7 @@ export class StorageService {
   }
 
   removePicture(url) {
-    return this.afStroage.storage.refFromURL(url).delete()
+    return this.afStroage.storage.refFromURL(url).delete();
   }
 
 

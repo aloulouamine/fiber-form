@@ -45,14 +45,14 @@ export const success = createAction(
 export const loadSitesApiError = createAction(
   SiteActionTypes.ERROR,
   props<{ errorMessage: string }>()
-)
+);
 
 export const add = createAction(
   SiteActionTypes.ADD,
   props<{ payload: Site }>()
-)
+);
 
 export const remove = createAction(
   SiteActionTypes.REMOVE,
   props<{ payload: Site }>()
-)
+);

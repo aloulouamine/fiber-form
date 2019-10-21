@@ -8,7 +8,7 @@ import { addComment } from '../actions/mission-form.actions';
 export const missionFeatureKey = 'mission';
 
 export interface State extends EntityState<Mission> {
-  writingComment: boolean
+  writingComment: boolean;
 }
 
 export const missionAdapter = createEntityAdapter<Mission>();

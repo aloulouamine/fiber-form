@@ -10,7 +10,7 @@ export interface State extends EntityState<User> { }
 
 export const userAdapter = createEntityAdapter<User>();
 
-export const initialState: State = userAdapter.getInitialState()
+export const initialState: State = userAdapter.getInitialState();
 
 export const usersReducer = createReducer(
   initialState,

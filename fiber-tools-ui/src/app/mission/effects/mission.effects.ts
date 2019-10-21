@@ -45,7 +45,7 @@ export class MissionEffects {
                       ...(action.pictureIndex != 0 ? action.mission.checkPoints[action.cpIndex].properties.requiredPhotos.slice(0, action.pictureIndex) : []),
                       {
                         ...action.mission.checkPoints[action.cpIndex].properties.requiredPhotos[action.pictureIndex],
-                        url: url
+                        url
                       },
                       ...(action.pictureIndex != action.mission.checkPoints[action.cpIndex].properties.requiredPhotos.length ? action.mission.checkPoints[action.cpIndex].properties.requiredPhotos.slice(action.pictureIndex + 1) : []),
                     ]
@@ -53,7 +53,7 @@ export class MissionEffects {
                 }, ...(action.cpIndex != action.mission.checkPoints.length ? action.mission.checkPoints.slice(action.cpIndex + 1) : [])]
               };
               return this.missionService.updateMission(mission.siteId, mission.id, mission).pipe(map(() => mission));
-            })
+            });
           });
       } else {
         const mission = {
@@ -105,7 +105,7 @@ export class MissionEffects {
         );
       }
       return this.missionService.createNewComment(comment, [])
-        .pipe(mergeMap(c => this.missionService.addComment(mission, c)))
+        .pipe(mergeMap(c => this.missionService.addComment(mission, c)));
     }),
     map(() => commentAdded())
   ));

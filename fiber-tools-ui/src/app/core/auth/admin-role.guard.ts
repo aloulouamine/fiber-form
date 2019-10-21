@@ -5,7 +5,7 @@ import { map, mergeMap } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 
-const adminRole = 'ADMIN'
+const adminRole = 'ADMIN';
 
 @Injectable({
   providedIn: 'root'

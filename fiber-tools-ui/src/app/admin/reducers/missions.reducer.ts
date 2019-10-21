@@ -10,7 +10,7 @@ export interface State extends EntityState<Mission> { }
 
 export const missionAdapter = createEntityAdapter<Mission>();
 
-export const initialState: State = missionAdapter.getInitialState()
+export const initialState: State = missionAdapter.getInitialState();
 
 export const missionsReducer = createReducer(
   initialState,

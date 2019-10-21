@@ -5,12 +5,12 @@ import * as fromMissions from './mission.reducer';
 export const TechMissionFeatureKey = 'techMission';
 
 export interface TechMissionState {
-  [fromMissions.missionFeatureKey]: fromMissions.State
+  [fromMissions.missionFeatureKey]: fromMissions.State;
 }
 
 
 export interface State {
-  [TechMissionFeatureKey]: TechMissionState
+  [TechMissionFeatureKey]: TechMissionState;
 }
 
 export function reducer(state: TechMissionState, action: Action): TechMissionState {
@@ -24,16 +24,16 @@ export const getTechMissionSelector = createFeatureSelector<State, TechMissionSt
 export const getMissions = createSelector(
   getTechMissionSelector,
   state => state[fromMissions.missionFeatureKey]
-)
+);
 export const missionsSelectors = fromMissions.missionAdapter.getSelectors(getMissions);
 
 export const selectMissionById = createSelector(
   missionsSelectors.selectAll,
   (missions: Mission[], props) => {
-    let index = missions.findIndex(mission => mission.id === props.id)
+    const index = missions.findIndex(mission => mission.id === props.id);
     return index >= 0 ? missions[index] : missions[0];
   }
-)
+);
 
 export const isWritingComment = createSelector(
   getMissions,

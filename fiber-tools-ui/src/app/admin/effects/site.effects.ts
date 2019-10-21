@@ -31,7 +31,7 @@ export class SiteEffects {
     ofType(SiteActionTypes.ADD),
     mergeMap((action: any) => this.sitesService.addSite(action.payload)),
     map(() => query())
-  ))
+  ));
 
   remove$ = createEffect(() => this.actions$.pipe(
     ofType(SiteActionTypes.REMOVE),

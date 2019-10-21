@@ -23,7 +23,7 @@ export class SelectUsersDialogComponent implements OnInit {
   emailCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
   allEmails$: Observable<string[]>;
-  filteredEmails$: Observable<string[]>
+  filteredEmails$: Observable<string[]>;
 
   constructor(@Inject(MAT_DIALOG_DATA) public emails: string[], private stroe: Store<fromAdmin.State>) { }
 
@@ -31,7 +31,7 @@ export class SelectUsersDialogComponent implements OnInit {
     this.allEmails$ = this.stroe.pipe(
       select(fromAdmin.userSelectors.selectAll),
       map(users => users.map(user => user.email))
-    )
+    );
 
     this.stroe.dispatch(query());
 

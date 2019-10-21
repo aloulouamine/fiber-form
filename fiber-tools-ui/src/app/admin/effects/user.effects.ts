@@ -24,7 +24,7 @@ export class UserEffects {
           return removed({ payload: { id: action.payload.doc.id, ...action.payload.doc.data() } });
       }
     })
-  ))
+  ));
 
 
 

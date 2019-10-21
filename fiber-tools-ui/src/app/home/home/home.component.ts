@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
       if (user) {
         this.user = user;
       }
-    })
+    });
   }
 
   signOut() {

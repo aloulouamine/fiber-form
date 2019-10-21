@@ -47,14 +47,14 @@ export class MissionService {
   createNewComment(message: string, photos: Photo[]): Observable<Comment> {
     const now = new Date();
     return this.userService.getCurrentUser().pipe(
-      map(user => <Comment>({
+      map(user => ({
         id: uuidv4(),
         message,
         createdAt: now,
         updateAt: now,
         photos,
         user: user.email
-      }))
+      }) as Comment)
     );
   }
 }

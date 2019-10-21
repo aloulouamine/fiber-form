@@ -15,6 +15,11 @@ import { BehaviorSubject, noop } from 'rxjs';
   ]
 })
 export class PictureInputComponent implements OnInit, ControlValueAccessor {
+  @HostBinding('style.opacity')
+  get opacity() {
+    return this.disabled ? 0.25 : 1;
+  }
+  constructor() { }
 
   loading$ = new BehaviorSubject<boolean>(false);
   displayData;
@@ -22,16 +27,11 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   @Input() disabled = false;
   @Input() url: string;
   @Output() select = new EventEmitter<File>();
-  @HostBinding('style.opacity')
-  get opacity() {
-    return this.disabled ? 0.25 : 1;
-  }
-
-  onChange = (data) => { };
   onTouched = noop;
 
   private reader = new FileReader();
-  constructor() { }
+
+  onChange = (data) => { };
 
   writeValue(data: File) {
     this.displayData = data;
@@ -55,7 +55,7 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
       this.reader.onload = () => {
         this.displayData = this.reader.result;
         this.loading$.next(false);
-      }
+      };
     }
   }
 
@@ -73,7 +73,7 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removePicture() {
-    this.writeValue(null)
+    this.writeValue(null);
   }
 
 }

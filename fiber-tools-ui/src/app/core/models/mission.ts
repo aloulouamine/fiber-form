@@ -22,8 +22,8 @@ export interface Properties {
 
 
 export interface Photo {
-  label: string,
-  url: string
+  label: string;
+  url: string;
 }
 
 export enum MissionProgressStatus {
@@ -50,7 +50,7 @@ export interface Comment {
   updateAt: Timestamp | Date;
   createdAt: Timestamp | Date;
   user: string;
-  photos: Photo[]
+  photos: Photo[];
 }
 
 export interface Mission {

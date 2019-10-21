@@ -46,7 +46,7 @@ export class SiteListComponent implements OnInit {
     this.sitesDataSource$ = this.sitesDataSource$.pipe(
       tap(ds => ds.filter = filterValue.trim().toLowerCase()),
       tap(ds => ds.paginator && ds.paginator.firstPage())
-    )
+    );
   }
 
   createSite() {
@@ -54,7 +54,7 @@ export class SiteListComponent implements OnInit {
   }
 
   editSite(site: Site) {
-    this.router.navigate(['admin', 'site', site.id, 'mission'])
+    this.router.navigate(['admin', 'site', site.id, 'mission']);
   }
 
   removeSite(site: Site) {

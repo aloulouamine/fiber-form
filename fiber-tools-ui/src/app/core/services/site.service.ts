@@ -25,9 +25,9 @@ export class SiteService {
 
   removeSite(site: Site): Observable<void> {
     if (site.id) {
-      return from(this.siteCollection.doc(site.id).delete())
+      return from(this.siteCollection.doc(site.id).delete());
     } else {
-      throw 'No id found in site';
+      throw new Error('No id found in site');
     }
   }
 }
