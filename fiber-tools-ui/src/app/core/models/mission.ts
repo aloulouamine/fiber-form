@@ -4,8 +4,7 @@ import { CHECK_POINT_TYPE } from '../enum/check-point-type';
 export interface CheckPoint {
   ref: string;
   properties: Properties;
-  notRequiringPhotos;
-  needsPbPhotoFlag;
+  nbPhotosToTakeWithinCheckPoint: number;
 }
 
 export interface CheckPointLink {
@@ -29,21 +28,17 @@ export interface Photo {
 }
 
 export enum MissionProgressStatus {
-  NEW,
-  PROGRESS,
-  SUSPENDED,
-  FINISHED
+  NEW = 'NEW',
+  TIRAGE = 'TIRAGE',
+  RACCORDEMENT = 'RACCORDEMENT',
+  TEST = 'TEST',
+  FINISHED = 'FINISHED'
 }
 
 export enum MissionSyncStatus {
   SYNC,
   PROGRESS,
   FAIL
-}
-
-export enum MissionType {
-  TIRAGE,
-  SOUDURE
 }
 
 export interface Comment {
