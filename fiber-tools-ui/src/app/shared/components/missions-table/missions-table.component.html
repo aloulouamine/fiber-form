@@ -10,19 +10,31 @@
 </div>
 <table mat-table [dataSource]="missionsDataSource" matSort>
   <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Réf.</th>
+    <th mat-header-cell *matHeaderCellDef>Réf.</th>
     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
   </ng-container>
   <ng-container matColumnDef="number">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>N°</th>
+    <th mat-header-cell *matHeaderCellDef>N°</th>
     <td mat-cell *matCellDef="let element"> {{element.number}} </td>
   </ng-container>
   <ng-container matColumnDef="checkPoints">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nbr rac.</th>
+    <th mat-header-cell *matHeaderCellDef>Nbr rac.</th>
     <td mat-cell *matCellDef="let element"> {{element.checkPoints.length}} </td>
   </ng-container>
+  <ng-container matColumnDef="nro">
+    <th mat-header-cell *matHeaderCellDef>Nro</th>
+    <td mat-cell *matCellDef="let element"> {{element.nro}} </td>
+  </ng-container>
+  <ng-container matColumnDef="pm">
+    <th mat-header-cell *matHeaderCellDef>PM</th>
+    <td mat-cell *matCellDef="let element"> {{element.pm}} </td>
+  </ng-container>
+  <ng-container matColumnDef="capacity">
+    <th mat-header-cell *matHeaderCellDef>Capacité</th>
+    <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+  </ng-container>
   <ng-container matColumnDef="workingUsers">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Techniciens</th>
+    <th mat-header-cell *matHeaderCellDef>Techniciens</th>
     <td mat-cell *matCellDef="let element">
       <mat-chip-list>
         <mat-chip *ngFor="let tech of element.workingUsers">{{ tech }}</mat-chip>

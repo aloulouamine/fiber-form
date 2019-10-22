@@ -59,6 +59,9 @@ export interface Mission {
   id?: string;
   title?: string;
   number: string;
+  capacity: string;
+  pm: string;
+  nro: string;
   checkPoints: CheckPoint[];
   links: CheckPointLink[];
   cable?: string;

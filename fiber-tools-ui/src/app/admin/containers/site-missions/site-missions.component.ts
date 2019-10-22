@@ -19,7 +19,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
   siteId$: Observable<string> = this.route.params.pipe(map(params => params.id));
   missions$;
-  displayedColumns = ['id', 'number', 'checkPoints', 'workingUsers', 'actions'];
+  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'workingUsers', 'actions'];
 
   constructor(
     private route: ActivatedRoute,

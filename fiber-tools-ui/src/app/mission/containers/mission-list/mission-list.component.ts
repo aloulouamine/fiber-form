@@ -7,6 +7,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
 import { query } from '../../actions/mission-api.actions';
 import * as fromTechMissions from '../../reducers';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -18,8 +19,7 @@ export class MissionListComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
   missions$: Observable<Mission[]>;
-  displayedColumns = ['id', 'number', 'checkPoints', 'actions'];
-
+  displayedColumns = ['number', 'checkPoints', 'nro', 'pm', 'capacity', 'actions'];
   constructor(
     private store: Store<fromTechMissions.State>,
     private router: Router,
@@ -28,6 +28,8 @@ export class MissionListComponent implements OnInit, OnDestroy {
     this.missions$ = store.pipe(
       select(fromTechMissions.missionsSelectors.selectAll)
     );
+
+    !environment.production ? this.displayedColumns = ['id', ...this.displayedColumns] : '';
   }
 
   ngOnInit() {
