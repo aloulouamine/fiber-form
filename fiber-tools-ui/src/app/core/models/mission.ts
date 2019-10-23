@@ -1,5 +1,6 @@
 import { Timestamp } from '@firebase/firestore-types';
 import { CHECK_POINT_TYPE } from '../enum/check-point-type';
+import { Observable } from 'rxjs';
 
 export interface CheckPoint {
   ref: string;
@@ -62,6 +63,7 @@ export interface Mission {
   cable?: string;
   sectionPreffixFromFirst: string;
   progress?: MissionProgressStatus;
+  shootingProgress$?: Observable<number>;
   sync?: MissionSyncStatus;
   workingUsers?: string[];
   creator?: string;

@@ -108,7 +108,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   getCheckpointProgress(missionId, cpIndex) {
     return this.store.pipe(
-      select(fromTechMissions.checkpointProgress, { missionId, cpIndex })
+      select(fromTechMissions.checkpointShootingProgress, { missionId, cpIndex })
     )
   }
 
