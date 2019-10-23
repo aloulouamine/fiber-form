@@ -51,7 +51,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
     this.mission$ = this.route.params.pipe(
       mergeMap(params => this.store.pipe(
-        select(fromTechMissions.selectMissionById, { id: params.id })
+        select(fromTechMissions.selectMissionById, { missionId: params.id })
       )),
       tap(mission => {
         if (!mission) {
@@ -104,6 +104,12 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   addComment({ comment, file }) {
     this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })));
+  }
+
+  getCheckpointProgress(missionId, cpIndex) {
+    return this.store.pipe(
+      select(fromTechMissions.checkpointProgress, { missionId, cpIndex })
+    )
   }
 
 }

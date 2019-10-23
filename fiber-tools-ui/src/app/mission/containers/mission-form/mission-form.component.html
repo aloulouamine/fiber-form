@@ -20,11 +20,17 @@
         <mat-step formArrayName="checkPoints" *ngFor="let checkPoint of formCheckPointsControls; let i = index;"
           [stepControl]="checkPoint">
           <ng-template matStepLabel>
-            <div>
+            <div class="step-label">
               <app-check-point-icon *ngIf="(mission$ | async)?.checkPoints[i]"
                 [checkPoint]="(mission$ | async)?.checkPoints[i]">
               </app-check-point-icon>
               {{(mission$ | async)?.checkPoints[i]?.ref}}
+              <div class="checkpoint-progress-container">
+                <mat-progress-bar [value]="getCheckpointProgress((mission$|async).id, i) | async"></mat-progress-bar>
+                <mat-chip>
+                  {{getCheckpointProgress((mission$|async).id, i) | async | number : '1.0-2'}} % 
+                </mat-chip>
+              </div>
             </div>
           </ng-template>
           <br>

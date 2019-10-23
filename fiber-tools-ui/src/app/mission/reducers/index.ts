@@ -29,12 +29,27 @@ export const missionsSelectors = fromMissions.missionAdapter.getSelectors(getMis
 
 export const selectMissionById = createSelector(
   missionsSelectors.selectAll,
-  (missions: Mission[], props) => {
-    const index = missions.findIndex(mission => mission.id === props.id);
+  (missions: Mission[], {missionId}) => {
+    const index = missions.findIndex(mission => mission.id === missionId);
     return index >= 0 ? missions[index] : missions[0];
   }
 );
 
+export const checkpointProgress = createSelector(
+  selectMissionById,
+  (mission, { cpIndex }) => {
+    debugger;
+    const total = mission.checkPoints[cpIndex].nbPhotosToTakeWithinCheckPoint;
+    if (total == 0) { return 100 }
+    const taken = mission.checkPoints[cpIndex].properties.requiredPhotos.reduce(
+      (acc, photo) =>
+        photo.url ? ++acc : acc,
+      0
+    );
+    console.log(`missionId: ${mission.id}, checkpointIndex ${cpIndex}, taken: ${taken}, total ${total}`)
+    return taken / total * 100;
+  }
+)
 export const isWritingComment = createSelector(
   getMissions,
   state => state.writingComment
