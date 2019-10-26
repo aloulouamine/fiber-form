@@ -42,13 +42,11 @@ export const checkpointShootingProgress = createSelector(
 
 export const missionShootingProgress = createSelector(
   selectMissionById,
-  mission => {
-    console.log('progress mission', mission.id);
-    return mission.checkPoints.reduce((acc, cp) => {
+  mission =>
+    mission.checkPoints.reduce((acc, cp) => {
       acc += _checkpointProgress(cp);
       return acc;
-    }, 0) / mission.checkPoints.length;
-  }
+    }, 0) / mission.checkPoints.length
 );
 
 function _checkpointProgress(cp: CheckPoint): number {

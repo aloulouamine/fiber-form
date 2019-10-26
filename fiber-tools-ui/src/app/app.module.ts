@@ -27,6 +27,7 @@ import { CoreModule } from './core/core.module';
 import { HomeComponent } from './home/home/home.component';
 import { metaReducers, reducers } from './reducers';
 import { SharedModule } from './shared/shared.module';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 
@@ -60,7 +61,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     }),
     EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

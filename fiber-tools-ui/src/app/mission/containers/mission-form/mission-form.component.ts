@@ -64,7 +64,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
       filter(mission => !!mission)
     );
 
-    this.mission$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+    this.mission$.pipe(takeUntil(this.unsubscribe$), take(1)).subscribe(
       (mission: Mission) => {
         this.formCheckPoints.clear();
         mission.checkPoints.map((cp, cpIndex) => {

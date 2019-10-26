@@ -28,6 +28,7 @@
     "@angular/service-worker": "~8.1.2",
     "@ngrx/effects": "^8.3.0",
     "@ngrx/entity": "^8.3.0",
+    "@ngrx/router-store": "^8.3.0",
     "@ngrx/schematics": "^8.3.0",
     "@ngrx/store": "^8.3.0",
     "@ngrx/store-devtools": "^8.3.0",
