@@ -11,13 +11,13 @@
   <input #fileInput (change)="onFileChange(fileInput)" class="hidden-file-input" type="file" accept="image/*">
 </div>
 
-<div *ngIf="displayData && !(loading$ | async)" class="picture-bloc">
+<div *ngIf="displayData && (loading$ | async) === false" class="picture-bloc">
   <a *ngIf="!disabled" mat-fab color="warn" (click)="clearPicture()">
     <mat-icon>close</mat-icon>
   </a>
   <img [src]="displayData">
 </div>
-<div *ngIf="url && !displayData && !(loading$ | async)" class="picture-bloc">
+<div *ngIf="url && !displayData && (loading$ | async) === false" class="picture-bloc">
   <a *ngIf="!disabled" mat-fab color="warn" (click)="removePicture()">
     <mat-icon>delete_forever</mat-icon>
   </a>

@@ -22,10 +22,16 @@ export interface Properties {
   nbOptionalPhotos: number;
 }
 
-
-export interface Photo {
-  label: string;
+export interface PhotoData {
   url: string;
+  by: string;
+  date: Date;
+}
+
+
+export interface Photo extends PhotoData {
+  label: string;
+  history: PhotoData[];
 }
 
 export enum MissionProgressStatus {
@@ -48,7 +54,7 @@ export interface Comment {
   updateAt: Timestamp | Date;
   createdAt: Timestamp | Date;
   user: string;
-  photos: Photo[];
+  photos: PhotoData[];
 }
 
 export interface Mission {

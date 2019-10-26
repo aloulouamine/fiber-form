@@ -35,8 +35,9 @@ export class MissionListComponent implements OnInit, OnDestroy {
       })
       ))
     );
-
-    !environment.production ? this.displayedColumns = ['id', ...this.displayedColumns] : '';
+    if (!environment.production) {
+      this.displayedColumns = ['id', ...this.displayedColumns];
+    }
   }
 
   ngOnInit() {

@@ -7,7 +7,7 @@ import { filter, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
 import { query } from '../../actions/mission-api.actions';
-import { addComment, updateCpPicture } from '../../actions/mission-form.actions';
+import { addComment, uploadCpPicture, deleteCpPicture } from '../../actions/mission-form.actions';
 import * as fromTechMissions from '../../reducers';
 
 @Component({
@@ -90,7 +90,11 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   }
 
   private _onPictureChange(file: File, mission: Mission, cpIndex: number, pictureIndex: number) {
-    this.store.dispatch(updateCpPicture({ file, mission, cpIndex, pictureIndex }));
+    if (file) {
+      this.store.dispatch(uploadCpPicture({ file, mission, cpIndex, pictureIndex }));
+    } else {
+      this.store.dispatch(deleteCpPicture({ mission, cpIndex, pictureIndex }));
+    }
   }
 
   ngOnDestroy() {
@@ -109,7 +113,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   getCheckpointProgress(missionId, cpIndex) {
     return this.store.pipe(
       select(fromTechMissions.checkpointShootingProgress, { missionId, cpIndex })
-    )
+    );
   }
 
 }

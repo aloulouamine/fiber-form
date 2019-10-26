@@ -12,8 +12,12 @@ export class StorageService {
   constructor(private afStroage: AngularFireStorage) { }
 
   putCheckpointPicture(file: File, mission: Mission, cpIndex: number, pictureIndex: number) {
-    const fileName = `site/${mission.siteId}/mission/${mission.id}/checkpoint/${cpIndex}/picture/${pictureIndex}/${uuid()}.${file.name.split('.').pop()}`;
-    return this.afStroage.upload(fileName, file);
+    const fileName = `site/${mission.siteId}/`
+      + `mission/${mission.id}/`
+      + `checkpoint/${cpIndex}/`
+      + `picture/${pictureIndex}/${uuid()}.${file.name.split('.').pop()}`;
+    const ref = this.afStroage.ref(fileName);
+    return ref.put(file);
   }
 
   putCommentPicture(mission: Mission, file: File, comment: Comment) {

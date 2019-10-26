@@ -26,7 +26,8 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   @Input() label;
   @Input() disabled = false;
   @Input() url: string;
-  @Output() select = new EventEmitter<File>();
+
+  @Output() selectFile = new EventEmitter<File>();
   onTouched = noop;
 
   private reader = new FileReader();
@@ -63,13 +64,13 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
     this.loading$.next(true);
     this.reader.readAsDataURL(fileInput.files[0]);
     this.writeValue(fileInput.files[0]);
-    this.select.next(fileInput.files[0]);
+    this.selectFile.next(fileInput.files[0]);
   }
 
   clearPicture() {
     delete this.displayData;
     this.writeValue(null);
-    this.select.next();
+    this.selectFile.next();
   }
 
   removePicture() {

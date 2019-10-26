@@ -43,7 +43,7 @@ export const checkpointShootingProgress = createSelector(
 export const missionShootingProgress = createSelector(
   selectMissionById,
   mission => {
-    console.log('progress mission', mission.id)
+    console.log('progress mission', mission.id);
     return mission.checkPoints.reduce((acc, cp) => {
       acc += _checkpointProgress(cp);
       return acc;
@@ -53,7 +53,7 @@ export const missionShootingProgress = createSelector(
 
 function _checkpointProgress(cp: CheckPoint): number {
   const total = cp.nbPhotosToTakeWithinCheckPoint;
-  if (total == 0) { return 100 }
+  if (total === 0) { return 100; }
   const taken = cp.properties.requiredPhotos.reduce(
     (acc, photo) =>
       photo.url ? ++acc : acc,

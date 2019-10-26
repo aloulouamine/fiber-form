@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Comment, Mission, Photo } from 'src/app/core/models/mission';
 import uuidv4 from 'uuidv4';
 import { UserService } from './user.service';
@@ -27,6 +27,12 @@ export class MissionService {
     return this.afs.collection<Mission>(`sites/${siteId}/missions`).stateChanges();
   }
 
+  getMission(siteId: string, missionId: string): Observable<Mission> {
+    return this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).get().pipe(
+      map(docSnapshot => docSnapshot.data() as Mission)
+    );
+  }
+
   getAllMissionsForWorkingUser(workingUser: string): Observable<DocumentChangeAction<Mission>[]> {
     return this.afs.collectionGroup<Mission>('missions', ref => ref.where('workingUsers', 'array-contains', workingUser))
       .stateChanges();
@@ -35,6 +41,44 @@ export class MissionService {
   updateMission(siteId: string, missionId: string, mission: Partial<Mission>) {
     return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
   }
+
+  updatePictureURL(mission: Mission, pictureURL: string, cpIndex: number, pictureIndex: number): Observable<void> {
+    const missionRef = this.afs.doc<Mission>(`sites/${mission.siteId}/missions/${mission.id}`).ref;
+    return from(this.afs.firestore.runTransaction(async (transaction) => {
+      console.log('in transaction.');
+      return transaction.get(missionRef).then(
+        async (missionDoc) => {
+          if (!missionDoc.exists) {
+            throw new Error(`Mission ${mission.id} does not exist`);
+          }
+          const checkPoints = (missionDoc.data() as Mission).checkPoints;
+          const user = await this.userService.getCurrentUser().pipe(take(1)).toPromise();
+          const now = new Date();
+          const photo = checkPoints[cpIndex].properties.requiredPhotos[pictureIndex];
+          if (photo.url) {
+            const historyItem = {
+              by: photo.by || null,
+              url: photo.url,
+              date: photo.date || null
+            };
+            photo.history ? photo.history = [
+              historyItem,
+              ...photo.history
+            ] : photo.history = [
+              historyItem
+            ];
+          }
+          photo.url = pictureURL;
+          photo.by = user.email;
+          photo.date = now;
+          transaction.update(missionRef, { checkPoints });
+          return;
+        }).then(() => console.log('transaction end'));
+    }));
+  }
+
+
+
 
   addComment(mission: Mission, comment: Comment): Observable<Comment> {
     const comments = mission.comments ? [...mission.comments] : [];
