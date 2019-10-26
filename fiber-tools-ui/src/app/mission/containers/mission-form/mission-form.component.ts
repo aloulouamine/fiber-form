@@ -1,13 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
-import { UserService } from 'src/app/core/services/user.service';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { Mission } from '../../../core/models/mission';
-import { query } from '../../actions/mission-api.actions';
-import { addComment, uploadCpPicture, deleteCpPicture } from '../../actions/mission-form.actions';
+import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
 import * as fromTechMissions from '../../reducers';
 
 @Component({
@@ -42,29 +40,15 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private store: Store<fromTechMissions.State>,
-    private route: ActivatedRoute,
-    private userService: UserService
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
 
-    this.mission$ = this.route.params.pipe(
-      mergeMap(params => this.store.pipe(
-        select(fromTechMissions.selectMissionById, { missionId: params.id })
-      )),
-      tap(mission => {
-        if (!mission) {
-          this.userService
-            .getCurrentUserEmail()
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(workingUser => this.store.dispatch(query({ workingUser })));
-        }
-      }),
-      filter(mission => !!mission)
-    );
+    this.mission$ = this.route.data.pipe(map(data => data.mission));
 
-    this.mission$.pipe(takeUntil(this.unsubscribe$), take(1)).subscribe(
+    this.mission$.pipe(takeUntil(this.unsubscribe$)).subscribe(
       (mission: Mission) => {
         this.formCheckPoints.clear();
         mission.checkPoints.map((cp, cpIndex) => {

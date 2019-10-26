@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { User } from 'firebase';
 
 @Component({
@@ -11,6 +11,8 @@ import { User } from 'firebase';
 export class HomeComponent implements OnInit {
   user: User;
 
+  loading = false;
+
   constructor(private router: Router, private afa: AngularFireAuth) { }
 
   ngOnInit() {
@@ -19,6 +21,15 @@ export class HomeComponent implements OnInit {
         this.user = user;
       }
     });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.loading = true;
+      } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this.loading = false;
+      }
+    });
+
   }
 
   signOut() {

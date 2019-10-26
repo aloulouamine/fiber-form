@@ -62,7 +62,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    StoreRouterConnectingModule.forRoot()
+    // StoreRouterConnectingModule.forRoot()
   ],
   providers: [
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

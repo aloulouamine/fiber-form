@@ -18,7 +18,8 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <div [hidden]="loading" class="content">
       <router-outlet> </router-outlet>
     </div>
   </mat-sidenav-content>
