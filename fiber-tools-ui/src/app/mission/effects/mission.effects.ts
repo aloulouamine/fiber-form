@@ -43,7 +43,7 @@ export class MissionEffects {
         )
       );
       const uploadProgress$ = uploadTask.percentageChanges().pipe(
-        map(progress => uploadProgressCpPicture({ progress }))
+        map(progress => uploadProgressCpPicture({ progress, key: `${action.mission.id}-${action.cpIndex}-${action.pictureIndex}` }))
       );
       return merge(uploadFinish$, uploadProgress$);
     }),

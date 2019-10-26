@@ -16,6 +16,15 @@
     <mat-icon>close</mat-icon>
   </a>
   <img [src]="displayData">
+  <div *ngIf="uploadProgress && uploadProgress!==100" class="upload-progress">
+    <mat-progress-spinner mode="determinate" [diameter]="20" [value]="uploadProgress"></mat-progress-spinner>
+    <p>
+      chargement({{uploadProgress | number :'1.0-1'}}%)...
+    </p>
+  </div>
+  <div *ngIf="loading$ | async" class="upload-progress">
+    <mat-spinner [diameter]="20"></mat-spinner>
+  </div>
 </div>
 <div *ngIf="url && !displayData && (loading$ | async) === false" class="picture-bloc">
   <a *ngIf="!disabled" mat-fab color="warn" (click)="removePicture()">
@@ -23,7 +32,3 @@
   </a>
   <img [src]="url">
 </div>
-
-
-
-<mat-spinner *ngIf="loading$ | async"></mat-spinner>

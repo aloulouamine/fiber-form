@@ -66,4 +66,10 @@ export const isWritingComment = createSelector(
 );
 
 
+export const cpUploadProgress = createSelector(
+  getMissions,
+  (state, { missionId, cpIndex, pictureIndex }) => state.cpUploadProgress[`${missionId}-${cpIndex}-${pictureIndex}`]
+);
+
+
 

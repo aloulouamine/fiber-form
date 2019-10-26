@@ -23,7 +23,7 @@ export const uploadCpPictureFinish = createAction(
 
 export const uploadProgressCpPicture = createAction(
   MissionFormActionTypes.UPLOAD_PROGRESS_CP_PICTURE,
-  props<{ progress: number }>()
+  props<{ key: string, progress: number }>()
 );
 
 export const uploadedCpPicture = createAction(

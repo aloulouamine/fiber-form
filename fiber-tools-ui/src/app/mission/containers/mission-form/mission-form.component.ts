@@ -100,4 +100,10 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  getUploadProgress(missionId, cpIndex, pictureIndex){
+    return this.store.pipe(
+      select(fromTechMissions.cpUploadProgress, {missionId, cpIndex, pictureIndex})
+    )
+  }
+
 }

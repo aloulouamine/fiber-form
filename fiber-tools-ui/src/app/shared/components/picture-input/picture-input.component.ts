@@ -27,6 +27,8 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   @Input() disabled = false;
   @Input() url: string;
 
+  @Input() uploadProgress: number;
+
   @Output() selectFile = new EventEmitter<File>();
   onTouched = noop;
 
@@ -74,6 +76,7 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removePicture() {
+    this.url='';
     this.writeValue(null);
   }
 
