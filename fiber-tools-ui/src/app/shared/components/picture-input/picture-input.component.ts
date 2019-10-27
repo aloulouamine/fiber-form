@@ -1,6 +1,7 @@
 import { Component, forwardRef, HostBinding, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BehaviorSubject, noop } from 'rxjs';
+import { Timestamp } from '@firebase/firestore-types';
 
 @Component({
   selector: 'app-picture-input',
@@ -26,6 +27,8 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   @Input() label;
   @Input() disabled = false;
   @Input() url: string;
+  @Input() author:string;
+  @Input() date: Timestamp
 
   @Input() uploadProgress: number;
 

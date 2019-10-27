@@ -26,6 +26,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommentEditComponent } from './components/comment-edit/comment-edit.component';
 import { PictureInputComponent } from './components/picture-input/picture-input.component';
+import { PicturePreviewComponent } from './components/picture-preview/picture-preview.component';
+import { PictureDialogComponent } from './components/picture-dialog/picture-dialog.component';
 
 const MATERIAL_MODULES = [
   MatAutocompleteModule,
@@ -57,7 +59,9 @@ const DECLARATIONS = [
   MissionsTableComponent,
   CommentDisplayComponent,
   CommentEditComponent,
-  PictureInputComponent
+  PictureInputComponent,
+  PicturePreviewComponent,
+  PictureDialogComponent
 ];
 @NgModule({
   declarations: DECLARATIONS,
@@ -73,6 +77,9 @@ const DECLARATIONS = [
     ...MATERIAL_MODULES,
     // components
     ...DECLARATIONS
+  ],
+  entryComponents: [
+    PictureDialogComponent
   ]
 })
 export class SharedModule { }

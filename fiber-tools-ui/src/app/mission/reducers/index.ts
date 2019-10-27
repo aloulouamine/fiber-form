@@ -1,5 +1,5 @@
 import { Action, combineReducers, createFeatureSelector, createSelector } from '@ngrx/store';
-import { Mission, CheckPoint } from 'src/app/core/models/mission';
+import { CheckPoint } from 'src/app/core/models/mission';
 import * as fromMissions from './mission.reducer';
 
 export const TechMissionFeatureKey = 'techMission';

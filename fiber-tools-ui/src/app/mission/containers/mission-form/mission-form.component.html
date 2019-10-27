@@ -47,7 +47,11 @@
           <br>
           <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i">
             <app-picture-input [label]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
-              [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url" [uploadProgress]="getUploadProgress((mission$|async).id, i, j) | async" [formControlName]="j">
+            [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url"
+            [author]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.by"
+            [date]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.date"
+            
+              [uploadProgress]="getUploadProgress((mission$|async).id, i, j) | async" [formControlName]="j">
             </app-picture-input>
           </div>
           <br>

@@ -15,7 +15,8 @@
   <a *ngIf="!disabled" mat-fab color="warn" (click)="clearPicture()">
     <mat-icon>close</mat-icon>
   </a>
-  <img [src]="displayData">
+  <app-picture-preview [url]="displayData" [author]="author" [date]="date"></app-picture-preview>
+  <!-- <img [src]="displayData"> -->
   <div *ngIf="uploadProgress && uploadProgress!==100" class="upload-progress">
     <mat-progress-spinner mode="determinate" [diameter]="20" [value]="uploadProgress"></mat-progress-spinner>
     <p>
@@ -30,5 +31,6 @@
   <a *ngIf="!disabled" mat-fab color="warn" (click)="removePicture()">
     <mat-icon>delete_forever</mat-icon>
   </a>
-  <img [src]="url">
+  <app-picture-preview [url]="url" [author]="author" [date]="date"></app-picture-preview>
+  <!-- <img [src]="url"> -->
 </div>

@@ -21,3 +21,10 @@ table .action-td {
 mat-step-header .mat-step-label {
   width: 100%;
 }
+
+.picture-dialog-container{
+  .mat-dialog-container{
+    background-color: #acacac;
+    padding: 10px;
+  }
+}

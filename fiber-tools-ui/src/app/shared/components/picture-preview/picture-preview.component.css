@@ -1,0 +1,8 @@
+:host{
+    cursor: pointer;
+}
+
+img {
+    max-height: 200px;
+    max-width: 200px;
+  }
