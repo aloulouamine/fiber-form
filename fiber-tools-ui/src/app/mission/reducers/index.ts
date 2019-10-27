@@ -28,10 +28,9 @@ export const getMissions = createSelector(
 export const missionsSelectors = fromMissions.missionAdapter.getSelectors(getMissions);
 
 export const selectMissionById = createSelector(
-  missionsSelectors.selectAll,
-  (missions: Mission[], { missionId }) => {
-    const index = missions.findIndex(mission => mission.id === missionId);
-    return index >= 0 ? missions[index] : missions[0];
+  missionsSelectors.selectEntities,
+  (missions, { missionId }) => {
+    return missions[missionId];
   }
 );
 
