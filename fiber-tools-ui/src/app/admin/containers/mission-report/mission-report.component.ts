@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import * as fromAdmin from '../../reducers';
+import * as fromMissions from '../../../core/reducers';
 import { ActivatedRoute } from '@angular/router';
 import { mergeMap, tap } from 'rxjs/operators';
 import { query } from '../../actions/mission.actions';
@@ -15,7 +15,7 @@ export class MissionReportComponent implements OnInit {
   mission$;
 
   constructor(
-    private store: Store<fromAdmin.State>,
+    private store: Store<fromMissions.State>,
     private route: ActivatedRoute
   ) { }
 
@@ -24,10 +24,10 @@ export class MissionReportComponent implements OnInit {
       tap(params => this.store.dispatch(query({ siteId : params.missionId }))),
       mergeMap(params => {
         return this.store.pipe(
-          select(fromAdmin.getSiteMissionById, {missionId: params.missionId})
-        )
+          select(fromMissions.selectMissionById, {missionId: params.missionId})
+        );
       })
-    )
+    );
   }
 
 }

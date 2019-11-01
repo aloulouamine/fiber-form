@@ -1,15 +1,16 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { Mission } from '../../core/models/mission';
-import { added, commentAdded, modified, removed } from '../actions/mission-api.actions';
-import { addComment, uploadProgressCpPicture } from '../actions/mission-form.actions';
+import {  commentAdded} from '../../mission/actions/mission-api.actions';
+import { added,  modified, removed } from '../actions/mission.actions';
+import { addComment, uploadProgressCpPicture } from '../../mission/actions/mission-form.actions';
 
 
 export const missionFeatureKey = 'mission';
 
 export interface State extends EntityState<Mission> {
   writingComment: boolean;
-  cpUploadProgress: { [key: string]: number }
+  cpUploadProgress: { [key: string]: number };
 }
 
 export const missionAdapter = createEntityAdapter<Mission>();

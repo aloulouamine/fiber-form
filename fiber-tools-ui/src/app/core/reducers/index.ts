@@ -34,6 +34,16 @@ export const selectMissionById = createSelector(
   }
 );
 
+export const getSiteMissions = createSelector(
+  missionsSelectors.selectAll,
+  (missions, { siteId }) => missions.filter(m => m.siteId === siteId)
+);
+
+export const getWorkingUserMissions = createSelector(
+  missionsSelectors.selectAll,
+  (missions, { email }) => missions.filter(m => m && m.workingUsers && m.workingUsers.includes(email))
+);
+
 export const checkpointShootingProgress = createSelector(
   selectMissionById,
   (mission, { cpIndex }) => _checkpointProgress(mission.checkPoints[cpIndex])

@@ -6,14 +6,16 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { Comment, Mission } from 'src/app/core/models/mission';
 import { MissionService } from 'src/app/core/services/mission.service';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { added, commentAdded, MissionApiActionTypes, modified, removed } from '../actions/mission-api.actions';
-import { deletedCpPicture, MissionFormActionTypes, uploadedCpPicture, uploadProgressCpPicture } from '../actions/mission-form.actions';
+import * as missionsModuleActions from '../../mission/actions/mission-api.actions';
+import * as missionsAdminModuleActions from '../../admin/actions/mission.actions';
+import { deletedCpPicture, MissionFormActionTypes, uploadedCpPicture, uploadProgressCpPicture } from '../../mission/actions/mission-form.actions';
+import { removed, modified, added } from '../actions/mission.actions';
 
 @Injectable()
 export class MissionEffects {
 
   load$ = createEffect(() => this.actions$.pipe(
-    ofType(MissionApiActionTypes.QUERY),
+    ofType(missionsModuleActions.MissionApiActionTypes.QUERY),
     switchMap((action: any) => this.missionService.getAllMissionsForWorkingUser(action.workingUser)),
     mergeMap(action => action),
     map(action => {
@@ -82,7 +84,33 @@ export class MissionEffects {
       return this.missionService.createNewComment(comment, [])
         .pipe(mergeMap(c => this.missionService.addComment(mission, c)));
     }),
-    map(() => commentAdded())
+    map(() => missionsModuleActions.commentAdded())
+  ));
+
+
+  // admin
+
+  loadAdmin$ = createEffect(() => this.actions$.pipe(
+    ofType(missionsAdminModuleActions.MissionActionTypes.QUERY),
+    switchMap((action: any) => this.missionService.getSiteMissions(action.siteId)),
+    mergeMap(actions => actions),
+    map(action => {
+      switch (action.type) {
+        case 'added':
+          return added({ payload: { id: action.payload.doc.id, ...action.payload.doc.data() } });
+        case 'modified':
+          return modified({ payload: { id: action.payload.doc.id, ...action.payload.doc.data() } });
+        case 'removed':
+          return removed({ payload: { id: action.payload.doc.id, ...action.payload.doc.data() } });
+      }
+    })
+  ));
+
+  updateAdmin$ = createEffect(() => this.actions$.pipe(
+    ofType(missionsAdminModuleActions.MissionActionTypes.UPDATE),
+    switchMap((action: any) => this.missionService.updateMission(action.siteId, action.missionId, action.changes).pipe(
+      map(() => missionsAdminModuleActions.query({ siteId: action.siteId }))
+    )),
   ));
 
   constructor(private actions$: Actions, private missionService: MissionService, private storageService: StorageService) {

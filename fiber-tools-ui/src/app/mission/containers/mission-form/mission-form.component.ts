@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, take, takeUntil, mergeMap } from 'rxjs/operators';
 import { Mission, Comment } from '../../../core/models/mission';
 import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
-import * as fromTechMissions from '../../reducers';
+import * as fromMissions from '../../../core/reducers';
 
 @Component({
   selector: 'app-mission-form',
@@ -22,7 +22,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   comments$: Observable<Comment[]>;
 
   writingComment$: Observable<boolean> = this.store.pipe(
-    select(fromTechMissions.isWritingComment)
+    select(fromMissions.isWritingComment)
   );
 
   form = this.fb.group({
@@ -41,7 +41,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<fromTechMissions.State>,
+    private store: Store<fromMissions.State>,
     private route: ActivatedRoute
   ) {
   }
@@ -49,7 +49,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.mission$ = this.route.params.pipe(
-      mergeMap(params => this.store.pipe(select(fromTechMissions.selectMissionById, { missionId: params.id }))));
+      mergeMap(params => this.store.pipe(select(fromMissions.selectMissionById, { missionId: params.id }))));
 
     this.comments$ = this.mission$.pipe(
       map(mission => mission.comments)
@@ -103,14 +103,14 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   getCheckpointProgress(missionId, cpIndex) {
     return this.store.pipe(
-      select(fromTechMissions.checkpointShootingProgress, { missionId, cpIndex })
+      select(fromMissions.checkpointShootingProgress, { missionId, cpIndex })
     );
   }
 
   getUploadProgress(missionId, cpIndex, pictureIndex) {
     return this.store.pipe(
-      select(fromTechMissions.cpUploadProgress, { missionId, cpIndex, pictureIndex })
-    )
+      select(fromMissions.cpUploadProgress, { missionId, cpIndex, pictureIndex })
+    );
   }
 
 }

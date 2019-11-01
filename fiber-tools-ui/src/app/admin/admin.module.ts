@@ -11,7 +11,6 @@ import { SiteCreateComponent } from './containers/site-create/site-create.compon
 import { SiteEditComponent } from './containers/site-edit/site-edit.component';
 import { SiteListComponent } from './containers/site-list/site-list.component';
 import { SiteMissionsComponent } from './containers/site-missions/site-missions.component';
-import { AdminMissionEffects } from './effects/admin-mission.effects';
 import { SiteEffects } from './effects/site.effects';
 import { UserEffects } from './effects/user.effects';
 import * as adminReducer from './reducers';
@@ -24,7 +23,7 @@ import { MissionReportComponent } from './containers/mission-report/mission-repo
     SharedModule,
     AdminRoutingModule,
     StoreModule.forFeature('admin', adminReducer.reducer),
-    EffectsModule.forFeature([SiteEffects, UserEffects, AdminMissionEffects])
+    EffectsModule.forFeature([SiteEffects, UserEffects])
   ],
   declarations: [
     SiteComponent,

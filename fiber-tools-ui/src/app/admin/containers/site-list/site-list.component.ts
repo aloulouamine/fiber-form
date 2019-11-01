@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { Planner, Site } from 'src/app/core/models/site';
-import { add, query, remove } from '../../actions/site.actions';
+import { Site } from 'src/app/core/models/site';
+import { query, remove } from '../../actions/site.actions';
 import { SiteConfirmDeleteComponent } from '../../components/site-confirm-delete/site-confirm-delete.component';
 import * as fromAdmin from '../../reducers';
 

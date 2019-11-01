@@ -7,7 +7,7 @@ import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
 import { query, update } from '../../actions/mission.actions';
 import { SelectUsersDialogComponent } from '../../components/select-users-dialog/select-users-dialog.component';
-import * as fromAdmin from '../../reducers';
+import * as fromMissions from '../../../core/reducers';
 
 @Component({
   selector: 'app-site-missions',
@@ -23,7 +23,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<fromAdmin.State>,
+    private store: Store<fromMissions.State>,
     private dialog: MatDialog,
     private router: Router
   ) { }
@@ -31,7 +31,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.missions$ = this.siteId$.pipe(
       tap(siteId => this.store.dispatch(query({ siteId }))),
-      mergeMap(siteId => this.store.pipe(select(fromAdmin.getSiteMissions, { siteId })))
+      mergeMap(siteId => this.store.pipe(select(fromMissions.getSiteMissions, { siteId })))
     );
   }
 
@@ -45,9 +45,11 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       data: mission.workingUsers ? [...mission.workingUsers] : [],
       width: '90%'
     }).afterClosed().subscribe((emails: string[]) => {
-      this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
-        this.store.dispatch(update({ siteId, missionId: mission.id, changes: { workingUsers: emails } }));
-      });
+      if (emails) {
+        this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
+          this.store.dispatch(update({ siteId, missionId: mission.id, changes: { workingUsers: emails } }));
+        });
+      }
     });
   }
 

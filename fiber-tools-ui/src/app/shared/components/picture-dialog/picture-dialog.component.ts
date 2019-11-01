@@ -9,13 +9,13 @@ import { Timestamp } from '@firebase/firestore-types';
 })
 export class PictureDialogComponent implements OnInit {
 
-  get date(){
+  get date() {
     const d = this.data.date as Timestamp;
-    return d.toDate()
+    return d.toDate();
   }
 
   constructor(private dialogRef: MatDialogRef<PictureDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+              @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
   }

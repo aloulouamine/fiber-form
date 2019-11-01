@@ -27,8 +27,8 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   @Input() label;
   @Input() disabled = false;
   @Input() url: string;
-  @Input() author:string;
-  @Input() date: Timestamp
+  @Input() author: string;
+  @Input() date: Timestamp;
 
   @Input() uploadProgress: number;
 
@@ -79,7 +79,7 @@ export class PictureInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removePicture() {
-    this.url='';
+    this.url = '';
     this.writeValue(null);
   }
 

@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { UserService } from 'src/app/core/services/user.service';
 import { Mission } from '../../../core/models/mission';
-import * as fromTechMissions from '../../reducers';
+import * as fromMissions from '../../../core/reducers';
+import { query } from '../../actions/mission-api.actions';
 
 
 @Component({
@@ -18,21 +20,29 @@ export class MissionListComponent implements OnInit, OnDestroy {
   missions$: Observable<Mission[]>;
   displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'shootingProgress', 'actions'];
   constructor(
-    private store: Store<fromTechMissions.State>,
-    private router: Router
-  ) { }
-
-  ngOnInit() {
-    this.missions$ = this.store.pipe(
-      select(fromTechMissions.missionsSelectors.selectAll),
+    private store: Store<fromMissions.State>,
+    private router: Router,
+    private userService: UserService
+  ) {
+    this.missions$ = this.userService.getCurrentUser().pipe(
+      map(user => user.email),
+      tap(workingUser => this.store.dispatch(query({ workingUser }))),
+      switchMap(email => this.store.pipe(
+        select(fromMissions.getWorkingUserMissions, { email })
+      )),
+      filter(missions => !!missions),
       map(missions => missions.map(m => ({
         ...m,
         shootingProgress$: this.store.pipe(
-          select(fromTechMissions.missionShootingProgress, { missionId: m.id })
+          select(fromMissions.missionShootingProgress, { missionId: m.id })
         )
       })
-      ))
+      )),
+      takeUntil(this.unsubscribe$)
     );
+  }
+
+  ngOnInit() {
   }
 
   ngOnDestroy() {

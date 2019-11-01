@@ -27,12 +27,14 @@ export class MissionsTableComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
-    this.missionsDataSource.paginator = this.paginator;
-    this.missionsDataSource.sort = this.sort;
   }
 
   ngOnChanges() {
-    this.missionsDataSource = new MatTableDataSource(this.missions);
+    if (this.missions) {
+      this.missionsDataSource = new MatTableDataSource(this.missions);
+      this.missionsDataSource.paginator = this.paginator;
+      this.missionsDataSource.sort = this.sort;
+    }
   }
 
   applyFilter(filterValue: string) {
