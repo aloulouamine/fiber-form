@@ -1,8 +1,21 @@
-<mat-form-field appearance="outline">
-  <mat-label>Ecrire un commentaire ...</mat-label>
-  <textarea [disabled]="disabled" #commentText matInput rows="5" type="text"></textarea>
-</mat-form-field>
-<app-picture-input #pictureInput (selectFile)="addFile($event)"></app-picture-input>
-<button mat-icon-button [disabled]="disabled || !commentText.value.length" (click)="addComment(commentText.value)">
-  <mat-icon>send</mat-icon>
-</button>
+<div class="edit-comment-container">
+  <div class="m-2 row align-items-center no-gutters">
+    <div class="col-10">
+      <mat-form-field appearance="outline">
+        <mat-label>Ecrire un commentaire ...</mat-label>
+        <textarea [disabled]="disabled" #commentText matInput rows="5" type="text"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-2">
+      <button mat-icon-button [disabled]="disabled || !commentText.value.length"
+        (click)="addComment(commentText.value)">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="m-2 row justify-content-around">
+    <div class="col">
+      <app-picture-input #pictureInput [label]="'Photo jointe'" (selectFile)="addFile($event)"></app-picture-input>
+    </div>
+  </div>
+</div>
