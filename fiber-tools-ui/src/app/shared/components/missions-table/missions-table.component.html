@@ -37,7 +37,6 @@
     <th mat-header-cell *matHeaderCellDef>Avancée</th>
     <td mat-cell *matCellDef="let element"> 
       {{element.shootingProgress$ | async | number : '1.0-2'}} %
-      
       <mat-progress-bar [value]="element.shootingProgress$ | async "></mat-progress-bar>
     </td>
   </ng-container>
@@ -54,6 +53,17 @@
     <td class="action-td" mat-cell *matCellDef="let element">
       <button mat-icon-button (click)="edit.emit(element)" color="primary">
         <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actionsAdmin">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td class="action-td" mat-cell *matCellDef="let element">
+      <button mat-icon-button (click)="edit.emit(element)" color="primary">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="report.emit(element)" color="primary">
+        <mat-icon>report</mat-icon>
       </button>
     </td>
   </ng-container>

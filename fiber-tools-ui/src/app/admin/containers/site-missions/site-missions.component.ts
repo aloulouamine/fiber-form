@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
@@ -17,19 +17,20 @@ import * as fromAdmin from '../../reducers';
 export class SiteMissionsComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
-  siteId$: Observable<string> = this.route.params.pipe(map(params => params.id));
+  missionId$: Observable<string> = this.route.params.pipe(map(params => params.id));
   missions$;
-  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'workingUsers', 'actions'];
+  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'workingUsers', 'actionsAdmin'];
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<fromAdmin.State>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.missions$ = this.siteId$.pipe(
-      tap(siteId => this.store.dispatch(query({ siteId }))),
+    this.missions$ = this.missionId$.pipe(
+      tap(missionId => this.store.dispatch(query({ missionId }))),
       mergeMap(siteId => this.store.pipe(select(fromAdmin.getSiteMissions, { siteId })))
     );
   }
@@ -44,9 +45,13 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       data: mission.workingUsers ? [...mission.workingUsers] : [],
       width: '90%'
     }).afterClosed().subscribe((emails: string[]) => {
-      this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
+      this.missionId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
         this.store.dispatch(update({ siteId, missionId: mission.id, changes: { workingUsers: emails } }));
       });
     });
+  }
+
+  onReport(mission: Mission) {
+    this.router.navigate(['admin', 'site', mission.siteId, 'mission', mission.id]);
   }
 }

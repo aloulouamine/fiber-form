@@ -19,6 +19,7 @@ export class MissionsTableComponent implements OnInit, OnChanges {
   @Input() displayedColumns: string[];
 
   @Output() edit = new EventEmitter<Mission>();
+  @Output() report = new EventEmitter<Mission>();
 
   missionsDataSource: MatTableDataSource<Mission>;
 

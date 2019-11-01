@@ -51,6 +51,11 @@ export const getSiteMissions = createSelector(
   (missions, { siteId }) => missions.filter(m => m.siteId === siteId)
 );
 
+export const getSiteMissionById = createSelector(
+  missionsSelectors.selectEntities,
+  ((missions, { missionId }) => missions[missionId])
+);
+
 export const userSelectors = fromUsers.userAdapter.getSelectors(getUsers);
 
 export const searchUserSelector = createSelector(
