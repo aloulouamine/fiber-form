@@ -45,7 +45,7 @@
           <br>
           <mat-divider></mat-divider>
           <br>
-          <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i">
+          <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i" class="bg-light my-1">
             <app-picture-input [label]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
             [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url"
             [author]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.by"

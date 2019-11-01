@@ -1,17 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    FlexLayoutModule
   ],
   declarations: [UnauthorizedComponent],
   exports: [
-    FlexLayoutModule,
     UnauthorizedComponent
   ]
 })

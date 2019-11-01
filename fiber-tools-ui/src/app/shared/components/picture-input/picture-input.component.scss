@@ -3,9 +3,9 @@
 }
 
 :host {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background-color: #F8F8F8;
+  display: block;
+  border: rgba(0,0,0,.26) 1px dashed;
 }
 
 mat-divider {
@@ -20,9 +20,11 @@ mat-divider {
     opacity: .8;
     top: 70%;
     left: 70%;
+    z-index: 1;
   }
 
   .upload-progress{
+    z-index: 2;
     position: absolute;
     left: 0;
     top: 0;

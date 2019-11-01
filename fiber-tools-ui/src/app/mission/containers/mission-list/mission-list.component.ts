@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { Mission } from '../../../core/models/mission';
 import * as fromTechMissions from '../../reducers';
 
@@ -17,16 +16,11 @@ export class MissionListComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
   missions$: Observable<Mission[]>;
-  displayedColumns = ['number', 'checkPoints', 'nro', 'pm', 'capacity', 'shootingProgress', 'actions'];
+  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'shootingProgress', 'actions'];
   constructor(
     private store: Store<fromTechMissions.State>,
     private router: Router
-  ) {
-
-    if (!environment.production) {
-      this.displayedColumns = ['id', ...this.displayedColumns];
-    }
-  }
+  ) { }
 
   ngOnInit() {
     this.missions$ = this.store.pipe(

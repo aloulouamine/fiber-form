@@ -1,36 +1,43 @@
-<div class="controls">
-  <mat-label>{{label}}</mat-label>
-  <a [disabled]="disabled" (click)="!disabled && captureFileInput.click()" mat-icon-button>
-    <mat-icon>add_a_photo</mat-icon>
-  </a>
-  <a [disabled]="disabled" (click)="!disabled && fileInput.click()" mat-icon-button>
-    <mat-icon>insert_photo</mat-icon>
-  </a>
-  <input #captureFileInput (change)="onFileChange(captureFileInput)" class="hidden-file-input" type="file"
-    accept="image/*" capture="environment">
-  <input #fileInput (change)="onFileChange(fileInput)" class="hidden-file-input" type="file" accept="image/*">
+
+<div class="row justify-content-around">
+    <mat-label>{{label}}</mat-label>
 </div>
 
-<div *ngIf="displayData && (loading$ | async) === false" class="picture-bloc">
-  <a *ngIf="!disabled" mat-fab color="warn" (click)="clearPicture()">
-    <mat-icon>close</mat-icon>
-  </a>
-  <app-picture-preview [url]="displayData" [author]="author" [date]="date"></app-picture-preview>
-  <!-- <img [src]="displayData"> -->
-  <div *ngIf="uploadProgress && uploadProgress!==100" class="upload-progress">
-    <mat-progress-spinner mode="determinate" [diameter]="20" [value]="uploadProgress"></mat-progress-spinner>
-    <p>
-      chargement({{uploadProgress | number :'1.0-1'}}%)...
-    </p>
+<div class="row justify-content-around">
+  <div *ngIf="displayData && (loading$ | async) === false" class="picture-bloc">
+    <a *ngIf="!disabled" mat-fab color="warn" (click)="clearPicture()">
+      <mat-icon>close</mat-icon>
+    </a>
+    <app-picture-preview [url]="displayData" [author]="author" [date]="date"></app-picture-preview>
+    <!-- <img [src]="displayData"> -->
+    <div *ngIf="uploadProgress && uploadProgress!==100" class="upload-progress">
+      <mat-progress-spinner mode="determinate" [diameter]="20" [value]="uploadProgress"></mat-progress-spinner>
+      <p>
+        chargement({{uploadProgress | number :'1.0-1'}}%)...
+      </p>
+    </div>
+    <div *ngIf="loading$ | async" class="upload-progress">
+      <mat-spinner [diameter]="20"></mat-spinner>
+    </div>
   </div>
-  <div *ngIf="loading$ | async" class="upload-progress">
-    <mat-spinner [diameter]="20"></mat-spinner>
+  <div *ngIf="url && !displayData && (loading$ | async) === false" class="picture-bloc">
+    <a *ngIf="!disabled" mat-mini-fab color="warn" (click)="removePicture()">
+      <mat-icon>delete_forever</mat-icon>
+    </a>
+    <app-picture-preview [url]="url" [author]="author" [date]="date"></app-picture-preview>
+    <!-- <img [src]="url"> -->
   </div>
 </div>
-<div *ngIf="url && !displayData && (loading$ | async) === false" class="picture-bloc">
-  <a *ngIf="!disabled" mat-fab color="warn" (click)="removePicture()">
-    <mat-icon>delete_forever</mat-icon>
-  </a>
-  <app-picture-preview [url]="url" [author]="author" [date]="date"></app-picture-preview>
-  <!-- <img [src]="url"> -->
+
+<div class="row justify-content-center my-2">
+    <a [disabled]="disabled" class="mx-1" (click)="!disabled && captureFileInput.click()" mat-mini-fab color="primary">
+      <mat-icon>add_a_photo</mat-icon>
+    </a>
+    <a [disabled]="disabled" class="mx-1" (click)="!disabled && fileInput.click()" mat-mini-fab color="primary">
+      <mat-icon>insert_photo</mat-icon>
+    </a>
 </div>
+<input #captureFileInput (change)="onFileChange(captureFileInput)" class="hidden-file-input" type="file"
+  accept="image/*" capture="environment">
+<input #fileInput (change)="onFileChange(fileInput)" class="hidden-file-input" type="file" accept="image/*">
+
