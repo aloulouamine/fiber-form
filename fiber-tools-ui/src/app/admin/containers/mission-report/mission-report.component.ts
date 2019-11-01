@@ -21,7 +21,7 @@ export class MissionReportComponent implements OnInit {
 
   ngOnInit() {
     this.mission$ = this.route.params.pipe(
-      tap(params => this.store.dispatch(query({ missionId : params.missionId }))),
+      tap(params => this.store.dispatch(query({ siteId : params.missionId }))),
       mergeMap(params => {
         return this.store.pipe(
           select(fromAdmin.getSiteMissionById, {missionId: params.missionId})

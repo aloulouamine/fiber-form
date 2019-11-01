@@ -17,7 +17,7 @@ import * as fromAdmin from '../../reducers';
 export class SiteMissionsComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
-  missionId$: Observable<string> = this.route.params.pipe(map(params => params.id));
+  siteId$: Observable<string> = this.route.params.pipe(map(params => params.id));
   missions$;
   displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'workingUsers', 'actionsAdmin'];
 
@@ -29,8 +29,8 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.missions$ = this.missionId$.pipe(
-      tap(missionId => this.store.dispatch(query({ missionId }))),
+    this.missions$ = this.siteId$.pipe(
+      tap(siteId => this.store.dispatch(query({ siteId }))),
       mergeMap(siteId => this.store.pipe(select(fromAdmin.getSiteMissions, { siteId })))
     );
   }
@@ -45,7 +45,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       data: mission.workingUsers ? [...mission.workingUsers] : [],
       width: '90%'
     }).afterClosed().subscribe((emails: string[]) => {
-      this.missionId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
+      this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
         this.store.dispatch(update({ siteId, missionId: mission.id, changes: { workingUsers: emails } }));
       });
     });

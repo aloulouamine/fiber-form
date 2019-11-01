@@ -15,7 +15,7 @@ export enum MissionActionTypes {
 
 export const query = createAction(
   MissionActionTypes.QUERY,
-  props<{ missionId: string }>()
+  props<{ siteId: string }>()
 );
 
 export const added = createAction(
