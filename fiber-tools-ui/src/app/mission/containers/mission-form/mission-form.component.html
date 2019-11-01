@@ -5,9 +5,21 @@
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="submit()">
       <!-- Touret -->
-      <mat-form-field>
+<!--       <mat-form-field>
         <mat-label>Touret</mat-label>
         <input matInput readonly type="text" />
+      </mat-form-field> -->
+      <mat-form-field>
+        <mat-label>NRO</mat-label>
+        <input matInput [value]="(mission$ |async).nro" readonly type="text" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>PM</mat-label>
+        <input matInput [value]="(mission$ |async).pm" readonly type="text" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Capacité</mat-label>
+        <input matInput [value]="(mission$ |async).capacity" readonly type="text" />
       </mat-form-field>
       <!-- Photos des chambres-->
       <mat-vertical-stepper>
@@ -20,17 +32,23 @@
         <mat-step formArrayName="checkPoints" *ngFor="let checkPoint of formCheckPointsControls; let i = index;"
           [stepControl]="checkPoint">
           <ng-template matStepLabel>
-            <div class="step-label">
-              <app-check-point-icon *ngIf="(mission$ | async)?.checkPoints[i]"
-                [checkPoint]="(mission$ | async)?.checkPoints[i]">
-              </app-check-point-icon>
-              {{(mission$ | async)?.checkPoints[i]?.ref}}
-              <div class="checkpoint-progress-container">
-                <mat-progress-bar [value]="getCheckpointProgress((mission$|async).id, i) | async"></mat-progress-bar>
-                <mat-chip>
-                  {{getCheckpointProgress((mission$|async).id, i) | async | number : '1.0-2'}} % 
-                </mat-chip>
+            <div class="step-label row no-gutters align-items-center">
+              <div class="mx-2">
+                <app-check-point-icon *ngIf="(mission$ | async)?.checkPoints[i]"
+                  [checkPoint]="(mission$ | async)?.checkPoints[i]">
+                </app-check-point-icon>
               </div>
+              <div>
+                {{(mission$ | async)?.checkPoints[i]?.ref}}
+              </div>
+            </div>
+            <div class="row no-gutters align-items-center justify-content-center bg-light">
+                <div class="col-7 mr-1">
+                    <mat-progress-bar [value]="getCheckpointProgress((mission$|async).id, i) | async"></mat-progress-bar>
+                  </div>
+                  <div class="col-2 mx-2">
+                      {{getCheckpointProgress((mission$|async).id, i) | async | number : '1.0-2'}} %
+                  </div>
             </div>
           </ng-template>
           <br>
@@ -47,10 +65,9 @@
           <br>
           <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i" class="bg-light my-1">
             <app-picture-input [label]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
-            [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url"
-            [author]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.by"
-            [date]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.date"
-            
+              [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url"
+              [author]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.by"
+              [date]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.date"
               [uploadProgress]="getUploadProgress((mission$|async).id, i, j) | async" [formControlName]="j">
             </app-picture-input>
           </div>
