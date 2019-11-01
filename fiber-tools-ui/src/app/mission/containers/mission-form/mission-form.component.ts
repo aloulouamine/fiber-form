@@ -3,8 +3,8 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
-import { Mission } from '../../../core/models/mission';
+import { map, take, takeUntil, mergeMap } from 'rxjs/operators';
+import { Mission, Comment } from '../../../core/models/mission';
 import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
 import * as fromTechMissions from '../../reducers';
 
@@ -18,6 +18,8 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
 
   mission$: Observable<Mission>;
+
+  comments$: Observable<Comment[]>;
 
   writingComment$: Observable<boolean> = this.store.pipe(
     select(fromTechMissions.isWritingComment)
@@ -46,9 +48,14 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.mission$ = this.route.data.pipe(map(data => data.mission));
+    this.mission$ = this.route.params.pipe(
+      mergeMap(params => this.store.pipe(select(fromTechMissions.selectMissionById, { missionId: params.id }))));
 
-    this.mission$.pipe(takeUntil(this.unsubscribe$)).subscribe(
+    this.comments$ = this.mission$.pipe(
+      map(mission => mission.comments)
+    );
+
+    this.mission$.pipe(takeUntil(this.unsubscribe$), take(1)).subscribe(
       (mission: Mission) => {
         this.formCheckPoints.clear();
         mission.checkPoints.map((cp, cpIndex) => {
@@ -100,9 +107,9 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  getUploadProgress(missionId, cpIndex, pictureIndex){
+  getUploadProgress(missionId, cpIndex, pictureIndex) {
     return this.store.pipe(
-      select(fromTechMissions.cpUploadProgress, {missionId, cpIndex, pictureIndex})
+      select(fromTechMissions.cpUploadProgress, { missionId, cpIndex, pictureIndex })
     )
   }
 
