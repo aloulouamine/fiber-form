@@ -1,4 +1,4 @@
-import { Action, combineReducers, createFeatureSelector, createSelector } from '@ngrx/store';
+import { Action, combineReducers, createFeatureSelector, createSelector, select } from '@ngrx/store';
 import { CheckPoint } from 'src/app/core/models/mission';
 import * as fromMissions from './mission.reducer';
 
@@ -34,13 +34,21 @@ export const selectMissionById = createSelector(
   }
 );
 
-export const getSiteMissions = createSelector(
+export const allMissionsWithProgress = createSelector(
   missionsSelectors.selectAll,
+  (missions, {store}) => missions.map(m =>({
+    ...m,
+    shootingProgress$: store.pipe(select(missionShootingProgress, {missionId: m.id})) 
+  }))
+)
+
+export const getSiteMissions = createSelector(
+  allMissionsWithProgress,
   (missions, { siteId }) => missions.filter(m => m.siteId === siteId)
 );
 
 export const getWorkingUserMissions = createSelector(
-  missionsSelectors.selectAll,
+  allMissionsWithProgress,
   (missions, { email }) => missions.filter(m => m && m.workingUsers && m.workingUsers.includes(email))
 );
 

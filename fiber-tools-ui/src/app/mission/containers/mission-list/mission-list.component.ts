@@ -28,16 +28,9 @@ export class MissionListComponent implements OnInit, OnDestroy {
       map(user => user.email),
       tap(workingUser => this.store.dispatch(query({ workingUser }))),
       switchMap(email => this.store.pipe(
-        select(fromMissions.getWorkingUserMissions, { email })
+        select(fromMissions.getWorkingUserMissions, { email, store: this.store })
       )),
       filter(missions => !!missions),
-      map(missions => missions.map(m => ({
-        ...m,
-        shootingProgress$: this.store.pipe(
-          select(fromMissions.missionShootingProgress, { missionId: m.id })
-        )
-      })
-      )),
       takeUntil(this.unsubscribe$)
     );
   }

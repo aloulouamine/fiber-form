@@ -19,7 +19,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
   siteId$: Observable<string> = this.route.params.pipe(map(params => params.id));
   missions$;
-  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'workingUsers', 'actionsAdmin'];
+  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'shootingProgress', 'workingUsers', 'actionsAdmin'];
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +31,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.missions$ = this.siteId$.pipe(
       tap(siteId => this.store.dispatch(query({ siteId }))),
-      mergeMap(siteId => this.store.pipe(select(fromMissions.getSiteMissions, { siteId })))
+      mergeMap(siteId => this.store.pipe(select(fromMissions.getSiteMissions, { siteId, store: this.store })))
     );
   }
 
