@@ -24,15 +24,17 @@
       <div class="col-4">
         <div class="step-label row no-gutters align-items-center">
           <div class="mx-2">
-            <app-check-point-icon [checkPoint]="cp"> </app-check-point-icon>
+            <app-check-point-icon [checkPoint]="cp"></app-check-point-icon>
           </div>
           <div>
             {{cp.ref}}
           </div>
         </div>
+        <div *ngIf="!cp.nbPhotosToTakeWithinCheckPoint"><i> Absence de boite : Aucune photo requise</i></div>
       </div>
 
-      <div class="col-8">
+
+      <div class="col-8" *ngIf="cp.nbPhotosToTakeWithinCheckPoint">
         <div class="row align-items-center" *ngFor="let rqPhoto of cp.properties.requiredPhotos">
           <div class="col">
             {{rqPhoto.label}}
