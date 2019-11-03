@@ -21,6 +21,14 @@
         <mat-label>Capacité</mat-label>
         <input matInput [value]="(mission$ |async).capacity" readonly type="text" />
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>1er Touret</mat-label>
+        <input matInput [value]="(mission$ |async).firstTouret" type="text" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>2ème Touret</mat-label>
+        <input matInput [value]="(mission$ |async).secondTouret" type="text" />
+      </mat-form-field>
       <!-- Photos des chambres-->
       <mat-vertical-stepper>
         <!-- Custom icon with a context variable. -->
