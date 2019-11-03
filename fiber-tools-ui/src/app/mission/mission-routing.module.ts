@@ -9,7 +9,8 @@ import { MissionFormResolver } from './containers/mission-form/mission-form.reso
 const routes: Routes = [
   { path: '', component: MissionListComponent },
   {
-    path: ':id', component: MissionFormComponent, resolve: {
+    path: ':id', component: MissionFormComponent,
+    resolve: {
       missions: MissionListResolver,
       mission: MissionFormResolver
     }

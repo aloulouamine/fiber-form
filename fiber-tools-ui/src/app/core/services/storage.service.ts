@@ -15,13 +15,13 @@ export class StorageService {
     const fileName = `site/${mission.siteId}/`
       + `mission/${mission.id}/`
       + `checkpoint/${cpIndex}/`
-      + `picture/${pictureIndex}/${uuid()}.${file.name.split('.').pop()}`;
+      + `picture/${pictureIndex}/${uuid()}_original.${file.name.split('.').pop()}`;
     const ref = this.afStroage.ref(fileName);
     return ref.put(file);
   }
 
   putCommentPicture(mission: Mission, file: File, comment: Comment) {
-    const fileName = `site/${mission.siteId}/mission/${mission.id}/comments/${comment.id}/picture/${uuid()}.${file.name.split('.').pop()}`;
+    const fileName = `site/${mission.siteId}/mission/${mission.id}/comments/${comment.id}/picture/${uuid()}_original.${file.name.split('.').pop()}`;
     return from(this.afStroage.upload(fileName, file));
   }
 

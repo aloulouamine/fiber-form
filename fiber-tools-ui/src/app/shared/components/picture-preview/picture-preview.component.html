@@ -1,5 +1,6 @@
 <div class="picture-container row align-items-center">
   <div class="col align-self-center">
-    <img [src]="url" (click)="openDiag()" />
+    <img *ngIf="thumbnailUrl$ | async" [src]="thumbnailUrl$ | async" (click)="openDiag()" />
+    <mat-icon *ngIf="!url">not_interested</mat-icon>
   </div>
 </div>

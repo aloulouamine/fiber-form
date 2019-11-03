@@ -6,10 +6,10 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { Comment, Mission } from 'src/app/core/models/mission';
 import { MissionService } from 'src/app/core/services/mission.service';
 import { StorageService } from 'src/app/core/services/storage.service';
-import * as missionsModuleActions from '../../mission/actions/mission-api.actions';
 import * as missionsAdminModuleActions from '../../admin/actions/mission.actions';
+import * as missionsModuleActions from '../../mission/actions/mission-api.actions';
 import { deletedCpPicture, MissionFormActionTypes, uploadedCpPicture, uploadProgressCpPicture } from '../../mission/actions/mission-form.actions';
-import { removed, modified, added } from '../actions/mission.actions';
+import { added, modified, removed } from '../actions/mission.actions';
 
 @Injectable()
 export class MissionEffects {
@@ -37,12 +37,8 @@ export class MissionEffects {
       const uploadTask = this.storageService.
         putCheckpointPicture(action.file, action.mission, action.cpIndex, action.pictureIndex);
       const uploadFinish$ = from(uploadTask).pipe(
-        mergeMap(uploadTaskSnapshot =>
-          from(uploadTaskSnapshot.ref.getDownloadURL()).pipe(
-            mergeMap(pictureURL => this.missionService
-              .updatePictureURL(action.mission, pictureURL, action.cpIndex, action.pictureIndex)
-              .pipe(map(() => uploadedCpPicture()))))
-        )
+        mergeMap(uploadTaskSnapshot => this.missionService.updatePictureURL(action.mission, uploadTaskSnapshot.ref.fullPath, action.cpIndex, action.pictureIndex)
+          .pipe(map(() => uploadedCpPicture())))
       );
       const uploadProgress$ = uploadTask.percentageChanges().pipe(
         map(progress => uploadProgressCpPicture({ progress, key: `${action.mission.id}-${action.cpIndex}-${action.pictureIndex}` }))
@@ -66,16 +62,15 @@ export class MissionEffects {
       if (file) {
         return this.missionService.createNewComment(comment, []).pipe(
           mergeMap((c: Comment) => this.storageService.putCommentPicture(mission, file, c).pipe(
-            mergeMap((up: UploadTaskSnapshot) => {
-              return up.ref.getDownloadURL().then(url => {
-                const now = new Date();
-                c.photos = [{
-                  url,
-                  by: '',
-                  date: now
-                }];
-                return c;
-              });
+            map((up: UploadTaskSnapshot) => {
+              const url = up.ref.fullPath;
+              const now = new Date();
+              c.photos = [{
+                url,
+                by: '',
+                date: now
+              }];
+              return c;
             })
           )),
           mergeMap(c => this.missionService.addComment(mission, c))

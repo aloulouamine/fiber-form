@@ -1,1 +1,47 @@
-{{mission$ | async | json}}
+<mat-card>
+  <mat-card-title>
+    <div class="row m-3">
+      <div class="col">
+        <marquee>
+          Cable {{(mission$ | async )?.number }} du chantier: {{(mission$ | async )?.nro }}_{{(mission$ | async)?.pm }}
+        </marquee>
+      </div>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="row m-3">
+      <div class="col">
+        Capacité: {{(mission$ | async )?.capacity }}
+      </div>
+    </div>
+    <div class="row m-3">
+      <div class="col">
+        Raccordements :
+      </div>
+    </div>
+
+    <div class="row m-3" *ngFor="let cp of (mission$ | async)?.checkPoints">
+      <div class="col-4">
+        <div class="step-label row no-gutters align-items-center">
+          <div class="mx-2">
+            <app-check-point-icon [checkPoint]="cp"> </app-check-point-icon>
+          </div>
+          <div>
+            {{cp.ref}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8">
+        <div class="row align-items-center" *ngFor="let rqPhoto of cp.properties.requiredPhotos">
+          <div class="col">
+            {{rqPhoto.label}}
+          </div>
+          <div class="col">
+            <app-picture-preview [url]="rqPhoto.url"></app-picture-preview>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

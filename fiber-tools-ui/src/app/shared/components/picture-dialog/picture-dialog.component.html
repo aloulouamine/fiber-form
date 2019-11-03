@@ -1,5 +1,5 @@
 <span (click)="onNoClick()">x</span>
 <div>
-  <img [src]="data.url" />
+  <img [src]="originalUrl$ | async" />
   <p>{{data.author}} le {{date | date : 'dd/MM/yyyy à HH:mm'}}</p>
 </div>

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as fromMissions from '../../../core/reducers';
 import { ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
+import { Mission } from 'src/app/core/models/mission';
+import * as fromMissions from '../../../core/reducers';
 import { query } from '../../actions/mission.actions';
 
 @Component({
@@ -12,7 +14,7 @@ import { query } from '../../actions/mission.actions';
 })
 export class MissionReportComponent implements OnInit {
 
-  mission$;
+  mission$: Observable<Mission>;
 
   constructor(
     private store: Store<fromMissions.State>,
@@ -21,10 +23,10 @@ export class MissionReportComponent implements OnInit {
 
   ngOnInit() {
     this.mission$ = this.route.params.pipe(
-      tap(params => this.store.dispatch(query({ siteId : params.missionId }))),
+      tap(params => this.store.dispatch(query({ siteId: params.siteId }))),
       mergeMap(params => {
         return this.store.pipe(
-          select(fromMissions.selectMissionById, {missionId: params.missionId})
+          select(fromMissions.selectMissionById, { missionId: params.missionId, store: this.store })
         );
       })
     );
