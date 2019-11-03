@@ -15,7 +15,7 @@ export class MissionFormResolver implements Resolve<any> {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<Mission> {
     return this.store.pipe(
-      select(fromMissions.selectMissionById, { missionId: next.params.id }),
+      select(fromMissions.selectMissionById, { missionId: next.params.id, store : this.store }),
       filter(mission => !!mission),
       take(1)
     );

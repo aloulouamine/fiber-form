@@ -49,7 +49,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.mission$ = this.route.params.pipe(
-      mergeMap(params => this.store.pipe(select(fromMissions.selectMissionById, { missionId: params.id }))));
+      mergeMap(params => this.store.pipe(select(fromMissions.selectMissionById, { missionId: params.id, store: this.store }))));
 
     this.comments$ = this.mission$.pipe(
       map(mission => mission.comments)
@@ -66,7 +66,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
           Array.from({
             length: (cp.properties && cp.properties.requiredPhotos) ? cp.properties.requiredPhotos.length : 0
           }).forEach((_, pictureIndex) => {
-            const pictureControl = this.fb.control('', Validators.required);
+            const pictureControl = this.fb.control(cp.properties.requiredPhotos[pictureIndex].url, Validators.required);
             pictureControl.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(file => {
               this._onPictureChange(file, mission, cpIndex, pictureIndex);
             });

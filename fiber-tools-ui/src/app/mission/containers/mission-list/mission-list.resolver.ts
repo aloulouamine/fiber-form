@@ -23,7 +23,7 @@ export class MissionListResolver implements Resolve<Observable<Mission[]>> {
     return this.userService.getCurrentUserEmail().pipe(
       tap(workingUser => this.store.dispatch(query({ workingUser }))),
       switchMap(email => this.store.pipe(
-        select(fromMissions.getWorkingUserMissions, { email })
+        select(fromMissions.getWorkingUserMissions, { email, store: this.store })
       )),
       take(1)
     );

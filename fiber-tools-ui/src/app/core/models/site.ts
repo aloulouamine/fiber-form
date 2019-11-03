@@ -1,6 +1,6 @@
 import { Timestamp } from '@firebase/firestore-types';
 
-export enum Planner {
+export enum Provider {
   AXIONE = 'AXIONE',
   TDF = 'TDF'
 }
@@ -8,7 +8,7 @@ export enum Planner {
 export interface Site {
   id?: string;
   ref: string;
-  planner: Planner;
+  provider: Provider;
   siteFromFilename: string;
   creationDate: Timestamp;
 }

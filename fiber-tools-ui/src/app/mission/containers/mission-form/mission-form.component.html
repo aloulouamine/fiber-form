@@ -1,11 +1,11 @@
-<mat-card>
-  <!-- Chantier-->
-  <mat-card-title>{{(mission$ |  async )?.number}}</mat-card-title>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-card>
+    <!-- Chantier-->
+    <mat-card-title>{{(mission$ |  async )?.number}}</mat-card-title>
 
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card-content>
       <!-- Touret -->
-<!--       <mat-form-field>
+      <!--       <mat-form-field>
         <mat-label>Touret</mat-label>
         <input matInput readonly type="text" />
       </mat-form-field> -->
@@ -43,12 +43,12 @@
               </div>
             </div>
             <div class="row no-gutters align-items-center justify-content-center bg-light">
-                <div class="col-7 mr-1">
-                    <mat-progress-bar [value]="getCheckpointProgress((mission$|async).id, i) | async"></mat-progress-bar>
-                  </div>
-                  <div class="col-2 mx-2">
-                      {{getCheckpointProgress((mission$|async).id, i) | async | number : '1.0-2'}} %
-                  </div>
+              <div class="col-7 mr-1">
+                <mat-progress-bar [value]="getCheckpointProgress((mission$|async).id, i) | async"></mat-progress-bar>
+              </div>
+              <div class="col-2 mx-2">
+                {{getCheckpointProgress((mission$|async).id, i) | async | number : '1.0-2'}} %
+              </div>
             </div>
           </ng-template>
           <br>
@@ -84,7 +84,17 @@
           </mat-chip-list>
         </mat-step>
       </mat-vertical-stepper>
-    </form>
+
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
+<mat-card>
+  <mat-card-content>
     <ng-container *ngIf="(comments$|async)">
       <app-comment-display *ngFor="let comment of (comments$|async)" [comment]="comment">
       </app-comment-display>
@@ -92,7 +102,4 @@
     <mat-spinner [diameter]="25" *ngIf="writingComment$ | async"></mat-spinner>
     <app-comment-edit [disabled]="writingComment$ | async" (send)="addComment($event)"></app-comment-edit>
   </mat-card-content>
-  <mat-card-actions align="end">
-    <!-- <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button> -->
-  </mat-card-actions>
 </mat-card>
