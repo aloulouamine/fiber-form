@@ -10,7 +10,7 @@
       <p>
         {{comment.message}}
       </p>
-      <img *ngFor="let pic of comment.photos" [src]="pic.url">
+      <app-picture-preview *ngFor="let pic of comment.photos" [url]="pic.url"> </app-picture-preview>
     </mat-card-content>
 
   </mat-card>
