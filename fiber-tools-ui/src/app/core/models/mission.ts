@@ -77,4 +77,7 @@ export interface Mission {
   updateDate?: Date;
   comments: Comment[];
   siteId: string;
+
+  firstTouret: string;
+  secondTouret: string;
 }
