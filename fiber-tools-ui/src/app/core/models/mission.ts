@@ -1,6 +1,6 @@
-import { Timestamp } from '@firebase/firestore-types';
-import { CHECK_POINT_TYPE } from '../enum/check-point-type';
-import { Observable } from 'rxjs';
+import {Timestamp} from '@firebase/firestore-types';
+import {CHECK_POINT_TYPE} from '../enum/check-point-type';
+import {Observable} from 'rxjs';
 
 export interface CheckPoint {
   ref: string;
@@ -77,7 +77,13 @@ export interface Mission {
   updateDate?: Date;
   comments: Comment[];
   siteId: string;
+  // Touret 1
+  firstTouretId: string;
+  firstTouretMeteringStart: number;
+  firstTouretMeteringEnd: number;
 
-  firstTouret: string;
-  secondTouret: string;
+  // Touret 2
+  secondTouretId: string;
+  secondTouretMeteringStart: number;
+  secondTouretMeteringEnd: number;
 }

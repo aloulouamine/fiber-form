@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-card>
     <!-- Chantier-->
-    <mat-card-title>{{(mission$ |  async )?.number}}</mat-card-title>
+    <mat-card-title>{{(mission$ |  async)?.number}}</mat-card-title>
 
     <mat-card-content>
       <!-- Touret -->
@@ -11,23 +11,35 @@
       </mat-form-field> -->
       <mat-form-field>
         <mat-label>NRO</mat-label>
-        <input matInput [value]="(mission$ |async).nro" readonly type="text" />
+        <input matInput [value]="(mission$ |async).nro" readonly type="text"/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>PM</mat-label>
-        <input matInput [value]="(mission$ |async).pm" readonly type="text" />
+        <input matInput [value]="(mission$ |async).pm" readonly type="text"/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Capacité</mat-label>
-        <input matInput [value]="(mission$ |async).capacity" readonly type="text" />
+        <input matInput [value]="(mission$ |async).capacity" readonly type="text"/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>1er Touret</mat-label>
-        <input matInput [value]="(mission$ |async).firstTouret" type="text" />
+        <input matInput [value]="(mission$ |async).firstTouretId" type="text"/>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [value]="(mission$ |async).firstTouretMeteringStart" type="text"/>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [value]="(mission$ |async).firstTouretMeteringEnd" type="text"/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>2ème Touret</mat-label>
-        <input matInput [value]="(mission$ |async).secondTouret" type="text" />
+        <input matInput [value]="(mission$ |async).secondTouretId" type="text"/>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [value]="(mission$ |async).secondTouretMeteringStart" type="text"/>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [value]="(mission$ |async).secondTouretMeteringEnd" type="text"/>
       </mat-form-field>
       <!-- Photos des chambres-->
       <mat-vertical-stepper>
@@ -38,12 +50,12 @@
           </div>
         </ng-template>
         <mat-step formArrayName="checkPoints" *ngFor="let checkPoint of formCheckPointsControls; let i = index;"
-          [stepControl]="checkPoint">
+                  [stepControl]="checkPoint">
           <ng-template matStepLabel>
             <div class="step-label row no-gutters align-items-center">
               <div class="mx-2">
                 <app-check-point-icon *ngIf="(mission$ | async)?.checkPoints[i]"
-                  [checkPoint]="(mission$ | async)?.checkPoints[i]">
+                                      [checkPoint]="(mission$ | async)?.checkPoints[i]">
                 </app-check-point-icon>
               </div>
               <div>
@@ -62,10 +74,10 @@
           <br>
           <mat-chip-list *ngIf="i!==0">
             <mat-chip>
-              <p><b>Distance: </b> {{(mission$ | async)?.links[i-1]?.value}} m</p>
+              <p><b>Distance: </b> {{(mission$ | async)?.links[i - 1]?.value}} m</p>
             </mat-chip>
             <mat-chip>
-              <p>{{(mission$ | async).sectionPreffixFromFirst}}-{{(mission$ | async)?.links[i-1]?.section}}</p>
+              <p>{{(mission$ | async).sectionPreffixFromFirst}}-{{(mission$ | async)?.links[i - 1]?.section}}</p>
             </mat-chip>
           </mat-chip-list>
           <br>
@@ -73,10 +85,11 @@
           <br>
           <div *ngFor="let picture of checkPoint.controls; let j = index;" [formArrayName]="i" class="bg-light my-1">
             <app-picture-input [label]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.label"
-              [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url"
-              [author]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.by"
-              [date]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.date"
-              [uploadProgress]="getUploadProgress((mission$|async).id, i, j) | async" [formControlName]="j">
+                               [url]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.url"
+                               [author]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.by"
+                               [date]="(mission$ | async)?.checkPoints[i]?.properties?.requiredPhotos[j]?.date"
+                               [uploadProgress]="getUploadProgress((mission$|async).id, i, j) | async"
+                               [formControlName]="j">
             </app-picture-input>
           </div>
           <br>

@@ -18,7 +18,7 @@ export class MissionListComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
   missions$: Observable<Mission[]>;
-  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'firstTouret', 'secondTouret', 'shootingProgress', 'actions'];
+  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'firstTouretId', 'secondTouretId', 'shootingProgress', 'actions'];
   constructor(
     private store: Store<fromMissions.State>,
     private router: Router,
