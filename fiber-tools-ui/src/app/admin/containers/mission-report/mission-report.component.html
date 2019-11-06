@@ -47,3 +47,12 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <ng-container *ngIf="(comments$|async)">
+      <app-comment-display *ngFor="let comment of (comments$|async)" [comment]="comment">
+      </app-comment-display>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

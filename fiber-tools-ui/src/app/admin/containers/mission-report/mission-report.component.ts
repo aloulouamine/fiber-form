@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { mergeMap, tap } from 'rxjs/operators';
-import { Mission } from 'src/app/core/models/mission';
+import { mergeMap, tap, map } from 'rxjs/operators';
+import { Mission, Comment } from 'src/app/core/models/mission';
 import * as fromMissions from '../../../core/reducers';
 import { query } from '../../actions/mission.actions';
 
@@ -15,6 +15,7 @@ import { query } from '../../actions/mission.actions';
 export class MissionReportComponent implements OnInit {
 
   mission$: Observable<Mission>;
+  comments$: Observable<Comment[]>;
 
   constructor(
     private store: Store<fromMissions.State>,
@@ -29,6 +30,10 @@ export class MissionReportComponent implements OnInit {
           select(fromMissions.selectMissionById, { missionId: params.missionId, store: this.store })
         );
       })
+    );
+    
+    this.comments$ = this.mission$.pipe(
+      map(mission => mission.comments)
     );
   }
 
