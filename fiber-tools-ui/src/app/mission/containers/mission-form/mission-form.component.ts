@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, take, takeUntil, mergeMap } from 'rxjs/operators';
-import { Mission, Comment } from '../../../core/models/mission';
-import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
+import { map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { Comment, Mission } from '../../../core/models/mission';
 import * as fromMissions from '../../../core/reducers';
+import { update } from '../../actions/mission-api.actions';
+import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-mission-form',
@@ -26,9 +28,8 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   );
 
   form = this.fb.group({
-    cable: [''],
     checkPoints: this.fb.array([]),
-    ref: ['', Validators.required]
+
   });
 
   get formCheckPoints(): FormArray {
@@ -42,7 +43,9 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private store: Store<fromMissions.State>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private router: Router
   ) {
   }
 
@@ -74,8 +77,8 @@ export class MissionFormComponent implements OnInit, OnDestroy {
           }
           );
         });
-        this.form.get('ref').setValue(mission.number);
-        this.form.get('cable').setValue(mission.cable);
+
+
       }
     );
   }
@@ -94,11 +97,34 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    console.log('done');
+    this.userService
+      .getCurrentUserEmail()
+      .pipe(
+        take(1),
+        takeUntil(this.unsubscribe$),
+        mergeMap(email => this.mission$.pipe(
+          tap(m => {
+            const lU = m.workingUsers.reduce((lastUsers, wU) => {
+              if (wU !== email) {
+                lastUsers.push(wU);
+              }
+              return lastUsers;
+            }, []);
+            this.router.navigate(['mission'])
+            this.store.dispatch(update(
+              {
+                siteId: m.siteId,
+                missionId: m.id,
+                changes: { workingUsers: lU }
+              }
+            ));
+          }),
+        ))
+      ).subscribe();
   }
 
   addComment({ comment, file }) {
-    this.mission$.pipe(take(1)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })));
+    this.mission$.pipe(take(1), takeUntil(this.unsubscribe$)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })));
   }
 
   getCheckpointProgress(missionId, cpIndex) {
@@ -110,6 +136,15 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   getUploadProgress(missionId, cpIndex, pictureIndex) {
     return this.store.pipe(
       select(fromMissions.cpUploadProgress, { missionId, cpIndex, pictureIndex })
+    );
+  }
+
+  onTouretChange(changes: Partial<Mission>) {
+    this.mission$.pipe(
+      take(1),
+      takeUntil(this.unsubscribe$),
+    ).subscribe(
+      m => this.store.dispatch(update({ siteId: m.siteId, missionId: m.id, changes }))
     );
   }
 

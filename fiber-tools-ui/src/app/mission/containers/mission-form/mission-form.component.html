@@ -1,34 +1,15 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-card>
     <!-- Chantier-->
-    <mat-card-title>{{(mission$ |  async )?.number}}</mat-card-title>
-
+    <mat-card-title>Câble {{(mission$ | async)?.number}}</mat-card-title>
+    <mat-card-subtitle>
+      NRO : <strong>{{(mission$ |async).nro}}</strong> /
+      PM : <strong>{{(mission$ |async).pm}}</strong> /
+      Capacité : <strong>{{(mission$ |async).capacity}} m</strong>
+    </mat-card-subtitle>
     <mat-card-content>
-      <!-- Touret -->
-      <!--       <mat-form-field>
-        <mat-label>Touret</mat-label>
-        <input matInput readonly type="text" />
-      </mat-form-field> -->
-      <mat-form-field>
-        <mat-label>NRO</mat-label>
-        <input matInput [value]="(mission$ |async).nro" readonly type="text" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>PM</mat-label>
-        <input matInput [value]="(mission$ |async).pm" readonly type="text" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Capacité</mat-label>
-        <input matInput [value]="(mission$ |async).capacity" readonly type="text" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>1er Touret</mat-label>
-        <input matInput [value]="(mission$ |async).firstTouret" type="text" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>2ème Touret</mat-label>
-        <input matInput [value]="(mission$ |async).secondTouret" type="text" />
-      </mat-form-field>
+      <app-touret-input-form [mission]="mission$ | async" (touretChange)="onTouretChange($event)">
+      </app-touret-input-form>
       <!-- Photos des chambres-->
       <mat-vertical-stepper>
         <!-- Custom icon with a context variable. -->
@@ -96,7 +77,7 @@
 
     </mat-card-content>
     <mat-card-actions align="end">
-      <button type="submit" [disabled]="form.invalid" mat-button>Enregistrer</button>
+      <button type="submit" [disabled]="form.invalid" mat-button>Fini</button>
     </mat-card-actions>
   </mat-card>
 </form>

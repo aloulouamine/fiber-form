@@ -28,6 +28,7 @@ import { CommentEditComponent } from './components/comment-edit/comment-edit.com
 import { PictureInputComponent } from './components/picture-input/picture-input.component';
 import { PicturePreviewComponent } from './components/picture-preview/picture-preview.component';
 import { PictureDialogComponent } from './components/picture-dialog/picture-dialog.component';
+import { TouretInputFormComponent } from './components/touret-input-form/touret-input-form.component';
 
 const MATERIAL_MODULES = [
   MatAutocompleteModule,
@@ -61,7 +62,8 @@ const DECLARATIONS = [
   CommentEditComponent,
   PictureInputComponent,
   PicturePreviewComponent,
-  PictureDialogComponent
+  PictureDialogComponent,
+  TouretInputFormComponent
 ];
 @NgModule({
   declarations: DECLARATIONS,

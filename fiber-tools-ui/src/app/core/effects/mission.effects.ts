@@ -15,7 +15,7 @@ import { added, modified, removed } from '../actions/mission.actions';
 export class MissionEffects {
 
   load$ = createEffect(() => this.actions$.pipe(
-    ofType(missionsModuleActions.MissionApiActionTypes.QUERY),
+    ofType(missionsModuleActions.MissionFormActionTypes.QUERY),
     switchMap((action: any) => this.missionService.getAllMissionsForWorkingUser(action.workingUser)),
     mergeMap(action => action),
     map(action => {
@@ -102,7 +102,10 @@ export class MissionEffects {
   ));
 
   updateAdmin$ = createEffect(() => this.actions$.pipe(
-    ofType(missionsAdminModuleActions.MissionActionTypes.UPDATE),
+    ofType(
+      missionsAdminModuleActions.MissionActionTypes.UPDATE,
+      missionsModuleActions.MissionFormActionTypes.UPDATE
+    ),
     switchMap((action: any) => this.missionService.updateMission(action.siteId, action.missionId, action.changes).pipe(
       map(() => missionsAdminModuleActions.query({ siteId: action.siteId }))
     )),

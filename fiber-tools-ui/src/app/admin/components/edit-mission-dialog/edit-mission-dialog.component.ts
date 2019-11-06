@@ -9,13 +9,14 @@ import { startWith, map, mergeMap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import * as fromAdmin from '../../reducers';
 import { query } from '../../actions/user.actions';
+import { Mission } from 'src/app/core/models/mission';
 
 @Component({
-  selector: 'app-select-users-dialog',
-  templateUrl: './select-users-dialog.component.html',
-  styleUrls: ['./select-users-dialog.component.css']
+  selector: 'app-edit-mission-dialog',
+  templateUrl: './edit-mission-dialog.component.html',
+  styleUrls: ['./edit-mission-dialog.component.css']
 })
-export class SelectUsersDialogComponent implements OnInit {
+export class EditMissionDialogComponent implements OnInit {
 
   @ViewChild('emailInput', { static: false }) emailInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
@@ -25,7 +26,15 @@ export class SelectUsersDialogComponent implements OnInit {
   allEmails$: Observable<string[]>;
   filteredEmails$: Observable<string[]>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public emails: string[], private stroe: Store<fromAdmin.State>) { }
+  touretInfo: Partial<Mission>;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: {
+      mission: Mission,
+      emails: string[]
+    },
+    private stroe: Store<fromAdmin.State>
+  ) { }
 
   ngOnInit() {
     this.allEmails$ = this.stroe.pipe(
@@ -49,7 +58,7 @@ export class SelectUsersDialogComponent implements OnInit {
 
       // Add our email
       if ((value || '').trim()) {
-        this.emails.push(value.trim());
+        this.data.emails.push(value.trim());
       }
 
       // Reset the input value
@@ -62,17 +71,17 @@ export class SelectUsersDialogComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    if (this.emails.indexOf(event.option.viewValue) < 0) {
-      this.emails.push(event.option.viewValue);
+    if (this.data.emails.indexOf(event.option.viewValue) < 0) {
+      this.data.emails.push(event.option.viewValue);
     }
     this.emailInput.nativeElement.value = '';
     this.emailCtrl.setValue(null);
   }
 
   remove(email: string): void {
-    const index = this.emails.indexOf(email);
+    const index = this.data.emails.indexOf(email);
     if (index >= 0) {
-      this.emails.splice(index, 1);
+      this.data.emails.splice(index, 1);
     }
   }
 
@@ -81,5 +90,7 @@ export class SelectUsersDialogComponent implements OnInit {
     return this.allEmails$.pipe(map(emails => emails.filter(email => email.toLowerCase().indexOf(filterValue) === 0)));
   }
 
-
+  onTouretChange(changes: Partial<Mission>) {
+    this.touretInfo = changes;
+  }
 }

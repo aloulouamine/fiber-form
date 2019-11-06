@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectUsersDialogComponent } from './select-users-dialog.component';
+import { TouretInputFormComponent } from './touret-input-form.component';
 
-describe('SelectUsersDialogComponent', () => {
-  let component: SelectUsersDialogComponent;
-  let fixture: ComponentFixture<SelectUsersDialogComponent>;
+describe('TouretInputFormComponent', () => {
+  let component: TouretInputFormComponent;
+  let fixture: ComponentFixture<TouretInputFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectUsersDialogComponent ]
+      declarations: [ TouretInputFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectUsersDialogComponent);
+    fixture = TestBed.createComponent(TouretInputFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

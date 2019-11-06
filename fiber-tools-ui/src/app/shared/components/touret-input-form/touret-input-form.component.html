@@ -1,0 +1,26 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>1er Touret</mat-label>
+    <input matInput name="t1" formControlName="t1" type="text" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Début métrage T1</mat-label>
+    <input matInput name="mStart1" formControlName="mStart1" type="number" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Fin métrage T1</mat-label>
+    <input matInput name="mEnd1" formControlName="mEnd1" type="number" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>2eme Touret</mat-label>
+    <input matInput name="t2" #t2 formControlName="t2" type="text" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Début métrage T2</mat-label>
+    <input matInput name="mStart2" formControlName="mStart2" type="number" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Fin métrage T2</mat-label>
+    <input matInput name="mEnd2" formControlName="mEnd2" type="number" />
+  </mat-form-field>
+</form>

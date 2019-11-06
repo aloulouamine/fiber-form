@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
 import { query, update } from '../../actions/mission.actions';
-import { SelectUsersDialogComponent } from '../../components/select-users-dialog/select-users-dialog.component';
+import { EditMissionDialogComponent } from '../../components/edit-mission-dialog/edit-mission-dialog.component';
 import * as fromMissions from '../../../core/reducers';
 
 @Component({
@@ -41,13 +41,18 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   }
 
   onEdit(mission: Mission) {
-    this.dialog.open(SelectUsersDialogComponent, {
-      data: mission.workingUsers ? [...mission.workingUsers] : [],
+    this.dialog.open(EditMissionDialogComponent, {
+      data: {
+        emails: mission.workingUsers ? [...mission.workingUsers] : [],
+        mission
+      },
       width: '90%'
-    }).afterClosed().subscribe((emails: string[]) => {
+    }).afterClosed().subscribe((data: any[]) => {
+      const [emails, tourets] = data;
+      const changes = { workingUsers: emails, ...tourets }
       if (emails) {
         this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
-          this.store.dispatch(update({ siteId, missionId: mission.id, changes: { workingUsers: emails } }));
+          this.store.dispatch(update({ siteId, missionId: mission.id, changes }));
         });
       }
     });

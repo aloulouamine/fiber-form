@@ -45,7 +45,6 @@ export class MissionService {
   updatePictureURL(mission: Mission, pictureURL: string, cpIndex: number, pictureIndex: number): Observable<void> {
     const missionRef = this.afs.doc<Mission>(`sites/${mission.siteId}/missions/${mission.id}`).ref;
     return from(this.afs.firestore.runTransaction(async (transaction) => {
-      console.log('in transaction.');
       return transaction.get(missionRef).then(
         async (missionDoc) => {
           if (!missionDoc.exists) {
@@ -73,7 +72,7 @@ export class MissionService {
           photo.date = now;
           transaction.update(missionRef, { checkPoints });
           return;
-        }).then(() => console.log('transaction end'));
+        });
     }));
   }
 

@@ -78,6 +78,10 @@ export interface Mission {
   comments: Comment[];
   siteId: string;
 
-  firstTouret: string;
-  secondTouret: string;
+  firstTouretId: string;
+  firstTouretMeteringEnd: number,
+  firstTouretMeteringStart: number,
+  secondTouretId: string;
+  secondTouretMeteringEnd: number,
+  secondTouretMeteringStart: number,
 }
