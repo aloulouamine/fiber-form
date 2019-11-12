@@ -25,7 +25,7 @@ export class TouretInputFormComponent implements OnInit, OnChanges, OnDestroy {
     t2: [{ value: '', disabled: true }],
     mStart2: [{ value: '', disabled: true }],
     mEnd2: [{ value: '', disabled: true }]
-  })
+  });
 
   constructor(private fb: FormBuilder) {
     this.form.get('t1').valueChanges.pipe(
@@ -59,26 +59,26 @@ export class TouretInputFormComponent implements OnInit, OnChanges, OnDestroy {
       this.form.get('mEnd2'),
     ];
     if (t2Value) {
-      ciblingsControls.forEach(c => c.enable())
+      ciblingsControls.forEach(c => c.enable());
     } else {
       ciblingsControls.forEach(c => {
         c.disable();
         c.reset();
-      })
+      });
     }
   }
 
   ngOnInit() {
     this.form.valueChanges.pipe(
       takeUntil(this.unsubscribe$),
-      map(v => (<Partial<Mission>>{
+      map(v => ({
         firstTouretId: v.t1 ? v.t1 : '',
         secondTouretId: v.t2 ? v.t2 : '',
         firstTouretMeteringStart: v.mStart1 ? v.mStart1 : '',
         secondTouretMeteringStart: v.mStart2 ? v.mStart2 : '',
         firstTouretMeteringEnd: v.mEnd1 ? v.mEnd1 : '',
         secondTouretMeteringEnd: v.mEnd2 ? v.mEnd2 : ''
-      })),
+      } as Partial<Mission>)),
       debounceTime(500)
     ).subscribe(v => {
       this.touretChange.next(v);
@@ -96,8 +96,8 @@ export class TouretInputFormComponent implements OnInit, OnChanges, OnDestroy {
       this.form.get('mStart2').setValue(this.mission.secondTouretMeteringStart);
       this.form.get('mEnd2').setValue(this.mission.secondTouretMeteringEnd);
     } else {
-      this.setT1Ciblings()
-      this.setT2Ciblings()
+      this.setT1Ciblings();
+      this.setT2Ciblings();
     }
   }
 

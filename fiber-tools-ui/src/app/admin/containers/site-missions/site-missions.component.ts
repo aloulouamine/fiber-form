@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
+import { filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Mission } from 'src/app/core/models/mission';
+import * as fromMissions from '../../../core/reducers';
 import { query, update } from '../../actions/mission.actions';
 import { EditMissionDialogComponent } from '../../components/edit-mission-dialog/edit-mission-dialog.component';
-import * as fromMissions from '../../../core/reducers';
 
 @Component({
   selector: 'app-site-missions',
@@ -18,8 +18,10 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
   siteId$: Observable<string> = this.route.params.pipe(map(params => params.id));
+  nro$: Observable<string>;
+  pm$: Observable<string>;
   missions$;
-  displayedColumns = ['id', 'number', 'checkPoints', 'nro', 'pm', 'capacity', 'firstTouret', 'secondTouret', 'shootingProgress', 'workingUsers', 'actionsAdmin'];
+  displayedColumns = ['number', 'checkPoints', 'capacity', 'firstTouret', 'wireRealTotalLength', 'type', 'shootingProgress', 'workingUsers', 'actionsAdmin'];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +35,16 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       tap(siteId => this.store.dispatch(query({ siteId }))),
       mergeMap(siteId => this.store.pipe(select(fromMissions.getSiteMissions, { siteId, store: this.store })))
     );
+
+    const one$: Observable<Mission> = this.missions$.pipe(
+      map(missions => missions && missions[0]),
+      filter(m => !!m),
+      take(1)
+    );
+
+    this.nro$ = one$.pipe(map(m => m.nro));
+    this.pm$ = one$.pipe(map(m => m.pm));
+
   }
 
   ngOnDestroy() {
@@ -49,7 +61,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       width: '90%'
     }).afterClosed().subscribe((data: any[]) => {
       const [emails, tourets] = data;
-      const changes = { workingUsers: emails, ...tourets }
+      const changes = { workingUsers: emails, ...tourets };
       if (emails) {
         this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
           this.store.dispatch(update({ siteId, missionId: mission.id, changes }));

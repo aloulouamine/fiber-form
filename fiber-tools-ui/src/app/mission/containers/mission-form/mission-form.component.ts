@@ -110,7 +110,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
               }
               return lastUsers;
             }, []);
-            this.router.navigate(['mission'])
+            this.router.navigate(['mission']);
             this.store.dispatch(update(
               {
                 siteId: m.siteId,

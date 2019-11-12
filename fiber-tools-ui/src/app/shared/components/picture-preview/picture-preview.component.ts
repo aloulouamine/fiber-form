@@ -33,22 +33,22 @@ export class PicturePreviewComponent implements OnInit, OnChanges, OnDestroy {
           if (err && err.code === 'storage/object-not-found') {
             return this.afs.ref(this.url).getDownloadURL();
           } else {
-            return throwError(err)
+            return throwError(err);
           }
         }
         )
       ).subscribe(
         link => {
-          this.thumbnailUrl$.next(link)
+          this.thumbnailUrl$.next(link);
         }
-      )
+      );
     } else {
       this.thumbnailUrl$.next(this.url);
     }
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next()
+    this.unsubscribe$.next();
   }
 
 

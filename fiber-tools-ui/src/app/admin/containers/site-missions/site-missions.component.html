@@ -1,16 +1,12 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      Les cables du chantier {{ siteId$ | async}}
+      Les cables du chantier {{nro$ | async}} / {{pm$ | async}}
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <app-missions-table 
-    [missions]="missions$ | async" 
-    [displayedColumns]="displayedColumns" 
-    (edit)="onEdit($event)"
-    (report)="onReport($event)"
-    >
+    <app-missions-table [missions]="missions$ | async" [displayedColumns]="displayedColumns" (edit)="onEdit($event)"
+      (report)="onReport($event)">
     </app-missions-table>
   </mat-card-content>
 </mat-card>

@@ -36,11 +36,11 @@ export const selectMissionById = createSelector(
 
 export const allMissionsWithProgress = createSelector(
   missionsSelectors.selectAll,
-  (missions, {store}) => missions.map(m =>({
+  (missions, {store}) => missions.map(m => ({
     ...m,
-    shootingProgress$: store.pipe(select(missionShootingProgress, {missionId: m.id})) 
+    shootingProgress$: store.pipe(select(missionShootingProgress, {missionId: m.id}))
   }))
-)
+);
 
 export const getSiteMissions = createSelector(
   allMissionsWithProgress,

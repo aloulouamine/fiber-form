@@ -29,7 +29,7 @@ export class PictureDialogComponent implements OnInit, OnDestroy {
     if (this.data && this.data.url && this.data.url.includes('_original')) {
       this.afs.ref(this.data.url).getDownloadURL()
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(url => this.originalUrl$.next(url))
+        .subscribe(url => this.originalUrl$.next(url));
     } else if (this.data && this.data.url) {
       this.originalUrl$.next(this.data.url);
     }

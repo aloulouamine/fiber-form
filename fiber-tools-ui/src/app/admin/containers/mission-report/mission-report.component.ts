@@ -31,7 +31,7 @@ export class MissionReportComponent implements OnInit {
         );
       })
     );
-    
+
     this.comments$ = this.mission$.pipe(
       map(mission => mission.comments)
     );

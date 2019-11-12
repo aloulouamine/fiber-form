@@ -79,9 +79,14 @@ export interface Mission {
   siteId: string;
 
   firstTouretId: string;
-  firstTouretMeteringEnd: number,
-  firstTouretMeteringStart: number,
+  firstTouretMeteringEnd: number;
+  firstTouretMeteringStart: number;
   secondTouretId: string;
-  secondTouretMeteringEnd: number,
-  secondTouretMeteringStart: number,
+  secondTouretMeteringEnd: number;
+  secondTouretMeteringStart: number;
+
+  geographicalLength: string;
+  calculatedOverlength: string;
+  wireRealTotalLength: string;
+  type: string;
 }

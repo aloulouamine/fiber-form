@@ -32,14 +32,6 @@
     <th mat-header-cell *matHeaderCellDef>Nbr rac.</th>
     <td mat-cell *matCellDef="let element"> {{element.checkPoints.length}} </td>
   </ng-container>
-  <ng-container matColumnDef="nro">
-    <th mat-header-cell *matHeaderCellDef>Nro</th>
-    <td mat-cell *matCellDef="let element"> {{element.nro}} </td>
-  </ng-container>
-  <ng-container matColumnDef="pm">
-    <th mat-header-cell *matHeaderCellDef>PM</th>
-    <td mat-cell *matCellDef="let element"> {{element.pm}} </td>
-  </ng-container>
   <ng-container matColumnDef="capacity">
     <th mat-header-cell *matHeaderCellDef>Capacité</th>
     <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
@@ -53,6 +45,16 @@
   <ng-container matColumnDef="secondTouret">
     <th mat-header-cell *matHeaderCellDef>2eme Touret</th>
     <td mat-cell *matCellDef="let element"> {{element.secondTouret}} </td>
+  </ng-container>  
+  
+  <ng-container matColumnDef="wireRealTotalLength">
+    <th mat-header-cell *matHeaderCellDef>Long.</th>
+    <td mat-cell *matCellDef="let element"> {{element.wireRealTotalLength}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let element"> {{element.type}} </td>
   </ng-container>
 
   <ng-container matColumnDef="shootingProgress">
