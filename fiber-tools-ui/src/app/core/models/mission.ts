@@ -36,9 +36,8 @@ export interface Photo extends PhotoData {
 
 export enum MissionProgressStatus {
   NEW = 'NEW',
-  TIRAGE = 'TIRAGE',
-  RACCORDEMENT = 'RACCORDEMENT',
-  TEST = 'TEST',
+  IN_PROGRESS = 'IN_PROGRESS',
+  BLOCKED = 'BLOCKED',
   FINISHED = 'FINISHED'
 }
 

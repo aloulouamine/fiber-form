@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
-import { Mission } from 'src/app/core/models/mission';
+import { Mission, MissionProgressStatus } from 'src/app/core/models/mission';
 import * as fromMissions from '../../../core/reducers';
 import { query, update } from '../../actions/mission.actions';
 import { EditMissionDialogComponent } from '../../components/edit-mission-dialog/edit-mission-dialog.component';
@@ -21,7 +21,18 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   nro$: Observable<string>;
   pm$: Observable<string>;
   missions$;
-  displayedColumns = ['number', 'checkPoints', 'capacity', 'firstTouret', 'wireRealTotalLength', 'type', 'shootingProgress', 'workingUsers', 'actionsAdmin'];
+  displayedColumns = [
+    'number',
+    'checkPoints',
+    'capacity',
+    'firstTouret',
+    'wireRealTotalLength',
+    'progress',
+    'type',
+    'shootingProgress',
+    'workingUsers',
+    'actionsAdmin'
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +72,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       width: '90%'
     }).afterClosed().subscribe((data: any[]) => {
       const [emails, tourets] = data;
-      const changes = { workingUsers: emails, ...tourets };
+      const changes = { workingUsers: emails, ...tourets, progress: MissionProgressStatus.IN_PROGRESS };
       if (emails) {
         this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
           this.store.dispatch(update({ siteId, missionId: mission.id, changes }));

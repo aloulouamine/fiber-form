@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
-import { Comment, Mission } from '../../../core/models/mission';
+import { Comment, Mission, MissionProgressStatus } from '../../../core/models/mission';
 import * as fromMissions from '../../../core/reducers';
 import { update } from '../../actions/mission-api.actions';
 import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
@@ -96,7 +96,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  submit() {
+  submit(blocked: boolean) {
     this.userService
       .getCurrentUserEmail()
       .pipe(
@@ -111,11 +111,15 @@ export class MissionFormComponent implements OnInit, OnDestroy {
               return lastUsers;
             }, []);
             this.router.navigate(['mission']);
+            const progress = blocked ? MissionProgressStatus.BLOCKED : MissionProgressStatus.FINISHED;
             this.store.dispatch(update(
               {
                 siteId: m.siteId,
                 missionId: m.id,
-                changes: { workingUsers: lU }
+                changes: {
+                  workingUsers: lU,
+                  progress
+                }
               }
             ));
           }),

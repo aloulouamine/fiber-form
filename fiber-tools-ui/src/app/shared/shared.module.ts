@@ -29,6 +29,7 @@ import { PictureInputComponent } from './components/picture-input/picture-input.
 import { PicturePreviewComponent } from './components/picture-preview/picture-preview.component';
 import { PictureDialogComponent } from './components/picture-dialog/picture-dialog.component';
 import { TouretInputFormComponent } from './components/touret-input-form/touret-input-form.component';
+import { MissionStatusComponent } from './components/mission-status/mission-status.component';
 
 const MATERIAL_MODULES = [
   MatAutocompleteModule,
@@ -63,7 +64,8 @@ const DECLARATIONS = [
   PictureInputComponent,
   PicturePreviewComponent,
   PictureDialogComponent,
-  TouretInputFormComponent
+  TouretInputFormComponent,
+  MissionStatusComponent
 ];
 @NgModule({
   declarations: DECLARATIONS,
