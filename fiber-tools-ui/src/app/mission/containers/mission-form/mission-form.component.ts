@@ -96,7 +96,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  submit(blocked: boolean) {
+  submit(blocked?: boolean) {
     this.userService
       .getCurrentUserEmail()
       .pipe(
