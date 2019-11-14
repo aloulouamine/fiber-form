@@ -68,7 +68,7 @@ export const missionShootingProgress = createSelector(
 
 function _checkpointProgress(cp: CheckPoint): number {
   const total = cp.nbPhotosToTakeWithinCheckPoint;
-  if (total === 0) { return 100; }
+  if (total === 0) { return 0; }
   const taken = cp.properties.requiredPhotos.reduce(
     (acc, photo) =>
       photo.url ? ++acc : acc,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -12,7 +12,8 @@ import { EditMissionDialogComponent } from '../../components/edit-mission-dialog
 @Component({
   selector: 'app-site-missions',
   templateUrl: './site-missions.component.html',
-  styleUrls: ['./site-missions.component.css']
+  styleUrls: ['./site-missions.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SiteMissionsComponent implements OnInit, OnDestroy {
 
