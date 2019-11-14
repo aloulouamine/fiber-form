@@ -8,6 +8,9 @@ export enum Provider {
 export interface Site {
   id?: string;
   ref: string;
+  nro: string;
+  pm: string;
+  version: string;
   provider: Provider;
   siteFromFilename: string;
   creationDate: Timestamp;
