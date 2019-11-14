@@ -33,12 +33,12 @@ export class MissionStatusComponent implements OnInit, OnChanges {
       }
       case MissionProgressStatus.IN_PROGRESS: {
         this.text = 'En cours';
-        this.color = '';
+        this.color = 'green';
         break;
       }
       default: {
         this.text = 'Nouvelle';
-        this.color = '';
+        this.color = 'orange';
       }
     }
   }
