@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "fiber-tools"
+    "default": "fiber-tools",
+    "staging": "fiber-tools-staging"
   }
 }

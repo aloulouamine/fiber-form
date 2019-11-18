@@ -13,7 +13,7 @@
     ]
   },
   "hosting": {
-    "public": "public",
+    "public": "fiber-tools-ui/dist",
     "ignore": [
       "firebase.json",
       "**/.*",

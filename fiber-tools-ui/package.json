@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve --host lvh.me",
     "build": "ng build",
-    "build:prod": "ng build --configuration production --outputPath=../public/",
+    "build:prod": "ng build --configuration production --outputPath=./dist/",
+    "build:staging": "ng build --configuration staging --outputPath=./dist/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
