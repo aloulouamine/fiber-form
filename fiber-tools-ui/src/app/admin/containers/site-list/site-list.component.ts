@@ -22,7 +22,7 @@ export class SiteListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   sitesDataSource$: Observable<MatTableDataSource<Site>>;
-  displayedColumns = ['siteName', 'provider', 'creationDate', 'actions'];
+  displayedColumns = ['ref', 'version', 'nro', 'pm', 'provider', 'creationDate', 'actions'];
 
 
   constructor(

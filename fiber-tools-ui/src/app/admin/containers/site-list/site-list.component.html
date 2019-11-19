@@ -21,9 +21,21 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Aménageur </th>
         <td mat-cell *matCellDef="let element"> {{element.provider}} </td>
       </ng-container>
-      <ng-container matColumnDef="siteName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Chantier </th>
-        <td mat-cell *matCellDef="let element"> {{element.nro}}-{{element.pm}}-{{element.version}} </td>
+      <ng-container matColumnDef="version">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Version </th>
+        <td mat-cell *matCellDef="let element"> {{element.version}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ref">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ref </th>
+        <td mat-cell *matCellDef="let element"> {{element.ref}} </td>
+      </ng-container>
+      <ng-container matColumnDef="nro">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NRO </th>
+        <td mat-cell *matCellDef="let element"> {{element.nro}}</td>
+      </ng-container>
+      <ng-container matColumnDef="pm">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> PM </th>
+        <td mat-cell *matCellDef="let element"> {{element.pm}} </td>
       </ng-container>
       <ng-container matColumnDef="creationDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de creation </th>
