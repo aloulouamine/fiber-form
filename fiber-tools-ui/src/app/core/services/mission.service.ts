@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Comment, Mission, Photo } from 'src/app/core/models/mission';
+import { Affectation, Comment, Mission, Photo } from 'src/app/core/models/mission';
 import uuidv4 from 'uuidv4';
+import { AffectationDialogData } from '../models/affectation-dialog-data';
 import { UserService } from './user.service';
 
 const missionsCollection = 'missions';
@@ -40,6 +41,35 @@ export class MissionService {
 
   updateMission(siteId: string, missionId: string, mission: Partial<Mission>) {
     return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
+  }
+
+  affectMission(siteId: string, missionId: string, data: AffectationDialogData) {
+    const missionRef = this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).ref;
+    return from(this.afs.firestore.runTransaction(async (transaction) => {
+      return transaction.get(missionRef).then(
+        async (missionDoc) => {
+          if (!missionDoc.exists) {
+            throw new Error(`Mission ${missionId} does not exist`);
+          }
+          const mission = missionDoc.data() as Mission;
+          const user = await this.userService.getCurrentUser().pipe(take(1)).toPromise();
+          const affectation: Affectation = {
+            by: user.email,
+            to: data.emails,
+            for: data.step
+          };
+          let changes: Partial<Mission> = {
+            affectations: mission.affectations ? [affectation, ...mission.affectations] : [affectation],
+            workingUsers: data.emails,
+            step: data.step,
+          };
+          if (data.touretInfo) {
+            changes = { ...changes, ...data.touretInfo };
+          }
+          transaction.update(missionRef, { ...changes });
+        }
+      );
+    }));
   }
 
   updatePictureURL(mission: Mission, pictureURL: string, cpIndex: number, pictureIndex: number): Observable<void> {

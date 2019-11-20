@@ -15,7 +15,23 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
+<mat-form-field>
+  <mat-label>
+    Affecter pour :
+  </mat-label>
+  <mat-select [formControl]="selectedStep">
+    <mat-option  [value]="steps.TIRAGE">
+      Tirage
+    </mat-option>
+    <mat-option [value]="steps.SOUDURE">
+      Soudure
+    </mat-option>
+    <mat-option [value]="steps.TEST">
+      Test
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <app-touret-input-form [mission]="data.mission" (touretChange)="onTouretChange($event)"></app-touret-input-form>
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="[data.emails, touretInfo]">Valider</button>
+  <button mat-button (click)="onSubmit()">Valider</button>
 </mat-dialog-actions>

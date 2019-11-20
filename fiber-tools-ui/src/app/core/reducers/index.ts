@@ -62,7 +62,7 @@ export const missionShootingProgress = createSelector(
   mission =>
     mission && mission.checkPoints.reduce((acc, cp) => {
         acc += _checkpointProgress(cp);
-      return acc;
+        return acc;
     }, 0) / mission.checkPoints.filter(c => c.nbPhotosToTakeWithinCheckPoint).length
 );
 

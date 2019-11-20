@@ -1,15 +1,16 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { startWith, map, mergeMap } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import * as fromAdmin from '../../reducers';
+import { map, mergeMap, startWith } from 'rxjs/operators';
+import { AffectationDialogData } from 'src/app/core/models/affectation-dialog-data';
+import { Mission, MissionProgressStep } from 'src/app/core/models/mission';
 import { query } from '../../actions/user.actions';
-import { Mission } from 'src/app/core/models/mission';
+import * as fromAdmin from '../../reducers';
 
 @Component({
   selector: 'app-edit-mission-dialog',
@@ -26,23 +27,24 @@ export class EditMissionDialogComponent implements OnInit {
   allEmails$: Observable<string[]>;
   filteredEmails$: Observable<string[]>;
 
-  touretInfo: Partial<Mission>;
+  touretInfo;
+
+  steps = MissionProgressStep;
+  selectedStep = new FormControl(MissionProgressStep.TIRAGE);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      mission: Mission,
-      emails: string[]
-    },
-    private stroe: Store<fromAdmin.State>
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<EditMissionDialogComponent>,
+    private store: Store<fromAdmin.State>
   ) { }
 
   ngOnInit() {
-    this.allEmails$ = this.stroe.pipe(
+    this.allEmails$ = this.store.pipe(
       select(fromAdmin.userSelectors.selectAll),
       map(users => users.map(user => user.email))
     );
 
-    this.stroe.dispatch(query());
+    this.store.dispatch(query());
 
     this.filteredEmails$ = this.emailCtrl.valueChanges.pipe(
       startWith(null),
@@ -92,5 +94,13 @@ export class EditMissionDialogComponent implements OnInit {
 
   onTouretChange(changes: Partial<Mission>) {
     this.touretInfo = changes;
+  }
+
+  onSubmit() {
+    this.dialogRef.close({
+      emails: this.data.emails,
+      step: this.selectedStep.value,
+      touretInfo: this.touretInfo
+    } as AffectationDialogData);
   }
 }

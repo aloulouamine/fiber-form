@@ -8,7 +8,12 @@ import { MissionService } from 'src/app/core/services/mission.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import * as missionsAdminModuleActions from '../../admin/actions/mission.actions';
 import * as missionsModuleActions from '../../mission/actions/mission-api.actions';
-import { deletedCpPicture, MissionFormActionTypes, uploadedCpPicture, uploadProgressCpPicture } from '../../mission/actions/mission-form.actions';
+import {
+  deletedCpPicture,
+  MissionFormActionTypes,
+  uploadedCpPicture,
+  uploadProgressCpPicture
+} from '../../mission/actions/mission-form.actions';
 import { added, modified, removed } from '../actions/mission.actions';
 
 @Injectable()
@@ -109,6 +114,15 @@ export class MissionEffects {
     switchMap((action: any) => this.missionService.updateMission(action.siteId, action.missionId, action.changes).pipe(
       map(() => missionsAdminModuleActions.query({ siteId: action.siteId }))
     )),
+  ));
+
+  affect$ = createEffect(() => this.actions$.pipe(
+    ofType(missionsAdminModuleActions.MissionActionTypes.AFFECT),
+    switchMap((action: any) => {
+      return this.missionService.affectMission(action.siteId, action.missionId, action.data).pipe(
+        map(() => missionsAdminModuleActions.query({ siteId: action.siteId })));
+    }
+    )
   ));
 
   constructor(private actions$: Actions, private missionService: MissionService, private storageService: StorageService) {

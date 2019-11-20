@@ -41,10 +41,22 @@ export enum MissionProgressStatus {
   FINISHED = 'FINISHED'
 }
 
+export enum MissionProgressStep {
+  TIRAGE = 'TIRAGE',
+  SOUDURE = 'SOUDURE',
+  TEST = 'TEST'
+}
+
 export enum MissionSyncStatus {
   SYNC,
   PROGRESS,
   FAIL
+}
+
+export interface Affectation {
+  by: string;
+  to: string[];
+  for: MissionProgressStep;
 }
 
 export interface Comment {
@@ -68,6 +80,7 @@ export interface Mission {
   cable?: string;
   sectionPreffixFromFirst: string;
   progress?: MissionProgressStatus;
+  step?: MissionProgressStep;
   shootingProgress$?: Observable<number>;
   sync?: MissionSyncStatus;
   workingUsers?: string[];
@@ -76,6 +89,7 @@ export interface Mission {
   updateDate?: Date;
   comments: Comment[];
   siteId: string;
+  affectations: Affectation[];
 
   firstTouretId: string;
   firstTouretMeteringEnd: number;

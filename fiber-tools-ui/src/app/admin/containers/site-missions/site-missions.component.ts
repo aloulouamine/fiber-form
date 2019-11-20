@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
-import { Mission, MissionProgressStatus } from 'src/app/core/models/mission';
+import { AffectationDialogData } from 'src/app/core/models/affectation-dialog-data';
+import { Mission } from 'src/app/core/models/mission';
 import * as fromMissions from '../../../core/reducers';
-import { query, update } from '../../actions/mission.actions';
+import { update, query, affect } from '../../actions/mission.actions';
 import { EditMissionDialogComponent } from '../../components/edit-mission-dialog/edit-mission-dialog.component';
 
 @Component({
@@ -26,10 +27,10 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
     'number',
     'checkPoints',
     'capacity',
-    'firstTouret',
     'wireRealTotalLength',
     'progress',
     'type',
+    'step',
     'shootingProgress',
     'workingUsers',
     'actionsAdmin'
@@ -71,14 +72,13 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
         mission
       },
       width: '90%'
-    }).afterClosed().subscribe((data: any[]) => {
-      const [emails, tourets] = data;
-      const changes = { workingUsers: emails, ...tourets, progress: MissionProgressStatus.IN_PROGRESS };
-      if (emails) {
-        this.siteId$.pipe(takeUntil(this.unsubscribe$)).subscribe(siteId => {
-          this.store.dispatch(update({ siteId, missionId: mission.id, changes }));
-        });
-      }
+    }).afterClosed().subscribe((data: AffectationDialogData) => {
+      if (!data) { return; }
+      this.siteId$.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(siteId => {
+        this.store.dispatch(affect({ siteId, missionId: mission.id, data}));
+      });
     });
   }
 

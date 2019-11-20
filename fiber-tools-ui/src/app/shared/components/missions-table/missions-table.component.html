@@ -61,14 +61,19 @@
     <th mat-header-cell *matHeaderCellDef>Avancée</th>
     <td mat-cell *matCellDef="let element">
       {{element.shootingProgress$ | async | number : '1.0-2'}}%
-      <mat-progress-bar [value]="element.shootingProgress$ | async "></mat-progress-bar>
-    </td>
+        </td>
   </ng-container>
 
   <ng-container matColumnDef="progress">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Etat</th>
     <td mat-cell *matCellDef="let element">
       <app-mission-status [status]="element.progress"></app-mission-status>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="step">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Etape</th>
+    <td mat-cell *matCellDef="let element">
+      {{element.step}}
     </td>
   </ng-container>
 

@@ -1,10 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 import { Mission } from 'src/app/core/models/mission';
+import { AffectationDialogData } from 'src/app/core/models/affectation-dialog-data';
 
 export enum MissionActionTypes {
   QUERY = '[Mission admin] query site missions',
   SUCCESS = '[Mission admin] success',
   UPDATE = '[Mission admin] update',
+  AFFECT = '[Mission admin] affect',
   ADD = '[Mission admin] add',
   REMOVE = '[Mission admin] remove',
   ERROR = '[Mission admin] error'
@@ -18,6 +20,11 @@ export const query = createAction(
 export const update = createAction(
   MissionActionTypes.UPDATE,
   props<{ siteId: string, missionId: string, changes: Partial<Mission> }>()
+);
+
+export const affect = createAction(
+  MissionActionTypes.AFFECT,
+  props<{ siteId: string, missionId: string, data: AffectationDialogData}>()
 );
 
 export const success = createAction(
