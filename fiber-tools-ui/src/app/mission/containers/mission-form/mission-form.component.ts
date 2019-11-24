@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { UserService } from 'src/app/core/services/user.service';
 import { Comment, Mission, MissionProgressStatus } from '../../../core/models/mission';
 import * as fromMissions from '../../../core/reducers';
 import { update } from '../../actions/mission-api.actions';
 import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
-import { UserService } from 'src/app/core/services/user.service';
+import { BlockDialogComponent } from '../../components/block-dialog/block-dialog.component';
 
 @Component({
   selector: 'app-mission-form',
@@ -45,7 +47,8 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     private store: Store<fromMissions.State>,
     private route: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
   }
 
@@ -94,6 +97,15 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  block() {
+    this.dialog.open(BlockDialogComponent, {
+      width: '90%'
+    }).afterClosed().subscribe(comment => {
+      this.addComment(comment);
+      this.submit(true);
+    })
   }
 
   submit(blocked?: boolean) {
