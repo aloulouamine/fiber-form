@@ -36,7 +36,11 @@ export class EditMissionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EditMissionDialogComponent>,
     private store: Store<fromAdmin.State>
-  ) { }
+  ) {
+    if (data.mission.step) {
+      this.selectedStep.setValue(data.mission.step);
+    }
+   }
 
   ngOnInit() {
     this.allEmails$ = this.store.pipe(

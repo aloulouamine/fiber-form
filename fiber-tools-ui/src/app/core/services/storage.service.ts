@@ -21,13 +21,15 @@ export class StorageService {
   }
 
   putCommentPicture(mission: Mission, file: File, comment: Comment) {
-    const fileName = `site/${mission.siteId}/mission/${mission.id}/comments/${comment.id}/picture/${uuid()}_original.${file.name.split('.').pop()}`;
+    const fileName = `site/${mission.siteId}/`
+      + `mission/${mission.id}/`
+      + `comments/${comment.id}/`
+      + `picture/${uuid()}_original.${file.name.split('.').pop()}`;
     return from(this.afStroage.upload(fileName, file));
   }
 
   removePicture(url) {
     return this.afStroage.storage.refFromURL(url).delete();
   }
-
 
 }

@@ -49,7 +49,9 @@ export class MissionsTableComponent implements OnInit, OnChanges {
 
   applyFilter(filterValue: string) {
     this.missionsDataSource.filter = filterValue.trim().toLowerCase();
-    this.missionsDataSource.paginator && this.missionsDataSource.paginator.firstPage();
+    if (this.missionsDataSource.paginator) {
+      this.missionsDataSource.paginator.firstPage();
+    }
   }
 
 }

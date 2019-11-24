@@ -1,6 +1,6 @@
-import { Timestamp } from '@firebase/firestore-types';
-import { CHECK_POINT_TYPE } from '../enum/check-point-type';
+import { FieldValue, Timestamp } from '@firebase/firestore-types';
 import { Observable } from 'rxjs';
+import { CHECK_POINT_TYPE } from '../enum/check-point-type';
 
 export interface CheckPoint {
   ref: string;
@@ -57,6 +57,7 @@ export interface Affectation {
   by: string;
   to: string[];
   for: MissionProgressStep;
+  date: any;
 }
 
 export interface Comment {
@@ -87,9 +88,9 @@ export interface Mission {
   creator?: string;
   createDate?: Date;
   updateDate?: Date;
-  comments: Comment[];
+  comments: Comment[] | FieldValue;
   siteId: string;
-  affectations: Affectation[];
+  affectations: Affectation[] | FieldValue;
 
   firstTouretId: string;
   firstTouretMeteringEnd: number;

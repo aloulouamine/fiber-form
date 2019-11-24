@@ -55,7 +55,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
       mergeMap(params => this.store.pipe(select(fromMissions.selectMissionById, { missionId: params.id, store: this.store }))));
 
     this.comments$ = this.mission$.pipe(
-      map(mission => mission.comments)
+      map(mission => mission.comments as Comment[])
     );
 
     this.mission$.pipe(takeUntil(this.unsubscribe$), take(1)).subscribe(
@@ -128,7 +128,10 @@ export class MissionFormComponent implements OnInit, OnDestroy {
   }
 
   addComment({ comment, file }) {
-    this.mission$.pipe(take(1), takeUntil(this.unsubscribe$)).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })));
+    this.mission$.pipe(
+      take(1),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(mission => this.store.dispatch(addComment({ comment, file, mission })));
   }
 
   getCheckpointProgress(missionId, cpIndex) {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Affectation, Comment, Mission, Photo } from 'src/app/core/models/mission';
@@ -43,33 +44,24 @@ export class MissionService {
     return from(this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).update(mission));
   }
 
-  affectMission(siteId: string, missionId: string, data: AffectationDialogData) {
-    const missionRef = this.afs.doc<Mission>(`sites/${siteId}/missions/${missionId}`).ref;
-    return from(this.afs.firestore.runTransaction(async (transaction) => {
-      return transaction.get(missionRef).then(
-        async (missionDoc) => {
-          if (!missionDoc.exists) {
-            throw new Error(`Mission ${missionId} does not exist`);
-          }
-          const mission = missionDoc.data() as Mission;
-          const user = await this.userService.getCurrentUser().pipe(take(1)).toPromise();
-          const affectation: Affectation = {
-            by: user.email,
-            to: data.emails,
-            for: data.step
-          };
-          let changes: Partial<Mission> = {
-            affectations: mission.affectations ? [affectation, ...mission.affectations] : [affectation],
-            workingUsers: data.emails,
-            step: data.step,
-          };
-          if (data.touretInfo) {
-            changes = { ...changes, ...data.touretInfo };
-          }
-          transaction.update(missionRef, { ...changes });
-        }
-      );
-    }));
+  async affectMission(siteId: string, missionId: string, data: AffectationDialogData) {
+    const user = await this.userService.getCurrentUser().pipe(take(1)).toPromise();
+    const affectation: Affectation = {
+      by: user.email,
+      to: data.emails,
+      for: data.step,
+      date: new Date().toUTCString()
+    };
+
+    let changes: Partial<Mission> = {
+      affectations: firebase.firestore.FieldValue.arrayUnion(affectation),
+      workingUsers: data.emails,
+      step: data.step,
+    };
+    if (data.touretInfo) {
+      changes = { ...changes, ...data.touretInfo };
+    }
+    return this.updateMission(siteId, missionId, changes);
   }
 
   updatePictureURL(mission: Mission, pictureURL: string, cpIndex: number, pictureIndex: number): Observable<void> {
@@ -110,10 +102,8 @@ export class MissionService {
 
 
   addComment(mission: Mission, comment: Comment): Observable<Comment> {
-    const comments = mission.comments ? [...mission.comments] : [];
-    comments.push(comment);
     return this.updateMission(mission.siteId, mission.id, {
-      comments
+      comments: firebase.firestore.FieldValue.arrayUnion(comment)
     }).pipe(map(() => comment));
   }
 

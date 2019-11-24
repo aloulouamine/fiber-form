@@ -42,7 +42,12 @@ export class MissionEffects {
       const uploadTask = this.storageService.
         putCheckpointPicture(action.file, action.mission, action.cpIndex, action.pictureIndex);
       const uploadFinish$ = from(uploadTask).pipe(
-        mergeMap(uploadTaskSnapshot => this.missionService.updatePictureURL(action.mission, uploadTaskSnapshot.ref.fullPath, action.cpIndex, action.pictureIndex)
+        mergeMap(uploadTaskSnapshot => this.missionService.updatePictureURL(
+          action.mission,
+          uploadTaskSnapshot.ref.fullPath,
+          action.cpIndex,
+          action.pictureIndex
+        )
           .pipe(map(() => uploadedCpPicture())))
       );
       const uploadProgress$ = uploadTask.percentageChanges().pipe(
@@ -118,12 +123,10 @@ export class MissionEffects {
 
   affect$ = createEffect(() => this.actions$.pipe(
     ofType(missionsAdminModuleActions.MissionActionTypes.AFFECT),
-    switchMap((action: any) => {
-      return this.missionService.affectMission(action.siteId, action.missionId, action.data).pipe(
-        map(() => missionsAdminModuleActions.query({ siteId: action.siteId })));
-    }
-    )
-  ));
+    switchMap((action: any) => this.missionService.affectMission(action.siteId, action.missionId, action.data))
+  ), {
+    dispatch: false
+  });
 
   constructor(private actions$: Actions, private missionService: MissionService, private storageService: StorageService) {
   }
