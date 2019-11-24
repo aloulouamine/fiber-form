@@ -46,6 +46,24 @@
   </mat-card-content>
 </mat-card>
 
+<ng-container *ngIf="(logs$ | async) && (logs$ | async).length > 0">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Journal :
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row" *ngFor="let log of logs$ | async">
+        <div class="col-2 my-2"><b>{{log.date}}</b></div>
+        <div class="col-4 my-2">{{log.message}}</div>
+        <div class="col-4 my-2">Par <b>{{log.user}}</b></div>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
 <mat-card>
   <mat-card-content>
     <ng-container *ngIf="(comments$|async)">

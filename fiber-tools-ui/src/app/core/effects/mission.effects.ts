@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import * as firebase from 'firebase/app';
 import { from, merge } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
-import { Comment, Mission } from 'src/app/core/models/mission';
+import { map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { Comment, Log, Mission, MissionProgressStatus } from 'src/app/core/models/mission';
 import { MissionService } from 'src/app/core/services/mission.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import * as missionsAdminModuleActions from '../../admin/actions/mission.actions';
 import * as missionsModuleActions from '../../mission/actions/mission-api.actions';
-import {
-  deletedCpPicture,
-  MissionFormActionTypes,
-  uploadedCpPicture,
-  uploadProgressCpPicture
-} from '../../mission/actions/mission-form.actions';
+import { deletedCpPicture, MissionFormActionTypes, uploadedCpPicture, uploadProgressCpPicture } from '../../mission/actions/mission-form.actions';
 import { added, modified, removed } from '../actions/mission.actions';
+import { UserService } from '../services/user.service';
 
 @Injectable()
 export class MissionEffects {
@@ -92,6 +89,39 @@ export class MissionEffects {
     map(() => missionsModuleActions.commentAdded())
   ));
 
+  finish$ = createEffect(() => this.actions$.pipe(
+    ofType(MissionFormActionTypes.FINISH),
+    switchMap(async ({ siteId, missionId, currentStep }) => {
+      const userEmail = await this.userService.getCurrentUserEmail().pipe(take(1)).toPromise();
+      this.missionService.updateMission(siteId, missionId, {
+        workingUsers: firebase.firestore.FieldValue.arrayRemove(userEmail),
+        progress: MissionProgressStatus.FINISHED,
+        logs: firebase.firestore.FieldValue.arrayUnion({
+          date: new Date().toUTCString(),
+          user: userEmail,
+          level: 0,
+          message: `Etape ${currentStep} passé à Fini.`
+        } as Log)
+      });
+    })
+  ), { dispatch: false });
+
+  block$ = createEffect(() => this.actions$.pipe(
+    ofType(MissionFormActionTypes.BLOCK),
+    switchMap(async ({ siteId, missionId, currentStep }) => {
+      const userEmail = await this.userService.getCurrentUserEmail().pipe(take(1)).toPromise();
+      this.missionService.updateMission(siteId, missionId, {
+        workingUsers: firebase.firestore.FieldValue.arrayRemove(userEmail),
+        progress: MissionProgressStatus.BLOCKED,
+        logs: firebase.firestore.FieldValue.arrayUnion({
+          date: new Date().toUTCString(),
+          user: userEmail,
+          level: 0,
+          message: `Etape ${currentStep} passé à Bloqué`
+        } as Log)
+      });
+    })
+  ), { dispatch: false });
 
   // admin
 
@@ -128,6 +158,11 @@ export class MissionEffects {
     dispatch: false
   });
 
-  constructor(private actions$: Actions, private missionService: MissionService, private storageService: StorageService) {
+  constructor(
+    private actions$: Actions,
+    private missionService: MissionService,
+    private storageService: StorageService,
+    private userService: UserService
+  ) {
   }
 }

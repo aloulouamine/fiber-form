@@ -3,7 +3,7 @@ import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angu
 import * as firebase from 'firebase/app';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Affectation, Comment, Mission, Photo } from 'src/app/core/models/mission';
+import { Affectation, Comment, Log, Mission, MissionProgressStatus, Photo } from 'src/app/core/models/mission';
 import uuidv4 from 'uuidv4';
 import { AffectationDialogData } from '../models/affectation-dialog-data';
 import { UserService } from './user.service';
@@ -57,7 +57,15 @@ export class MissionService {
       affectations: firebase.firestore.FieldValue.arrayUnion(affectation),
       workingUsers: data.emails,
       step: data.step,
+      progress: MissionProgressStatus.IN_PROGRESS,
+      logs: firebase.firestore.FieldValue.arrayUnion({
+        date: new Date().toUTCString(),
+        level: 0,
+        message: `Affecte le cable à ${JSON.stringify(data.emails)} pour ${data.step}`,
+        user: user.email
+      } as Log)
     };
+
     if (data.touretInfo) {
       changes = { ...changes, ...data.touretInfo };
     }

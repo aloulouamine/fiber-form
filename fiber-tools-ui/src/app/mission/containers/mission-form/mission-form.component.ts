@@ -4,12 +4,12 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
+import { map, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
-import { Comment, Mission, MissionProgressStatus } from '../../../core/models/mission';
+import { Comment, Mission } from '../../../core/models/mission';
 import * as fromMissions from '../../../core/reducers';
 import { update } from '../../actions/mission-api.actions';
-import { addComment, deleteCpPicture, uploadCpPicture } from '../../actions/mission-form.actions';
+import { addComment, deleteCpPicture, finish, uploadCpPicture, block } from '../../actions/mission-form.actions';
 import { BlockDialogComponent } from '../../components/block-dialog/block-dialog.component';
 
 @Component({
@@ -103,40 +103,23 @@ export class MissionFormComponent implements OnInit, OnDestroy {
     this.dialog.open(BlockDialogComponent, {
       width: '90%'
     }).afterClosed().subscribe(comment => {
-      this.addComment(comment);
-      this.submit(true);
-    })
+      if (comment) {
+        this.addComment(comment);
+        this.mission$.pipe(takeUntil(this.unsubscribe$))
+          .subscribe(m => {
+            this.store.dispatch(block({ siteId: m.siteId, missionId: m.id, currentStep: m.step }));
+            this.router.navigate(['mission']);
+          });
+      }
+    });
   }
 
-  submit(blocked?: boolean) {
-    this.userService
-      .getCurrentUserEmail()
-      .pipe(
-        take(1),
-        takeUntil(this.unsubscribe$),
-        mergeMap(email => this.mission$.pipe(
-          tap(m => {
-            const lU = m.workingUsers.reduce((lastUsers, wU) => {
-              if (wU !== email) {
-                lastUsers.push(wU);
-              }
-              return lastUsers;
-            }, []);
-            this.router.navigate(['mission']);
-            const progress = blocked ? MissionProgressStatus.BLOCKED : MissionProgressStatus.FINISHED;
-            this.store.dispatch(update(
-              {
-                siteId: m.siteId,
-                missionId: m.id,
-                changes: {
-                  workingUsers: lU,
-                  progress
-                }
-              }
-            ));
-          }),
-        ))
-      ).subscribe();
+  submit() {
+    this.mission$.pipe(takeUntil(this.unsubscribe$))
+      .subscribe(m => {
+        this.store.dispatch(finish({ siteId: m.siteId, missionId: m.id, currentStep: m.step }));
+        this.router.navigate(['mission']);
+      });
   }
 
   addComment({ comment, file }) {

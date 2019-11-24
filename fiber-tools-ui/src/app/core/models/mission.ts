@@ -69,6 +69,13 @@ export interface Comment {
   photos: PhotoData[];
 }
 
+export interface Log {
+  date: any;
+  user: string;
+  message: string;
+  level: number;
+}
+
 export interface Mission {
   id?: string;
   title?: string;
@@ -84,7 +91,7 @@ export interface Mission {
   step?: MissionProgressStep;
   shootingProgress$?: Observable<number>;
   sync?: MissionSyncStatus;
-  workingUsers?: string[];
+  workingUsers?: string[] | FieldValue;
   creator?: string;
   createDate?: Date;
   updateDate?: Date;
@@ -103,4 +110,5 @@ export interface Mission {
   calculatedOverlength: string;
   wireRealTotalLength: string;
   type: string;
+  logs: Log[] | FieldValue;
 }

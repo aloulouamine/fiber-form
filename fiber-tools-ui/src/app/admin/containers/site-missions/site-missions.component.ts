@@ -68,7 +68,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   onEdit(mission: Mission) {
     this.dialog.open(EditMissionDialogComponent, {
       data: {
-        emails: mission.workingUsers ? [...mission.workingUsers] : [],
+        emails: mission.workingUsers ? [...mission.workingUsers as string[]] : [],
         mission
       },
       width: '90%'
@@ -77,7 +77,7 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
       this.siteId$.pipe(
         takeUntil(this.unsubscribe$)
       ).subscribe(siteId => {
-        this.store.dispatch(affect({ siteId, missionId: mission.id, data}));
+        this.store.dispatch(affect({ siteId, missionId: mission.id, data }));
       });
     });
   }

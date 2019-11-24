@@ -8,7 +8,9 @@ export enum MissionFormActionTypes {
   UPLOADED_CP_PICTURE = '[Mission] uploaded cp picture',
   DELETE_CP_PICTURE = '[Mission] delete cp picture',
   DELETED_CP_PICTURE = '[Mission] deleted cp picture',
-  ADD_COMMENT = '[Mission] add comment'
+  ADD_COMMENT = '[Mission] add comment',
+  BLOCK = '[Mission] block',
+  FINISH = '[Mission] finish'
 }
 
 export const uploadCpPicture = createAction(
@@ -18,7 +20,6 @@ export const uploadCpPicture = createAction(
 
 export const uploadCpPictureFinish = createAction(
   MissionFormActionTypes.UPLOAD_FINISH_CP_PICTURE,
-  // props<{ file: File, mission: Mission, cpIndex: number, pictureIndex: number }>()
 );
 
 export const uploadProgressCpPicture = createAction(
@@ -41,4 +42,14 @@ export const deletedCpPicture = createAction(
 export const addComment = createAction(
   MissionFormActionTypes.ADD_COMMENT,
   props<{ mission: Mission, file: File, comment: string }>()
+);
+
+export const block = createAction(
+  MissionFormActionTypes.BLOCK,
+  props<{ siteId: string, missionId: string, currentStep: string }>()
+);
+
+export const finish = createAction(
+  MissionFormActionTypes.FINISH,
+  props<{ siteId: string, missionId: string, currentStep: string }>()
 );
