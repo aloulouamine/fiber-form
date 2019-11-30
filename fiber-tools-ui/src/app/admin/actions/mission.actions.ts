@@ -9,7 +9,8 @@ export enum MissionActionTypes {
   AFFECT = '[Mission admin] affect',
   ADD = '[Mission admin] add',
   REMOVE = '[Mission admin] remove',
-  ERROR = '[Mission admin] error'
+  ERROR = '[Mission admin] error',
+  ADD_ADMIN_COMMENT = '[Mission admin] Add admin comment'
 }
 
 export const query = createAction(
@@ -45,4 +46,10 @@ export const add = createAction(
 export const remove = createAction(
   MissionActionTypes.REMOVE,
   props<{ payload: Mission }>()
+);
+
+
+export const addAdminComment = createAction(
+  MissionActionTypes.ADD_ADMIN_COMMENT,
+  props<{ mission: Mission, file: File, comment: string }>()
 );

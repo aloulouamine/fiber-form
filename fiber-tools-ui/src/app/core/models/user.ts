@@ -8,4 +8,11 @@ export interface User {
   photoURL: string;
   roles: string[];
   uid: string;
+  roles_v2: Roles;
+}
+
+
+export interface Roles {
+  admin: boolean;
+  supervisor: boolean;
 }

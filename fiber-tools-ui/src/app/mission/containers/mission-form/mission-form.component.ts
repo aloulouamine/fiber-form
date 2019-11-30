@@ -25,6 +25,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
 
   comments$: Observable<Comment[]>;
 
+  // TODO refactor with mission report
   writingComment$: Observable<boolean> = this.store.pipe(
     select(fromMissions.isWritingComment)
   );
@@ -122,6 +123,7 @@ export class MissionFormComponent implements OnInit, OnDestroy {
       });
   }
 
+  // TODO refactor with mission report
   addComment({ comment, file }) {
     this.mission$.pipe(
       take(1),

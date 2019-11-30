@@ -1,22 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map, mergeMap, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, map, mergeMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Comment, Log, Mission } from 'src/app/core/models/mission';
 import * as fromMissions from '../../../core/reducers';
-import { query } from '../../actions/mission.actions';
+import { addAdminComment, query } from '../../actions/mission.actions';
 
 @Component({
   selector: 'app-mission-report',
   templateUrl: './mission-report.component.html',
   styleUrls: ['./mission-report.component.css']
 })
-export class MissionReportComponent implements OnInit {
+export class MissionReportComponent implements OnInit, OnDestroy {
 
   mission$: Observable<Mission>;
   comments$: Observable<Comment[]>;
   logs$: Observable<Log[]>;
+  unsubscribe$ = new Subject();
+
+  // TODO refactor with  mission form
+  writingComment$: Observable<boolean> = this.store.pipe(
+    select(fromMissions.isWritingComment)
+  );
 
   constructor(
     private store: Store<fromMissions.State>,
@@ -44,6 +50,18 @@ export class MissionReportComponent implements OnInit {
       map(m => [...m.logs as Log[]]),
       map(logs => logs && logs.reverse())
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next()
+  }
+
+  // TODO refactor with mission form
+  addComment({ comment, file }) {
+    this.mission$.pipe(
+      take(1),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(mission => this.store.dispatch(addAdminComment({ comment, file, mission })));
   }
 
 }

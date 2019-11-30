@@ -64,7 +64,10 @@ export class MissionEffects {
   ));
 
   addComment$ = createEffect(() => this.actions$.pipe(
-    ofType(MissionFormActionTypes.ADD_COMMENT),
+    ofType(
+      MissionFormActionTypes.ADD_COMMENT,
+      missionsAdminModuleActions.MissionActionTypes.ADD_ADMIN_COMMENT
+    ),
     switchMap(({ mission, comment, file }) => {
       if (file) {
         return this.missionService.createNewComment(comment, []).pipe(

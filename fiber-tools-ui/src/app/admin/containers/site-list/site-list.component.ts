@@ -11,6 +11,7 @@ import { Site } from 'src/app/core/models/site';
 import { query, remove } from '../../actions/site.actions';
 import { SiteConfirmDeleteComponent } from '../../components/site-confirm-delete/site-confirm-delete.component';
 import * as fromAdmin from '../../reducers';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-site-list',
@@ -28,7 +29,8 @@ export class SiteListComponent implements OnInit {
   constructor(
     private store: Store<fromAdmin.State>,
     public router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public userService : UserService
   ) {
     this.sitesDataSource$ = this.store.pipe(
       select(fromAdmin.sitesSelectors.selectAll),

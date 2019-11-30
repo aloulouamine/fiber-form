@@ -22,6 +22,10 @@ export const syncUser = functions.auth.user().onCreate(user => {
             photoURL: user.photoURL,
             disabled: user.disabled,
             roles: [],
+            roles_v2: {
+                admin: false,
+                supervisor: false
+            }
         })
         .then(() => console.log(`new user sync ${user.email}`))
         .catch(err => console.error('failed user sync ', err));

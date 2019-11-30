@@ -47,7 +47,9 @@
           <button mat-icon-button (click)="editSite(element)" color="primary">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="removeSite(element)" color="warn">
+          <button *ngIf="(userService.getCurrentUserRoles() | async).admin" 
+          mat-icon-button (click)="removeSite(element)"
+            color="warn">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

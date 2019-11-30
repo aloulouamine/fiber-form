@@ -66,9 +66,11 @@
 
 <mat-card>
   <mat-card-content>
-    <ng-container *ngIf="(comments$|async)">
-      <app-comment-display *ngFor="let comment of (comments$|async)" [comment]="comment">
+    <ng-container *ngIf="(comments$ | async)">
+      <app-comment-display *ngFor="let comment of (comments$ | async)" [comment]="comment">
       </app-comment-display>
     </ng-container>
+    <mat-spinner [diameter]="25" *ngIf="writingComment$ | async"></mat-spinner>
+    <app-comment-edit [disabled]="writingComment$ | async" (send)="addComment($event)"></app-comment-edit>
   </mat-card-content>
 </mat-card>

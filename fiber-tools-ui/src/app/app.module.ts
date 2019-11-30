@@ -48,7 +48,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     MatInputModule,
     MatCardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule, //TODO enable period after breaking change .enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,

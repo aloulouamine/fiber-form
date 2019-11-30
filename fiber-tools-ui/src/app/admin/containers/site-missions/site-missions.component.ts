@@ -9,7 +9,19 @@ import { Mission } from 'src/app/core/models/mission';
 import * as fromMissions from '../../../core/reducers';
 import { update, query, affect } from '../../actions/mission.actions';
 import { EditMissionDialogComponent } from '../../components/edit-mission-dialog/edit-mission-dialog.component';
+import { UserService } from 'src/app/core/services/user.service';
 
+const basicColumns = [
+  'number',
+  'checkPoints',
+  'capacity',
+  'wireRealTotalLength',
+  'progress',
+  'type',
+  'step',
+  'shootingProgress',
+  'workingUsers'
+];
 @Component({
   selector: 'app-site-missions',
   templateUrl: './site-missions.component.html',
@@ -23,24 +35,20 @@ export class SiteMissionsComponent implements OnInit, OnDestroy {
   nro$: Observable<string>;
   pm$: Observable<string>;
   missions$;
-  displayedColumns = [
-    'number',
-    'checkPoints',
-    'capacity',
-    'wireRealTotalLength',
-    'progress',
-    'type',
-    'step',
-    'shootingProgress',
-    'workingUsers',
-    'actionsAdmin'
-  ];
+
+
+  displayedColumns$: Observable<string[]> = this.userService
+    .getCurrentUserRoles()
+    .pipe(
+      map(r => r.admin ? [...basicColumns, 'actionsAdmin'] : [...basicColumns, 'actionsSupervisor'])
+    );
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<fromMissions.State>,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
