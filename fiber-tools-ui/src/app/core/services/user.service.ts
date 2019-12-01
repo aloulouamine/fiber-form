@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map, mergeMap, publishReplay, refCount } from 'rxjs/operators';
 import { Roles, User } from '../models/user';
 
@@ -63,6 +63,11 @@ export class UserService {
     return this.currentUserCache$.pipe(
       map(u => u.roles_v2)
     );
+  }
+
+  public updateUser(id: string, changes: Partial<User>) {
+    return from(this.afs.collection(usersCollection).doc(id).update(changes));
+
   }
 
 }

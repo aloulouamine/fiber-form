@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SiteListComponent } from './containers/site-list/site-list.component';
+import { EditUserComponent } from './containers/edit-user/edit-user.component';
+import { MissionReportComponent } from './containers/mission-report/mission-report.component';
 import { SiteCreateComponent } from './containers/site-create/site-create.component';
 import { SiteEditComponent } from './containers/site-edit/site-edit.component';
+import { SiteListComponent } from './containers/site-list/site-list.component';
 import { SiteMissionsComponent } from './containers/site-missions/site-missions.component';
-import { MissionReportComponent } from './containers/mission-report/mission-report.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'site/:siteId/mission/:missionId',
     component: MissionReportComponent
+  },
+  {
+    path: 'user',
+    component: EditUserComponent
   },
   {
     path: '**',

@@ -30,13 +30,14 @@ import { PicturePreviewComponent } from './components/picture-preview/picture-pr
 import { PictureDialogComponent } from './components/picture-dialog/picture-dialog.component';
 import { TouretInputFormComponent } from './components/touret-input-form/touret-input-form.component';
 import { MissionStatusComponent } from './components/mission-status/mission-status.component';
-import { MatSelectModule } from '@angular/material';
+import { MatSelectModule, MatCheckboxModule } from '@angular/material';
 
 const MATERIAL_MODULES = [
   MatAutocompleteModule,
   MatBadgeModule,
   MatButtonModule,
   MatCardModule,
+  MatCheckboxModule,
   MatChipsModule,
   MatDialogModule,
   MatDividerModule,

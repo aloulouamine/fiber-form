@@ -16,6 +16,7 @@ import { UserEffects } from './effects/user.effects';
 import * as adminReducer from './reducers';
 import { EditMissionDialogComponent } from './components/edit-mission-dialog/edit-mission-dialog.component';
 import { MissionReportComponent } from './containers/mission-report/mission-report.component';
+import { EditUserComponent } from './containers/edit-user/edit-user.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { MissionReportComponent } from './containers/mission-report/mission-repo
     SiteMissionsComponent,
     EditMissionDialogComponent,
     MissionReportComponent,
+    EditUserComponent
   ],
   entryComponents: [SiteConfirmDeleteComponent, EditMissionDialogComponent]
 })

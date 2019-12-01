@@ -26,7 +26,10 @@ export class UserEffects {
     })
   ));
 
-
+  $update = createEffect(() => this.actions$.pipe(
+    ofType(UserActionTypes.UPDATE),
+    switchMap(({ id, changes }) => this.userService.updateUser(id, changes))
+  ), { dispatch: false });
 
   constructor(private actions$: Actions, private userService: UserService) { }
 

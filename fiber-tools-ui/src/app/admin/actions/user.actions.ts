@@ -33,7 +33,7 @@ export const removed = createAction(
 );
 
 export const update = createAction(
-  UserActionTypes.REMOVED,
+  UserActionTypes.UPDATE,
   props<{ id: string, changes: Partial<User> }>()
 );
 

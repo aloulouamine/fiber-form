@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Gestion des utilisateurs
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="outline">
+      <input type="text" placeholder="Chercher un utilisateur" matInput [formControl]="searchUserFormControl"
+        [matAutocomplete]="auto">
+      <mat-autocomplete [displayWith]="displayFn" (optionSelected)="onSelect($event)" #auto="matAutocomplete">
+        <mat-option *ngFor="let option of users$ | async" [value]="option">
+          {{displayFn(option)}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <form *ngIf="selectedUser" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-6 m-2">
+          <mat-checkbox formControlName="admin">Administrateur</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 m-2">
+          <mat-checkbox formControlName="supervisor">Superviseur</mat-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 m-2">
+          <button mat-button type="submit">Enregister</button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
