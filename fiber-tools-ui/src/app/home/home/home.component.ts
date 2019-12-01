@@ -61,6 +61,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
+  goBack(){
+    this.location.back();
+  }
+
   signOut() {
     this.afa.auth.signOut();
     this.router.navigate(['/login']);

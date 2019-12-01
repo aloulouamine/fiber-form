@@ -45,7 +45,7 @@
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td class="action-td" mat-cell *matCellDef="let element">
           <button mat-icon-button (click)="editSite(element)" color="primary">
-            <mat-icon>edit</mat-icon>
+            <mat-icon>visibility</mat-icon>
           </button>
           <button *ngIf="(userService.getCurrentUserRoles() | async).admin" 
           mat-icon-button (click)="removeSite(element)"
