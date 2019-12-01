@@ -26,11 +26,6 @@ const routes: Routes = [
       {
         path: '401',
         component: UnauthorizedComponent
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: '/mission'
       }
     ]
   },

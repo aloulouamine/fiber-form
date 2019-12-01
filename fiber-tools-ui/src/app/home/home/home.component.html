@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-icon-button>
+    <button mat-icon-button *ngIf="(roles$ | async)?.admin">
       <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
     </button>
     <span>Fibre form <sup>(v 1.5.0)</sup></span>
@@ -14,7 +14,8 @@
   <mat-sidenav #sidenav>
     <mat-nav-list>
       <a [routerLink]="'/mission'" mat-list-item>Missions</a>
-      <a [routerLink]="'/admin'" mat-list-item>Admin</a>
+      <a [routerLink]="'/admin'" mat-list-item>Chantiers</a>
+      <a [routerLink]="'/user'" mat-list-item>Utilisateurs</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
