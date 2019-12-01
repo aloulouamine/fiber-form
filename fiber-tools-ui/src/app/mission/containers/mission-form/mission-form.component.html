@@ -5,7 +5,7 @@
     <mat-card-subtitle>
       NRO : <strong>{{(mission$ |async).nro}}</strong> /
       PM : <strong>{{(mission$ |async).pm}}</strong> /
-      Capacité : <strong>{{(mission$ |async).capacity}} m</strong>
+      Capacité : <strong>{{(mission$ |async).capacity}} fo</strong>
     </mat-card-subtitle>
     <mat-card-content>
       <app-touret-input-form [mission]="mission$ | async" (touretChange)="onTouretChange($event)">
